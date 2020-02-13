@@ -1,12 +1,9 @@
 import React from "react";
 import "./App.css";
 import routes from "./routes/common";
-import Container from "react-bootstrap/Container";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router, Switch } from "react-router-dom";
 
-import { WorldContainer } from "./components/World";
-
-import { NavBar } from "./components/NavBar";
+import { NavbarContainer } from "./components/Navbar";
 
 /*  Master App component that provides routing and encapsulates all components */
 
@@ -24,11 +21,12 @@ const classes = {
 export default function() {
 	return (
 		<div style={classes.container} className="landing">
-			<Container style={classes.main}>
-				<Router>{routes}</Router>
-			</Container>
-
-			<NavBar />
+			<NavbarContainer title="Quest Game" />
+			<div style={classes.main}>
+				<Router>
+					<Switch>{routes}</Switch>
+				</Router>
+			</div>
 		</div>
 	);
 }

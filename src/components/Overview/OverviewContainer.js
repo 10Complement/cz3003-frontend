@@ -1,9 +1,7 @@
 import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function() {
-	const { wID } = useParams();
-
 	/* State Declaration */
 	// const { count, setCount } = React.useState(0);
 
@@ -15,12 +13,17 @@ export default function() {
 
 	return (
 		<>
-			<h1>This is WorldContainer</h1>
-			<p>
-				You are in World ID: {wID}
-				<br />
-				Change the browser URL parameter and see the ID change
-			</p>
+			<h1>This is OverviewContainer</h1>
+			<nav>
+				<ul>
+					<li>
+						<Link to="/world/1">World 1</Link>
+					</li>
+					<li>
+						<Link to="/world/1/section/1">World 1 Section 1</Link>
+					</li>
+				</ul>
+			</nav>
 		</>
 	);
 }

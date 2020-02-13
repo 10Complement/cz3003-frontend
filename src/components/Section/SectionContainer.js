@@ -2,24 +2,25 @@ import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 export default function() {
-	const { wID } = useParams();
+	const { wID, sID } = useParams();
 
 	/* State Declaration */
 	// const { count, setCount } = React.useState(0);
 
 	/* Called only once whenever component is mounted */
 	useEffect(() => {
+		// console.log(useParams());
 		// Perform API calls
 		// Update states
 	}, []);
 
 	return (
 		<>
-			<h1>This is WorldContainer</h1>
+			<h1>This is SectionContainer</h1>
 			<p>
-				You are in World ID: {wID}
+				You are in World ID: {wID} Section ID: {sID}
 				<br />
-				Change the browser URL parameter and see the ID change
+				Change the browser URL parameters and see the IDs change
 			</p>
 		</>
 	);
