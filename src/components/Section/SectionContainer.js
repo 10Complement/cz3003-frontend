@@ -1,7 +1,12 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
+<<<<<<< refs/remotes/origin/master
 import { Learning } from "../Common";
 import AnswerButton from "./AnswerButton";
+=======
+
+import QuestionContainer from "./QuestionContainer";
+>>>>>>> Added QuestionContainer component
 
 export default function() {
   const { wID, sID } = useParams();
@@ -24,9 +29,13 @@ export default function() {
         <br />
         Change the browser URL parameters and see the IDs change
       </p>
+<<<<<<< refs/remotes/origin/master
       <Learning medals="3" stars="12" />
       <AnswerButton label="First Answer" isAns={true}></AnswerButton>
       <AnswerButton label="Second Answer" isAns={false}></AnswerButton>
+=======
+      <QuestionContainer />
+>>>>>>> Added QuestionContainer component
     </>
   );
 }
