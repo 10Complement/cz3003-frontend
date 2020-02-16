@@ -16,7 +16,6 @@ export default function() {
   return (
     <>
       <h1>This is WorldContainer</h1>
-      {/* World Comment */}
       <p>
         You are in World ID: {wID}
         <br />
