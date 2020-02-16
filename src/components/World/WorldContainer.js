@@ -16,10 +16,6 @@ export default function() {
   return (
     <>
       <h1>This is WorldContainer</h1>
-<<<<<<< HEAD
-=======
-      {/* World Comment */}
->>>>>>> ad44ca954b4f4266f16c9a60348cd2fdeb655f34
       <p>
         You are in World ID: {wID}
         <br />
