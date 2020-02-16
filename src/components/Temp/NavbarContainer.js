@@ -1,6 +1,6 @@
 import React from "react";
-import Container from "react-bootstrap/Container";
-import Navbar from "react-bootstrap/Navbar";
+import Container from "react-bootstrap/Container"; // Container from react-bootstrap
+import Navbar from "react-bootstrap/Navbar"; // Navbar from react-bootstrap
 
 export default function(props) {
 	return (
