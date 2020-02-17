@@ -8,22 +8,20 @@ import Star from "./images/star.svg";
 
 export default function(props) {
   return (
-    <div>
-      <Row style={{ maxWidth: "200px" }}>
+    <div style={{ maxWidth: "180px" }}>
+      <Row>
         <Col md={6}>
           <Image src={Medal} style={{ width: "50%" }} roundedCircle />
           <span class="Count" style={{ color: "white" }}>
-            &nbsp;&nbsp;{props.label}
+            &nbsp;&nbsp;{props.medals}
           </span>
         </Col>
         <Col md={6}>
           <Image src={Star} style={{ width: "50%" }} roundedCircle />
           <span class="Count" style={{ color: "white" }}>
-            &nbsp;&nbsp;{props.label}
+            &nbsp;&nbsp;{props.stars}
           </span>
         </Col>
-        <Col></Col>
-        <Col></Col>
       </Row>
     </div>
   );

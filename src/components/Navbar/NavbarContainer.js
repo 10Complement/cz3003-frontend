@@ -8,7 +8,7 @@ export default function(props) {
     <Navbar expand="lg" variant="dark" bg="dark">
       <Container>
         <Navbar.Brand href="/">{props.title}</Navbar.Brand>
-        <Badges label="3" />
+        <Badges medals="3" stars="12" />
       </Container>
     </Navbar>
   );
