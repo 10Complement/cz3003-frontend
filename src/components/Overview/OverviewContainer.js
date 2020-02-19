@@ -22,6 +22,9 @@ export default function() {
 					<li>
 						<Link to="/world/1/section/1">World 1 Section 1</Link>
 					</li>
+					<li>
+					<Link to="/leader">leaderboards</Link>
+					</li>
 				</ul>
 			</nav>
 		</>
