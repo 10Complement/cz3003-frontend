@@ -1,9 +1,7 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-<<<<<<< refs/remotes/origin/master
 import { Learning } from "../Common";
 import AnswerButton from "./AnswerButton";
-=======
 
 import QuestionContainer from "./QuestionContainer";
 
