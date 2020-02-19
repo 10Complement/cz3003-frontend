@@ -4,6 +4,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import AnswerButton from "./AnswerButton";
+import Question from "./Question";
 
 export default function() {
   /* State Declaration */
@@ -21,7 +22,7 @@ export default function() {
       <Container>
         <Row>
           <Col>
-            <h1>Questions Appear Here</h1>
+            <Question></Question>
           </Col>
         </Row>
         <Row>
