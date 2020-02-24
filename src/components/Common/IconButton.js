@@ -5,9 +5,18 @@ import { FaMedal } from "react-icons/fa";
 import { AiFillTrophy } from "react-icons/ai";
 import { AiOutlineStar } from "react-icons/ai";
 
-/* export default function(props) {
-	return <Button>{props.label}</Button>;
-}    */
+/** TODO: Rethink IconButton to make it more reusable.
+ *
+ * Perhaps this component can receive props such as:
+ * 1. Icon reference (Optional)
+ * 1a. Let the parent provide the icon to give it more flexibility
+ * 1b. If no Icon is provided, text will automatically center
+ *
+ * 2. Text
+ *
+ * 3. Link URI (Use Link component fro react-router-dom)
+ */
+
 export default function(props) {
 	if (props.label === "Home")
 		return (
