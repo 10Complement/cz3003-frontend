@@ -3,7 +3,7 @@ import "./App.css";
 import routes from "./routes/common";
 import { BrowserRouter as Router, Switch } from "react-router-dom";
 
-import { NavbarContainer } from "./components/Navbar";  
+import { NavbarContainer } from "./components/Navbar";
 
 /*  Master App component that provides routing and encapsulates all components */
 
@@ -16,17 +16,17 @@ const classes = {
 	main: {
 		flexGrow: 1
 	}
-}; 
+};
 
 export default function() {
-	return (			
-		<div style={classes.container} className="landing">
-			<NavbarContainer title="Quest Game" />
-			<div style={classes.main}>
-				<Router>
+	return (
+		<Router>
+			<div style={classes.container} className="landing">
+				<NavbarContainer title="Quest Game" />
+				<div style={classes.main}>
 					<Switch>{routes}</Switch>
-				</Router>
-			</div>			
-		</div> 
+				</div>
+			</div>
+		</Router>
 	);
 }
