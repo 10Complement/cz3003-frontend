@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Learning } from "../Common";
+// import { Learning } from "../Common";
 import { Container, Row, Col } from "react-bootstrap";
 
 import QuestionContainer from "./QuestionContainer";
+import Learning from "./Learning";
 
 export default function() {
   const { wID, sID } = useParams();
