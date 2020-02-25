@@ -25,6 +25,7 @@ export default function() {
             <Question></Question>
           </Col>
         </Row>
+        <br />
         <Row>
           <Col>
             <AnswerButton label="First Answer" isAns={true}></AnswerButton>

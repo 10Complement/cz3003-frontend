@@ -9,7 +9,7 @@ export default function(props) {
 
   const style = {
     btn: {
-      width: 300
+      width: "100%"
     }
   };
 

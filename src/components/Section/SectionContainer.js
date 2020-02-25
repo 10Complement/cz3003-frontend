@@ -1,10 +1,23 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-// import { Learning } from "../Common";
 import { Container, Row, Col } from "react-bootstrap";
+import bgImg from "./images/game_background_3.png";
 
 import QuestionContainer from "./QuestionContainer";
 import Learning from "./Learning";
+import { white } from "color-name";
+
+const styles = {
+  root: {
+    height: "100%",
+    backgroundImage: `url(${bgImg})`,
+    backgroundSize: "cover"
+  },
+  button: {
+    textAlign: "center",
+    padding: "40px 20px"
+  }
+};
 
 export default function() {
   const { wID, sID } = useParams();
@@ -21,22 +34,23 @@ export default function() {
 
   return (
     <>
-      <Container>
-        <h1>This is SectionContainer</h1>
-        <p>
-          You are in World ID: {wID} Section ID: {sID}
-          <br />
-          Change the browser URL parameters and see the IDs change
-        </p>
-        <Row>
-          <Col>
-            <Learning />
-          </Col>
-          <Col>
-            <QuestionContainer />
-          </Col>
-        </Row>
-      </Container>
+      <div style={styles.root}>
+        <Container>
+          <h1 style={{ color: "white" }}>This is SectionContainer</h1>
+          <p style={{ color: "white" }}>
+            You are in World ID: {wID} Section ID: {sID}
+            <br />
+          </p>
+          <Row>
+            <Col>
+              <Learning />
+            </Col>
+            <Col>
+              <QuestionContainer />
+            </Col>
+          </Row>
+        </Container>
+      </div>
     </>
   );
 }

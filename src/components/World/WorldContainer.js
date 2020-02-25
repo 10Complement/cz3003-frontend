@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Link, useParams, useLocation } from "react-router-dom";
 
 import { Container, Row, Col } from "react-bootstrap";
-import bgImg from "../Overview/images/game_background_1.png";
+import bgImg from "./images/game_background_4.png";
 
 const styles = {
   root: {
