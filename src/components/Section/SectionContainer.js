@@ -1,6 +1,9 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Learning } from "../Common";
+import AnswerButton from "./AnswerButton";
+
+import QuestionContainer from "./QuestionContainer";
 
 export default function() {
   const { wID, sID } = useParams();
@@ -23,7 +26,7 @@ export default function() {
         <br />
         Change the browser URL parameters and see the IDs change
       </p>
-      <Learning medals="3" stars="12" />
+      <QuestionContainer />
     </>
   );
 }
