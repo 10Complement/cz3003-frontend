@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Learning } from "../Common";
-import AnswerButton from "./AnswerButton";
+import { Container, Row, Col } from "react-bootstrap";
 
 import QuestionContainer from "./QuestionContainer";
 
@@ -20,13 +20,22 @@ export default function() {
 
   return (
     <>
-      <h1>This is SectionContainer</h1>
-      <p>
-        You are in World ID: {wID} Section ID: {sID}
-        <br />
-        Change the browser URL parameters and see the IDs change
-      </p>
-      <QuestionContainer />
+      <Container>
+        <h1>This is SectionContainer</h1>
+        <p>
+          You are in World ID: {wID} Section ID: {sID}
+          <br />
+          Change the browser URL parameters and see the IDs change
+        </p>
+        <Row>
+          <Col>
+            <Learning />
+          </Col>
+          <Col>
+            <QuestionContainer />
+          </Col>
+        </Row>
+      </Container>
     </>
   );
 }
