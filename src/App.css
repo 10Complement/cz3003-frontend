@@ -1,0 +1,8 @@
+button {
+    /* default for <button>, but useful for <a> */
+    display: inline-block;
+    text-align: right;
+    text-decoration: none;
+    font-family: inherit;
+    
+  }
