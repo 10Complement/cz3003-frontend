@@ -33,7 +33,7 @@ export default function() {
 
     for (let i = 0; i < data; i++) {
       worlds.push(
-        <Col style={styles.button} xs={6} md={4}>
+        <Col key={i} style={styles.button} xs={6} md={4}>
           <Link key={i} to={`/world/${i + 1}`}>
             World {i + 1}
           </Link>

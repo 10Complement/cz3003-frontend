@@ -35,8 +35,10 @@ export default function() {
 
     for (let i = 0; i < data; i++) {
       sections.push(
-        <Col style={styles.button} xs={6} md={4}>
-          <Link to={`${pathname}/section/${i + 1}`}>Section {i + 1}</Link>
+        <Col key={i} style={styles.button} xs={6} md={4}>
+          <Link key={i} to={`${pathname}/section/${i + 1}`}>
+            Section {i + 1}
+          </Link>
         </Col>
       );
     }
