@@ -1,5 +1,4 @@
 import React from "react";
-import Image from "react-bootstrap/Image";
 import Accordion from "react-bootstrap/Accordion";
 import Card from "react-bootstrap/Card";
 import CardGroup from "react-bootstrap/CardGroup";

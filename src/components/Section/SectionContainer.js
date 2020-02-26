@@ -5,7 +5,6 @@ import bgImg from "./images/game_background_3.png";
 
 import QuestionContainer from "./QuestionContainer";
 import Learning from "./Learning";
-import { white } from "color-name";
 
 const styles = {
   root: {
