@@ -9,7 +9,8 @@ const styles = {
   root: {
     height: "100%",
     backgroundImage: `url(${bgImg})`,
-    backgroundSize: "cover"
+    backgroundSize: "cover",
+    backgroundAttachment: "fixed"
   },
   button: {
     textAlign: "center",
@@ -46,19 +47,18 @@ export default function() {
   return (
     <div style={styles.root}>
       <Container>
-        <Col>
-          <h1>This is OverviewContainer</h1>
-          <nav>
-            <ul>
-              <li>
-                <Link to="/world/1">World 1</Link>
-              </li>
-              <li>
-                <Link to="/world/1/section/1">World 1 Section 1</Link>
-              </li>
-            </ul>
-          </nav>
-        </Col>
+        <h1>This is OverviewContainer</h1>
+        <nav>
+          <ul>
+            <li>
+              <Link to="/world/1">World 1</Link>
+            </li>
+            <li>
+              <Link to="/world/1/section/1">World 1 Section 1</Link>
+            </li>
+          </ul>
+        </nav>
+
         <Row>{generateWorlds(6)}</Row>
       </Container>
     </div>
