@@ -7,12 +7,12 @@ import { AiOutlineStar } from "react-icons/ai";
 import { FaGlobeAsia } from "react-icons/fa"; 
 
 const buttonStyle = {
-	color: 'black',
-	border: '2px',
-	backgroundColor: 'white',
-	fontFamily : 'inherit',
+	//color: 'black',
+	border: '5px',
+	//backgroundColor: 'white',
+	fontFamily : 'sans-serif',
 	height: '50px',
-	width: '200px',
+	width: '170px',
 	borderColor: 'black', 
 	textAlign: 'left',
 	//flex: '1',
@@ -20,43 +20,59 @@ const buttonStyle = {
   };
 
 const lineStyle = {
-	transform: 'rotate(90deg) translateY(25px) translateX(-32px)',
+	transform: 'rotate(90deg) translateY(30px) translateX(-32px)',
 	//height: '25px',
 	width: '50px',
-	background: 'grey',
+	background: 'white',
   };  
 
 export default function(props) {
-	if (props.message === "Home")
+	if (props.icon === "Home")
 		return (		
-				<Button style={buttonStyle} variant="outline-dark" size="lg">
-					<FaHome icon={FaHome} size = '30'/>Home
+				<Button style={buttonStyle} variant="dark" size="lg">
+					<FaHome icon={FaHome} size = '30' paddingLeft='100px' textAlign= 'left'/>
+					<text style={{paddingLeft:'40px', margin:'0'}}>{props.message}</text>
 					<hr style={lineStyle}></hr>
 				</Button>
 		);
-	if (props.message === "Star")
+	if (props.icon === "Star")
 		return (
-			<Button variant="outline-dark" size="lg">
-				<AiOutlineStar />
+			<Button style={buttonStyle} variant="info" size="lg">
+				<AiOutlineStar icon={AiOutlineStar} size = '30' paddingLeft='100px' textAlign= 'left'/>
+				<text style={{paddingLeft:'40px', margin:'0'}}>{props.message}</text>
+				<hr style={lineStyle}></hr>
 			</Button>
 		);
-	if (props.message === "Medal")
+	if (props.icon === "Medal")
 		return (
-			<Button variant="outline-dark" size="lg">
-				<FaMedal />
+			<Button style={buttonStyle} variant="info" size="lg">
+				<FaMedal icon={FaMedal} size = '30' paddingLeft='100px' textAlign= 'left'/>
+				<text style={{paddingLeft:'40px', margin:'0'}}>{props.message}</text>
+				<hr style={lineStyle}></hr>
 			</Button>
 		);
-	if (props.message === "Trophy" )
+	if (props.icon === "Trophy" )
 		return (
-			<Button variant="outline-dark" size="lg">
-				<AiFillTrophy />
+			<Button style={buttonStyle} variant="info" size="lg">
+				<AiFillTrophy icon={AiFillTrophy} size = '30' paddingLeft='100px' textAlign= 'left'/>
+				<text style={{paddingLeft:'40px', margin:'0'}}>{props.message}</text>
+				<hr style={lineStyle}></hr>
 			</Button>
 		);
 
-	if (props.message === "World")
+	if (props.icon === "World")
 		return (
-			<Button variant="outline-dark" size="lg">
-				<FaGlobeAsia icon={FaGlobeAsia} size = '30'/>   World
+			<Button style={buttonStyle} variant="info" size="lg">
+				<FaGlobeAsia icon={FaGlobeAsia} size = '30' paddingLeft='100px' textAlign= 'left'/>  
+				<text style={{paddingLeft:'40px', margin:'0'}}>{props.message}</text>
+				<hr style={lineStyle}></hr>
+			</Button>
+		);
+
+	if (props.icon === "")
+		return (
+			<Button style={buttonStyle} variant="info" size="lg">
+				{props.message}
 			</Button>
 		);
 }
