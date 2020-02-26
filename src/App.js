@@ -8,25 +8,19 @@ import { NavbarContainer } from "./components/Navbar";
 /*  Master App component that provides routing and encapsulates all components */
 
 const classes = {
-	container: {
-		display: "flex",
-		flexDirection: "column",
-		height: "100vh"
-	},
-	main: {
-		flexGrow: 1
-	}
+  main: {
+    marginTop: "56px",
+    flexGrow: 1
+  }
 };
 
 export default function() {
-	return (
-		<Router>
-			<div style={classes.container} className="landing">
-				<NavbarContainer title="Quest Game" />
-				<div style={classes.main}>
-					<Switch>{routes}</Switch>
-				</div>
-			</div>
-		</Router>
-	);
+  return (
+    <Router>
+      <NavbarContainer title="Quest Game" />
+      <div style={classes.main}>
+        <Switch>{routes}</Switch>
+      </div>
+    </Router>
+  );
 }
