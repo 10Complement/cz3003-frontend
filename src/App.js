@@ -33,7 +33,7 @@ import Table from './components/Common/Table.js';
 export default function() {
     return (
       <div>
-		<IconButton icon="Star" message="Trophy"/>
+		<IconButton icon="Home" message="Home"/>
       </div>
 	)
 }  
