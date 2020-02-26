@@ -8,7 +8,8 @@ const styles = {
   root: {
     height: "100%",
     backgroundImage: `url(${bgImg})`,
-    backgroundSize: "cover"
+    backgroundSize: "cover",
+    backgroundAttachment: "fixed"
   },
   button: {
     textAlign: "center",
