@@ -28,37 +28,16 @@ export default function() {
 
 import React from "react";
 import IconButton from "./components/Common/IconButton"; 
-import Table from './components/Common/Table.js';
+import Add from '@material-ui/icons/AddCircleOutline';
+import Subtract from '@material-ui/icons/Remove';
+import Mulitply from '@material-ui/icons/HighlightOff';
+
+//importing icons from: https://material-ui.com/components/material-icons/
 
 export default function() {
     return (
       <div>
-		<IconButton icon="Home" message="Home"/>
+		    <IconButton icon={Subtract} message="Subtraction" stars="1"/>
       </div>
 	)
 }  
-
-/* export default class App extends React.Component {
-    constructor(props){
-      super(props);
-      this.state={
-        tableData:[
-          {'Name': 'Abc', 'Age': 15, 'Location': 'Bangalore'},
-          {'Name': 'Def', 'Age': 43, 'Location': 'Mumbai'},
-          {'Name': 'Uff', 'Age': 30, 'Location': 'Chennai'},
-          {'Name': 'Ammse', 'Age': 87, 'Location': 'Delhi'},
-          {'Name': 'Yysse', 'Age': 28, 'Location': 'Hyderabad'}
-      ]
-      }
-    }
-   
-    render() {           
-        return (
-          <div className="App">
-            <br/>
-            <Table data={this.state.tableData}/>
-          </div>
-          
-        );
-    } 
-} */
