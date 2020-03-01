@@ -1,45 +1,33 @@
 import React from "react";
-import Button from "react-bootstrap/Button";
-import { FaHome } from "react-icons/fa";
-import { FaMedal } from "react-icons/fa";
-import { AiFillTrophy } from "react-icons/ai";
-import { AiOutlineStar } from "react-icons/ai";
+import Button from "@material-ui/core/Button";
+import { makeStyles } from "@material-ui/core/styles";
+import Box from "@material-ui/core/Box";
+import Rating from "material-ui-rating";
 
-/** TODO: Rethink IconButton to make it more reusable.
- *
- * Perhaps this component can receive props such as:
- * 1. Icon reference (Optional)
- * 1a. Let the parent provide the icon to give it more flexibility
- * 1b. If no Icon is provided, text will automatically center
- *
- * 2. Text
- *
- * 3. Link URI (Use Link component fro react-router-dom)
- */
+const useStyles = makeStyles(theme => ({
+	button: {
+		margin: theme.spacing(1)
+	}
+}));
 
 export default function(props) {
-	if (props.label === "Home")
-		return (
-			<Button variant="outline-dark">
-				<FaHome />
+	const stars = props.stars || 0;
+	const classes = useStyles();
+	return (
+		<div align="center">
+			<Button
+				variant="contained"
+				color="default"
+				className={classes.button}
+				startIcon={<props.icon />}
+				size="large"
+			>
+				{props.message}
 			</Button>
-		);
-	if (props.label === "Star")
-		return (
-			<Button variant="outline-dark">
-				<AiOutlineStar />
-			</Button>
-		);
-	if (props.label === "Medal")
-		return (
-			<Button variant="outline-dark">
-				<FaMedal />
-			</Button>
-		);
-	if (props.label === "Trophy")
-		return (
-			<Button variant="outline-dark">
-				<AiFillTrophy />
-			</Button>
-		);
+
+			<Box component="fieldset" mb={4} borderColor="transparent">
+				<Rating name="read-only" value={stars} max="3" readOnly />
+			</Box>
+		</div>
+	);
 }
