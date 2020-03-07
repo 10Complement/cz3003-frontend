@@ -10,6 +10,6 @@ export default [
 	<Route key="section" path="/world/:wID/section/:sID" component={SectionContainer} />,
 	<Route key="world" path="/world/:wID" component={WorldContainer} />,
 	<Route key="leaderboard" path="/leader" component={LeaderboardContainer} />,
-	<Route key="overview" path="/ " component={OverviewContainer} />
+	<Route key="overview" path="/" component={OverviewContainer} />
 	
 ];
