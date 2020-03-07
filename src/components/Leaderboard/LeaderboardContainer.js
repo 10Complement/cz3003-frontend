@@ -40,6 +40,13 @@ const tableIcons = {
 	ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
 };
 
+const styles = {
+	leaderboardContainer: {
+		paddingTop: '20px',
+		paddingBottom: '20px'
+	}
+}
+
 export default function() {
 	
 	const data = [
@@ -49,7 +56,7 @@ export default function() {
 	] //Replace by formatting after API call
 	
 	return (
-		<Container size= "sm">
+		<Container size= "sm" style={styles.leaderboardContainer}>
 			<MaterialTable
 				icons={tableIcons}
 				title="Leaderboard"
@@ -68,7 +75,7 @@ export default function() {
 					{
 					icon: SaveAlt,
 					tooltip: 'Generate report',
-					onClick: (event, rowData) => alert("You generated a report for " + rowData.name) //Implement generate report function here
+					onClick: (event, rowData) => alert("You generated a report for " + rowData.name) //Replace with generate report function
 					}
 				]}
 				options={{
