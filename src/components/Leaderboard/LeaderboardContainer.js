@@ -52,8 +52,10 @@ export default function() {
 		<Container size= "sm">
 			<MaterialTable
 				icons={tableIcons}
-				title="Simple Action Preview"
+				title="Leaderboard"
 				columns={[
+					{title: 'Avatar', field: 'avatar', filtering: false, render: rowData => 
+						<img src={rowData.avatar} style={{width: 40, borderRadius: '50%'}}/>},
 					{title: 'Name', field: 'name'},
 					{title: 'Student ID', field: 'studentID'},
 					{title: 'Class', field: 'class'},
@@ -69,6 +71,12 @@ export default function() {
 					onClick: (event, rowData) => alert("You generated a report for " + rowData.name) //Implement generate report function here
 					}
 				]}
+				options={{
+					exportButton: true,
+					filtering: true,
+					sorting: true,
+					actionsColumnIndex: -1
+				}}
 			/>
 		</Container>
 	);
