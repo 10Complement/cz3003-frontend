@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState, forwardRef } from "react";
 import Container from "react-bootstrap/Container"; // Container from react-bootstrap
 import MaterialTable from "material-table";
-import { forwardRef } from 'react';
+import axios from "axios";
 
 //Icons for table
 import AddBox from '@material-ui/icons/AddBox';
@@ -45,15 +45,34 @@ const styles = {
 		paddingTop: '20px',
 		paddingBottom: '20px'
 	}
-}
+};
 
 export default function() {
 	
-	const data = [
+	const [dataSet, setData] = useState([]);
+	useEffect(() => {
+		fetchInfo();
+	}, []);
+	
+	let leaderboardData = [];
+	
+	const fetchInfo = () => {
+		axios.get('https://us-central1-complement-4254e.cloudfunctions.net/app/wy/getLeaderboard/?worldID=World-1')
+		.then((res) => {
+			let d = res.data;
+			for (var k in Object.keys(d)) {
+				let key = Object.keys(d)[k];
+				leaderboardData.push({studentID: key, stars: d[key]});
+			}
+			setData(leaderboardData);
+		});
+	};
+
+	/* const data = [
 		{name: 'Russell', studentID: 'U1720526FC', class: 'TSP8', progress: '1-1', stars: 2, medals: 4},
 		{name: 'David', studentID: 'U1720925C', class: 'TSP5', progress: '1-1', stars: 3, medals: 0},
 		{name: 'Alex', studentID: 'U1722845D', class: 'TSP4', progress: '1-1', stars: 1, medals: 1}
-	] //Replace by formatting after API call
+	] */ //Replace by formatting after API call
 	
 	return (
 		<Container size= "sm" style={styles.leaderboardContainer}>
@@ -70,7 +89,7 @@ export default function() {
 					{title: 'Stars', field: 'stars'},
 					{title: 'Medals', field: 'medals'}
 				]}
-				data={data}        
+				data={dataSet}
 				actions={[
 					{
 					icon: SaveAlt,
