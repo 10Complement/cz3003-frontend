@@ -2,7 +2,6 @@ import React from "react";
 import "./App.css";
 import routes from "./routes/common";
 import { BrowserRouter as Router, Switch } from "react-router-dom";
-
 import { NavbarContainer } from "./components/Navbar";
 import { UserProvider } from "./contexts/UserContext";
 

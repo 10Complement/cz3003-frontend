@@ -5,6 +5,10 @@ import { Music } from "../Common";
 
 import { UserContext } from "../../contexts/UserContext";
 import { Badges } from "../Common";
+import Row from "react-bootstrap/Row";
+const avatarsize = {
+	width: "50px"
+};
 
 export default function() {
 	const { student } = useContext(UserContext);
