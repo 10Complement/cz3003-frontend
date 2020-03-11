@@ -5,7 +5,6 @@ export default function(props) {
 	return (
 		<div className={props.className}>
 			<Image src={Pic} style={props.size} roundedCircle />
-			{props.image}
 		</div>
 	);
 }
