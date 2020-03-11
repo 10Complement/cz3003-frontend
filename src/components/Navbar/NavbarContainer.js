@@ -7,7 +7,7 @@ import { UserContext } from "../../contexts/UserContext";
 import { Badges } from "../Common";
 import Row from "react-bootstrap/Row";
 const avatarsize = {
-	width: "50px"
+	width: "40px"
 };
 
 export default function() {
