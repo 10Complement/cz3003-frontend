@@ -44,12 +44,16 @@ const styles = {
 	leaderboardContainer: {
 		paddingTop: '20px',
 		paddingBottom: '20px'
+	},
+	avatar: {
+		width: 40,
+		borderRadius: '50%'
 	}
 };
 
 export default function() {
 	
-	const [dataSet, setData] = useState([]);
+	/* const [dataSet, setData] = useState([]);
 	useEffect(() => {
 		fetchInfo();
 	}, []);
@@ -59,20 +63,19 @@ export default function() {
 	const fetchInfo = () => {
 		axios.get('https://us-central1-complement-4254e.cloudfunctions.net/app/wy/getLeaderboard/?worldID=World-1')
 		.then((res) => {
-			let d = res.data;
-			for (var k in Object.keys(d)) {
-				let key = Object.keys(d)[k];
-				leaderboardData.push({studentID: key, stars: d[key]});
+			let d = res.data; //What is the type of res.data?
+			for (var key in Object.keys(d)) {
+				leaderboardData.push({avatar: d[key].avatar, name: d[key].name, studentID: key, class: d[key].class, progress: d[key].progress, stars: d[key].stars, medals: d[key].medals});
 			}
 			setData(leaderboardData);
 		});
-	};
+	}; */
 
-	/* const data = [
+	const data = [
 		{name: 'Russell', studentID: 'U1720526FC', class: 'TSP8', progress: '1-1', stars: 2, medals: 4},
 		{name: 'David', studentID: 'U1720925C', class: 'TSP5', progress: '1-1', stars: 3, medals: 0},
 		{name: 'Alex', studentID: 'U1722845D', class: 'TSP4', progress: '1-1', stars: 1, medals: 1}
-	] */ //Replace by formatting after API call
+	] //Replace by formatting after API call
 	
 	return (
 		<Container size= "sm" style={styles.leaderboardContainer}>
@@ -81,7 +84,7 @@ export default function() {
 				title="Leaderboard"
 				columns={[
 					{title: 'Avatar', field: 'avatar', filtering: false, render: rowData => 
-						<img src={rowData.avatar} style={{width: 40, borderRadius: '50%'}}/>},
+						<img src={rowData.avatar} style={styles.avatar}/>},
 					{title: 'Name', field: 'name'},
 					{title: 'Student ID', field: 'studentID'},
 					{title: 'Class', field: 'class'},
@@ -89,7 +92,7 @@ export default function() {
 					{title: 'Stars', field: 'stars'},
 					{title: 'Medals', field: 'medals'}
 				]}
-				data={dataSet}
+				data={data} //dataSet
 				actions={[
 					{
 					icon: SaveAlt,
