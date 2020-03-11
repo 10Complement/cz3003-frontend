@@ -59,9 +59,8 @@ export default function() {
 	}, []);
 	
 	let leaderboardData = [];
-	
 	const fetchInfo = () => {
-		axios.get('https://us-central1-complement-4254e.cloudfunctions.net/app/wy/getLeaderboard/?worldID=World-1')
+		axios.get(process.env.REACT_APP_API + 'wy/getLeaderboard/?worldID=World-1')
 		.then((res) => {
 			let d = res.data; //What is the type of res.data?
 			for (var key in Object.keys(d)) {
