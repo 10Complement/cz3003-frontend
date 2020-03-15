@@ -53,28 +53,29 @@ const styles = {
 
 export default function() {
 	
-	/* const [dataSet, setData] = useState([]);
+	const [dataSet, setData] = useState([]);
 	useEffect(() => {
 		fetchInfo();
 	}, []);
 	
 	let leaderboardData = [];
 	const fetchInfo = () => {
-		axios.get(process.env.REACT_APP_API + '/wy/getLeaderboard/?worldID=World-1')
+		axios.get(process.env.REACT_APP_API + '/Wilson/getGlobalLeaderboard')
 		.then((res) => {
 			let d = res.data; //What is the type of res.data?
-			for (var key in Object.keys(d)) {
-				leaderboardData.push({avatar: d[key].avatar, name: d[key].name, studentID: key, class: d[key].class, progress: d[key].progress, stars: d[key].stars, medals: d[key].medals});
+			console.log(d);
+			for (var key in d) {
+				leaderboardData.push({avatar: d[key].avatar_url, name: d[key].name, studentID: key, class: d[key].class, progress: d[key].current_progress, stars: d[key].stars, medals: d[key].medals});
 			}
 			setData(leaderboardData);
 		});
-	}; */
+	};
 
-	const data = [
+	/* const data = [
 		{name: 'Russell', studentID: 'U1720526FC', class: 'TSP8', progress: '1-1', stars: 2, medals: 4},
 		{name: 'David', studentID: 'U1720925C', class: 'TSP5', progress: '1-1', stars: 3, medals: 0},
 		{name: 'Alex', studentID: 'U1722845D', class: 'TSP4', progress: '1-1', stars: 1, medals: 1}
-	] //Replace by formatting after API call
+	] */ //Replace by formatting after API call
 	
 	return (
 		<Container size= "sm" style={styles.leaderboardContainer}>
@@ -91,7 +92,7 @@ export default function() {
 					{title: 'Stars', field: 'stars'},
 					{title: 'Medals', field: 'medals'}
 				]}
-				data={data} //dataSet
+				data={dataSet}
 				actions={[
 					{
 					icon: SaveAlt,
