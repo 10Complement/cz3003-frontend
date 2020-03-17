@@ -22,12 +22,10 @@ export default function(props) {
 				// className={classes.button}
 				// size="large"
 			>
-				<div>
-					<props.icon />
-					<br />
-					{props.message}
-					<Rating name="read-only" value={stars} max="3" readOnly />
-				</div>
+				<props.icon />
+				<br />
+				{props.message}
+				<Rating name="read-only" value={stars} max="3" readOnly />
 			</Button>
 
 			{/* <Box component="fieldset" mb={4} borderColor="transparent">

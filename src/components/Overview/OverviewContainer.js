@@ -36,8 +36,12 @@ export default function() {
 		for (let i = 0; i < data; i++) {
 			worlds.push(
 				<Col key={i} style={styles.button} xs={6} md={4}>
-					<Link key={i} to={`/world/${i + 1}`}>
-						World {i + 1}
+					<Link to={`/world/${i + 1}`}>
+						<IconButton
+							icon={AcUnitIcon}
+							message={"World " + (i + 1)}
+							key={i}
+						></IconButton>
 					</Link>
 				</Col>
 			);
@@ -60,7 +64,6 @@ export default function() {
 						</li>
 					</ul>
 				</nav>
-				<IconButton icon={AcUnitIcon} message="Button"></IconButton>
 				<Row>{generateWorlds(6)}</Row>
 			</Container>
 		</div>
