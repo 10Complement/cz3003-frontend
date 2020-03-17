@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState, forwardRef } from "react";
 import { Avatar } from "../Common";
 
 import { Card } from "react-bootstrap";
@@ -6,6 +6,8 @@ import { Badges } from "../Common";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+
+import axios from "axios";
 
 const imagesize = {
 	width: "200px"
@@ -19,6 +21,26 @@ const styles = {
 
 export default function(props) {
 	const { playerName = "Player Name", matric = "U171711G" } = props;
+	const [dataSet, setData] = useState([]);
+
+	useEffect(() => {
+		fetchInfo();
+	}, []);
+
+	const fetchInfo = () => {
+		axios
+			.get(
+				process.env.REACT_APP_API +
+					"/russ/getStar/?matric=U1720925C&worldID=World-1"
+			)
+			.then(res => {
+				const d = res.data;
+				const profileData = Object.keys(d).map(key => {
+					return { stars: key };
+				});
+				setData(profileData);
+			});
+	};
 
 	return (
 		<Card className="m-4 p-4" style={styles.card}>
@@ -35,9 +57,10 @@ export default function(props) {
 					</div>
 					<div class="w-100 d-flex justify-content-center my-2">{matric}</div>
 					<div class="w-100 d-flex justify-content-center my-2">
-						<Badges stars={0} medals={10} />
+						<Badges stars medals={10} />
 					</div>
 				</Col>
+				data = {dataSet}
 			</Row>
 		</Card>
 	);
