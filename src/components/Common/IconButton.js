@@ -1,8 +1,9 @@
 import React from "react";
-import Button from "@material-ui/core/Button";
+// import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import Rating from "material-ui-rating";
+import Button from "react-bootstrap/Button";
 
 const useStyles = makeStyles(theme => ({
 	button: {
@@ -11,23 +12,27 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function(props) {
-	const stars = props.stars || 0;
+	const stars = props.stars || 2;
 	const classes = useStyles();
 	return (
 		<div align="center">
 			<Button
-				variant="contained"
-				color="default"
-				className={classes.button}
-				startIcon={<props.icon />}
-				size="large"
+				variant="dark"
+				// color="default"
+				// className={classes.button}
+				// size="large"
 			>
-				{props.message}
+				<div>
+					<props.icon />
+					<br />
+					{props.message}
+					<Rating name="read-only" value={stars} max="3" readOnly />
+				</div>
 			</Button>
 
-			<Box component="fieldset" mb={4} borderColor="transparent">
+			{/* <Box component="fieldset" mb={4} borderColor="transparent">
 				<Rating name="read-only" value={stars} max="3" readOnly />
-			</Box>
+			</Box> */}
 		</div>
 	);
 }
