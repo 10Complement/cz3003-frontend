@@ -71,7 +71,7 @@ export default function() {
 			.catch(err => {
 				console.error(err);
 			});
-	});
+	}, []);
 
 	return (
 		<div style={styles.root}>
