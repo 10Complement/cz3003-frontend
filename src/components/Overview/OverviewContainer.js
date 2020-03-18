@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import AcUnitIcon from "@material-ui/icons/AcUnit";
+import PublicIcon from "@material-ui/icons/Public";
 
 import { Container, Row, Col } from "react-bootstrap";
 import bgImg from "./images/game_background_1.png";
@@ -38,7 +38,7 @@ export default function() {
 				<Col key={i} style={styles.button} xs={6} md={4}>
 					<Link to={`/world/${i + 1}`}>
 						<IconButton
-							icon={AcUnitIcon}
+							icon={PublicIcon}
 							message={"World " + (i + 1)}
 							key={i}
 						></IconButton>

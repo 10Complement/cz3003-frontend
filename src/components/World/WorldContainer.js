@@ -5,7 +5,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import bgImg from "./images/game_background_4.png";
 
 import { IconButton } from "../Common";
-import AcUnitIcon from "@material-ui/icons/AcUnit";
+import AssignmentIcon from "@material-ui/icons/Assignment";
 
 const styles = {
 	root: {
@@ -44,7 +44,7 @@ export default function() {
 					</Link> */}
 					<Link to={`${pathname}/section/${i + 1}`}>
 						<IconButton
-							icon={AcUnitIcon}
+							icon={AssignmentIcon}
 							message={"Section " + (i + 1)}
 							key={i}
 						></IconButton>
