@@ -30,7 +30,7 @@ const styles = {
 };
 
 export default function(props) {
-	const stars = props.stars || 2;
+	const stars = props.stars || 0;
 	const { hasStars, hasPop } = props;
 	const classes = useStyles();
 	return (
