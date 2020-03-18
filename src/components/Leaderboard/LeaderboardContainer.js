@@ -57,18 +57,19 @@ export default function() {
 	useEffect(() => {
 		fetchInfo();
 	}, []);
-	
-	let leaderboardData = [];
+
 	const fetchInfo = () => {
-		axios.get(process.env.REACT_APP_API + '/Wilson/getGlobalLeaderboard')
-		.then((res) => {
-			let d = res.data; //What is the type of res.data?
-			console.log(d);
-			for (var key in d) {
-				leaderboardData.push({avatar: d[key].avatar_url, name: d[key].name, studentID: key, class: d[key].class, progress: d[key].current_progress, stars: d[key].stars, medals: d[key].medals});
-			}
-			setData(leaderboardData);
-		});
+		axios
+			.get(process.env.REACT_APP_API + "/Wilson/getGlobalLeaderboard")
+			.then(res => {
+				const d = res.data;
+
+				const leaderboardData = Object.keys(d).map(key => {
+					return {avatar: d[key].avatar_url, name: d[key].name, studentID: key, class: d[key].class, progress: d[key].current_progress, stars: d[key].stars, medals: d[key].medals};
+				});
+
+				setData(leaderboardData);
+			});
 	};
 
 	/* const data = [
