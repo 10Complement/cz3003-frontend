@@ -46,8 +46,12 @@ const tableIcons = {
 
 const styles = {
 	leaderboardContainer: {
-		paddingTop: "20px",
-		paddingBottom: "20px"
+		paddingTop: '20px',
+		paddingBottom: '20px'
+	},
+	avatar: {
+		width: 40,
+		borderRadius: '50%'
 	}
 };
 
@@ -60,17 +64,17 @@ export default function() {
 
 	const fetchInfo = () => {
 		axios
-			.get(process.env.REACT_APP_API + "/wy/getLeaderboard/?worldID=World-1")
+			.get(process.env.REACT_APP_API + "/Wilson/getGlobalLeaderboard")
 			.then(res => {
 				const d = res.data;
 
 				const leaderboardData = Object.keys(d).map(key => {
-					return { studentID: key, stars: d[key] };
+					return {avatar: d[key].avatar_url, name: d[key].name, studentID: key, class: d[key].class, progress: d[key].current_progress, stars: d[key].stars, medals: d[key].medals};
 				});
 
 				setData(leaderboardData);
 			});
-	}; //Replace by formatting after API call
+	};
 
 	/* const data = [
 		{name: 'Russell', studentID: 'U1720526FC', class: 'TSP8', progress: '1-1', stars: 2, medals: 4},
@@ -82,24 +86,14 @@ export default function() {
 				icons={tableIcons}
 				title="Leaderboard"
 				columns={[
-					{
-						title: "Avatar",
-						field: "avatar",
-						filtering: false,
-						render: rowData => (
-							<img
-								alt="Avatar"
-								src={rowData.avatar}
-								style={{ width: 40, borderRadius: "50%" }}
-							/>
-						)
-					},
-					{ title: "Name", field: "name" },
-					{ title: "Student ID", field: "studentID" },
-					{ title: "Class", field: "class" },
-					{ title: "Current Progress", field: "progress" },
-					{ title: "Stars", field: "stars" },
-					{ title: "Medals", field: "medals" }
+					{title: 'Avatar', field: 'avatar', filtering: false, render: rowData => 
+						<img src={rowData.avatar} style={styles.avatar}/>},
+					{title: 'Name', field: 'name'},
+					{title: 'Student ID', field: 'studentID'},
+					{title: 'Class', field: 'class'},
+					{title: 'Current Progress', field: 'progress'},
+					{title: 'Stars', field: 'stars'},
+					{title: 'Medals', field: 'medals'}
 				]}
 				data={dataSet}
 				actions={[
