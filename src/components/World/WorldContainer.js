@@ -36,7 +36,7 @@ export default function() {
 		axios
 			.get(process.env.REACT_APP_API + "/elric/getCurrentWorldStatus/", {
 				params: {
-					worldID: "World-" + { wID },
+					worldID: "World-" + wID,
 					matric: "U1720526F"
 				}
 			})
@@ -70,7 +70,7 @@ export default function() {
 			.then(function() {
 				// always executed
 			});
-	}, []);
+	}, [pathname, wID]);
 
 	return (
 		<>

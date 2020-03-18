@@ -27,19 +27,19 @@ export default function() {
 	// const { count, setCount } = useState(0);
 
 	/* Called only once whenever component is mounted */
-	const worlds = [
-		"World-1",
-		"World-2",
-		"World-3",
-		"World-4",
-		"World-5",
-		"World-6"
-	];
 	const [worldButtons, setWorldButtons] = React.useState([]);
 
 	useEffect(() => {
 		// Perform API calls
 		// Update states
+		const worlds = [
+			"World-1",
+			"World-2",
+			"World-3",
+			"World-4",
+			"World-5",
+			"World-6"
+		];
 		const populationCalls = worlds.map(world => {
 			return axios.get(
 				process.env.REACT_APP_API + "/wy/getWorldPopulation/?worldID=" + world

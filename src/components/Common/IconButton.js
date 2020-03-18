@@ -1,16 +1,6 @@
 import React from "react";
-// import Button from "@material-ui/core/Button";
-import { makeStyles } from "@material-ui/core/styles";
-import Box from "@material-ui/core/Box";
 import Rating from "material-ui-rating";
 import Button from "react-bootstrap/Button";
-import { minHeight } from "@material-ui/system";
-
-const useStyles = makeStyles(theme => ({
-	button: {
-		margin: theme.spacing(1)
-	}
-}));
 
 const styles = {
 	root: {},
@@ -32,7 +22,6 @@ const styles = {
 export default function(props) {
 	const stars = props.stars || 0;
 	const { hasStars, hasPop } = props;
-	const classes = useStyles();
 	return (
 		<div align="center">
 			<Button
