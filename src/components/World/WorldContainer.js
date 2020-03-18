@@ -47,6 +47,7 @@ export default function() {
 							icon={AssignmentIcon}
 							message={"Section " + (i + 1)}
 							key={i}
+							hasStars
 						></IconButton>
 					</Link>
 				</Col>

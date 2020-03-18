@@ -7,6 +7,8 @@ import bgImg from "./images/game_background_1.png";
 import { IconButton } from "../Common";
 // Downloaded from https://craftpix.net/freebies/free-horizontal-2d-game-backgrounds/
 
+const axios = require("axios");
+
 const styles = {
 	root: {
 		height: "100%",
@@ -25,30 +27,51 @@ export default function() {
 	// const { count, setCount } = useState(0);
 
 	/* Called only once whenever component is mounted */
+	const worlds = [
+		"World-1",
+		"World-2",
+		"World-3",
+		"World-4",
+		"World-5",
+		"World-6"
+	];
+	const [worldButtons, setWorldButtons] = React.useState([]);
+
 	useEffect(() => {
 		// Perform API calls
 		// Update states
-	}, []);
-
-	const generateWorlds = data => {
-		let worlds = [];
-
-		for (let i = 0; i < data; i++) {
-			worlds.push(
-				<Col key={i} style={styles.button} xs={6} md={4}>
-					<Link to={`/world/${i + 1}`}>
-						<IconButton
-							icon={PublicIcon}
-							message={"World " + (i + 1)}
-							key={i}
-						></IconButton>
-					</Link>
-				</Col>
+		const populationCalls = worlds.map(world => {
+			return axios.get(
+				process.env.REACT_APP_API + "/wy/getWorldPopulation/?worldID=" + world
 			);
-		}
+		});
 
-		return worlds;
-	};
+		Promise.all(populationCalls)
+			.then(arr_response => {
+				const all_buttons = arr_response.map((res, i) => {
+					const { worldPopulation } = res.data;
+					const component = (
+						<Col key={i} style={styles.button} xs={6} md={4}>
+							<Link to={`/world/${i + 1}`}>
+								<IconButton
+									icon={PublicIcon}
+									message={"World " + (i + 1)}
+									key={i}
+									population={worldPopulation}
+									hasPop
+								></IconButton>
+							</Link>
+						</Col>
+					);
+					return component;
+				});
+
+				setWorldButtons(all_buttons);
+			})
+			.catch(err => {
+				console.error(err);
+			});
+	}, []);
 
 	return (
 		<div style={styles.root}>
@@ -64,7 +87,7 @@ export default function() {
 						</li>
 					</ul>
 				</nav>
-				<Row>{generateWorlds(6)}</Row>
+				<Row>{worldButtons}</Row>
 			</Container>
 		</div>
 	);
