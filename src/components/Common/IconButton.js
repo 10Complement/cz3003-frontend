@@ -34,7 +34,7 @@ export default function(props) {
 				<props.icon />
 				<br />
 				<div style={styles.title}>{props.message}</div>
-				{hasStars && <Rating name="read-only" value={stars} max="3" readOnly />}
+				{hasStars && <Rating name="read-only" value={stars} max={3} readOnly />}
 				{hasPop && (
 					<div style={styles.text}>Population: {props.population}</div>
 				)}
