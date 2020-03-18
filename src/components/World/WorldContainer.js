@@ -70,7 +70,7 @@ export default function() {
 			.then(function() {
 				// always executed
 			});
-	}, []);
+	});
 
 	return (
 		<>

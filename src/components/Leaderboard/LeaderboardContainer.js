@@ -46,12 +46,12 @@ const tableIcons = {
 
 const styles = {
 	leaderboardContainer: {
-		paddingTop: '20px',
-		paddingBottom: '20px'
+		paddingTop: "20px",
+		paddingBottom: "20px"
 	},
 	avatar: {
 		width: 40,
-		borderRadius: '50%'
+		borderRadius: "50%"
 	}
 };
 
@@ -69,7 +69,15 @@ export default function() {
 				const d = res.data;
 
 				const leaderboardData = Object.keys(d).map(key => {
-					return {avatar: d[key].avatar_url, name: d[key].name, studentID: key, class: d[key].class, progress: d[key].current_progress, stars: d[key].stars, medals: d[key].medals};
+					return {
+						avatar: d[key].avatar_url,
+						name: d[key].name,
+						studentID: key,
+						class: d[key].class,
+						progress: d[key].current_progress,
+						stars: d[key].stars,
+						medals: d[key].medals
+					};
 				});
 
 				setData(leaderboardData);
@@ -86,14 +94,20 @@ export default function() {
 				icons={tableIcons}
 				title="Leaderboard"
 				columns={[
-					{title: 'Avatar', field: 'avatar', filtering: false, render: rowData => 
-						<img src={rowData.avatar} style={styles.avatar}/>},
-					{title: 'Name', field: 'name'},
-					{title: 'Student ID', field: 'studentID'},
-					{title: 'Class', field: 'class'},
-					{title: 'Current Progress', field: 'progress'},
-					{title: 'Stars', field: 'stars'},
-					{title: 'Medals', field: 'medals'}
+					{
+						title: "Avatar",
+						field: "avatar",
+						filtering: false,
+						render: rowData => (
+							<img src={rowData.avatar} style={styles.avatar} alt="Avatar" />
+						)
+					},
+					{ title: "Name", field: "name" },
+					{ title: "Student ID", field: "studentID" },
+					{ title: "Class", field: "class" },
+					{ title: "Current Progress", field: "progress" },
+					{ title: "Stars", field: "stars" },
+					{ title: "Medals", field: "medals" }
 				]}
 				data={dataSet}
 				actions={[
