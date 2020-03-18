@@ -21,26 +21,24 @@ const styles = {
 
 export default function(props) {
 	const { playerName = "Player Name", matric = "U171711G" } = props;
-	const [dataSet, setData] = useState([]);
-
+	const [numberstars, setNumberstars] = React.useState(0);
 	useEffect(() => {
-		fetchInfo();
-	}, []);
-
-	const fetchInfo = () => {
+		//fetchInfo();
+		// const fetchInfo = () => {
 		axios
-			.get(
-				process.env.REACT_APP_API +
-					"/russ/getStar/?matric=U1720925C&worldID=World-1"
-			)
-			.then(res => {
-				const d = res.data;
-				const profileData = Object.keys(d).map(key => {
-					return { stars: key };
-				});
-				setData(profileData);
+			.get(process.env.REACT_APP_API + "/russ/getStar/", {
+				params: {
+					worldID: "World-1",
+					matric: "U1720925C"
+				}
+			})
+			.then(function(res) {
+				setNumberstars(res["data"]["stars"]);
+				console.log(res);
+				console.log(numberstars);
 			});
-	};
+		// };
+	}, []);
 
 	return (
 		<Card className="m-4 p-4" style={styles.card}>
@@ -57,10 +55,9 @@ export default function(props) {
 					</div>
 					<div class="w-100 d-flex justify-content-center my-2">{matric}</div>
 					<div class="w-100 d-flex justify-content-center my-2">
-						<Badges stars medals={10} />
+						<Badges stars={numberstars} medals={10} />
 					</div>
 				</Col>
-				data = {dataSet}
 			</Row>
 		</Card>
 	);
