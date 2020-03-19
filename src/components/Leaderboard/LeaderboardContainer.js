@@ -60,8 +60,6 @@ export default function() {
 
 	useEffect(() => {
 		fetchInfo();
-		//generateReport("U1720526F");
-		//getProgress("U1720526F");
 	}, []);
 
 	const fetchInfo = () => {
@@ -94,7 +92,6 @@ export default function() {
 		return data
 	}
 
-
 	const generateReport = (id, name, course) => {
 		getProgress(id).then((result)=>{
 			var csv = "World,Section,Stars"
@@ -112,11 +109,8 @@ export default function() {
 			downloadElement.download = 'Report_' + id + '_' + name + '_' + course + '.csv';
 			downloadElement.click();
 		})
-
-		//Generate csv file and download
 	}
 
-	
 	return (
 		<Container size="sm" style={styles.leaderboardContainer}>
 			<MaterialTable
