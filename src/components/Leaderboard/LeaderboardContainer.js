@@ -81,7 +81,7 @@ export default function() {
 
 	async function getProgress(id){
 		const data = await axios
-			.get(process.env.REACT_APP_API + "/elric/getCurrentWorldStatus/?matric=" + id)
+			.get(process.env.REACT_APP_API + "/elric/getWorldStatus/?matric=" + id)
 			.then(res => {
 				const progress = res.data.map(obj => {
 					let a = obj.stage.split("-");
