@@ -1,6 +1,5 @@
 import React from "react";
 import Rating from "material-ui-rating";
-import Button from "react-bootstrap/Button";
 
 const styles = {
 	root: {},
@@ -24,12 +23,13 @@ export default function(props) {
 	const { hasStars, hasPop } = props;
 	return (
 		<div align="center">
-			<Button
-				variant="dark"
+			<div
+				// variant="dark"
 				style={styles.button}
 				// color="default"
 				// className={classes.button}
 				// size="large"
+				className="btn btn-dark"
 			>
 				<props.icon />
 				<br />
@@ -38,7 +38,7 @@ export default function(props) {
 				{hasPop && (
 					<div style={styles.text}>Population: {props.population}</div>
 				)}
-			</Button>
+			</div>
 
 			{/* <Box component="fieldset" mb={4} borderColor="transparent">
 				<Rating name="read-only" value={stars} max="3" readOnly />
