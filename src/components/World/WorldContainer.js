@@ -42,10 +42,10 @@ export default function() {
 			})
 			.then(function(response) {
 				// handle success
-				console.log(response.data);
+				// console.log(response.data);
 				const all_buttons = response.data.map((res, i) => {
 					const { stars } = res;
-					console.log(stars);
+					// console.log(stars);
 					const component = (
 						<Col key={i} style={styles.button} xs={6} md={4}>
 							<Link to={`${pathname}/section/${i + 1}`}>
