@@ -1,18 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { Container, Navbar } from "react-bootstrap";
 
+import { UserContext } from "../../contexts/UserContext";
 import { Badges } from "../Common";
 
-export default function(props) {
-  return (
-    <Navbar expand="lg" variant="dark" bg="dark" className="fixed-top">
-      <Container>
-        <Navbar.Brand as={Link} to="/">
-          {props.title}
-        </Navbar.Brand>
-        <Badges medals="3" stars="12" />
-      </Container>
-    </Navbar>
-  );
+export default function() {
+	const { student } = useContext(UserContext);
+	const { name, medals = 3, stars = 12 } = student;
+
+	return (
+		<Navbar expand="lg" variant="dark" bg="dark">
+			<Container>
+				<Navbar.Brand as={Link} to="/">
+					{name ? `Welcome, ${name}!` : "SDLC Quest"}
+				</Navbar.Brand>
+				<Badges medals={medals} stars={stars} />
+			</Container>
+		</Navbar>
+	);
 }
