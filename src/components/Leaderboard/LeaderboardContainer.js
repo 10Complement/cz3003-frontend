@@ -69,45 +69,62 @@ export default function() {
 				const d = res.data;
 
 				const leaderboardData = Object.keys(d).map(key => {
-					return {
-						avatar: d[key].avatar_url,
-						name: d[key].name,
-						studentID: key,
-						class: d[key].class,
-						progress: d[key].current_progress,
-						stars: d[key].stars,
-						medals: d[key].medals
-					};
+					const p = d[key].current_progress.split("-")
+					return {avatar: d[key].avatar_url, name: d[key].name, studentID: key, class: d[key].class, progress: "W" + p[0] + " - S" + p[1], stars: d[key].stars, medals: d[key].medals};
 				});
 
 				setData(leaderboardData);
 			});
 	};
 
-	/* const data = [
-		{name: 'Russell', studentID: 'U1720526FC', class: 'TSP8', progress: '1-1', stars: 2, medals: 4},
-		{name: 'David', studentID: 'U1720925C', class: 'TSP5', progress: '1-1', stars: 3, medals: 0},
-		{name: 'Alex', studentID: 'U1722845D', class: 'TSP4', progress: '1-1', stars: 1, medals: 1}
-	] */ return (
+	async function getProgress(id){
+		const data = await axios
+			.get(process.env.REACT_APP_API + "/elric/getWorldStatus/?matric=" + id)
+			.then(res => {
+				const progress = res.data.map(obj => {
+					let a = obj.stage.split("-");
+					a.push(obj.stars);
+					return a;
+				})
+				return progress;
+			})
+
+		return data
+	}
+
+	const generateReport = (id, name, course) => {
+		getProgress(id).then((result)=>{
+			var csv = "World,Section,Stars"
+
+			result.forEach(function(row) {
+				csv += "\n";
+				csv += row.join(',');
+			})
+
+			//Missing medals
+
+			var downloadElement = document.createElement('a');
+			downloadElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
+			downloadElement.target = '_blank';
+			downloadElement.download = 'Report_' + id + '_' + name + '_' + course + '.csv';
+			downloadElement.click();
+		})
+	}
+
+	return (
 		<Container size="sm" style={styles.leaderboardContainer}>
 			<MaterialTable
 				icons={tableIcons}
 				title="Leaderboard"
 				columns={[
-					{
-						title: "Avatar",
-						field: "avatar",
-						filtering: false,
-						render: rowData => (
-							<img src={rowData.avatar} style={styles.avatar} alt="Avatar" />
-						)
-					},
-					{ title: "Name", field: "name" },
-					{ title: "Student ID", field: "studentID" },
-					{ title: "Class", field: "class" },
-					{ title: "Current Progress", field: "progress" },
-					{ title: "Stars", field: "stars" },
-					{ title: "Medals", field: "medals" }
+					{title: 'Avatar', field: 'avatar', filtering: false, render: rowData => 
+						<img src={rowData.avatar} alt="Avatar" style={styles.avatar}/>},
+					{title: 'Name', field: 'name'},
+					{title: 'Student ID', field: 'studentID'},
+					{title: 'Class', field: 'class'},
+					{title: 'Current Progress', field: 'progress'},
+					{title: 'Stars', field: 'stars'},
+					{title: 'Medals', field: 'medals'}
 				]}
 				data={dataSet}
 				actions={[
@@ -115,7 +132,7 @@ export default function() {
 						icon: SaveAlt,
 						tooltip: "Generate report",
 						onClick: (event, rowData) =>
-							alert("You generated a report for " + rowData.name) //Replace with generate report function
+							generateReport(rowData.studentID, rowData.name, rowData.class)
 					}
 				]}
 				options={{
