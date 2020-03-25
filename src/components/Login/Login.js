@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import bgImg from "../Overview/images/game_background_1.png";
+import axios from "axios";
 
 const styles = {
 	root: {
@@ -28,15 +29,16 @@ const styles = {
 };
 
 export default function() {
+	var studentMatric = "";
+
 	const [validated, setValidated] = useState(false);
 	const [errors, setErrors] = useState({ matric: false, group: false });
 	const handleSubmit = event => {
+		var studentClass = "";
 		event.preventDefault();
 		event.stopPropagation();
-
 		let userID = document.getElementById("UserID").value;
 		let group = document.getElementById("Class").value;
-		const form = event.currentTarget;
 
 		const currErrors = { ...errors };
 		if (!userID.match("^[a-zA-Z][0-9]{7}[a-zA-Z]$")) {
@@ -49,6 +51,34 @@ export default function() {
 		} else {
 			currErrors.group = false;
 		}
+		// API Call to check if student exist is registered &
+		// if the class provided is correct
+		axios
+			.get(process.env.REACT_APP_API + "/elric/checkValidStudent/", {
+				params: {
+					matric: userID
+				}
+			})
+			.then(function(response) {
+				studentClass = response;
+				//console.log(studentClass);
+			});
+
+		if (group === studentClass) {
+			currErrors.group = false;
+		} else {
+			currErrors.group = true;
+		}
+
+		if (studentClass === "") {
+			currErrors.matric = true;
+			var form = document.getElementById("myForm");
+			form.reset();
+		} else {
+			currErrors.matric = false;
+		}
+
+		//const form = event.currentTarget;
 
 		setErrors(currErrors);
 
@@ -63,13 +93,13 @@ export default function() {
 		<div style={styles.root} className="d-flex justify-content-center">
 			<Card style={styles.card} bg="dark" text="white">
 				<Card.Body>
-					<Form noValidate validated={validated} onSubmit={handleSubmit}>
+					<Form
+						id="myForm"
+						noValidate
+						validated={validated}
+						onSubmit={handleSubmit}
+					>
 						<Form.Check type="switch" id="custom-switch" label="Student" />
-						{/* <Form.Group controlId="Name">
-                            <Form.Label></Form.Label>
-                            <Form.Control type="text" required placeholder="Name" style={styles.form} />
-                            <Form.Control.Feedback type="invalid">Please enter your Name.</Form.Control.Feedback>
-                        </Form.Group> */}
 						<Form.Group controlId="UserID">
 							<Form.Label></Form.Label>
 							<Form.Control
