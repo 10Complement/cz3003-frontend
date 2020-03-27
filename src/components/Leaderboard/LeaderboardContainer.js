@@ -2,6 +2,7 @@ import React, { useEffect, useState, forwardRef } from "react";
 import Container from "react-bootstrap/Container"; // Container from react-bootstrap
 import MaterialTable from "material-table";
 import axios from "axios";
+import { Music } from "../Common";
 
 //Icons for table
 import AddBox from "@material-ui/icons/AddBox";
@@ -19,6 +20,9 @@ import Remove from "@material-ui/icons/Remove";
 import SaveAlt from "@material-ui/icons/SaveAlt";
 import Search from "@material-ui/icons/Search";
 import ViewColumn from "@material-ui/icons/ViewColumn";
+
+import bgMusic from "../Common/sound/Our-Mountain_v003_Looping.mp3";
+import altBgMusic from "../Common/sound/Lost-Jungle_Looping.mp3";
 
 const tableIcons = {
 	Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -113,6 +117,7 @@ export default function() {
 
 	return (
 		<Container size="sm" style={styles.leaderboardContainer}>
+			<Music url= {/* bgMusic */ altBgMusic} playStatus="playing" />
 			<MaterialTable
 				icons={tableIcons}
 				title="Leaderboard"
