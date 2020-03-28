@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import Rating from "material-ui-rating";
+import Sound from "react-sound";
+
+import { ClickSound } from "../Common";
 
 const styles = {
 	root: {},
@@ -21,8 +24,12 @@ const styles = {
 export default function(props) {
 	const stars = props.stars || 0;
 	const { hasStars, hasPop } = props;
+	
+	const [clickStatus, setClickStatus] = useState(Sound.status.STOPPED);
+
 	return (
-		<div align="center">
+		<div align="center" onClick={() => setClickStatus(Sound.status.PLAYING)}>
+			<ClickSound playStatus={clickStatus} />
 			<div
 				// variant="dark"
 				style={styles.button}

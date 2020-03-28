@@ -26,3 +26,9 @@ export default function() {
 		</Navbar>
 	);
 }
+
+//Todo
+
+//Toggle button to turn music on and off
+//Click sound for big worlds and sections buttons (and eventually others too)
+//If time: change bg music depeding on which page of the game the user is (e.g. leaderboard or section music different from overview music)
