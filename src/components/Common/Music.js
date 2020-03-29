@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import Sound from "react-sound";
-import Image from "react-bootstrap/Image";
 
-import Speaker from "./images/speaker.svg";
-import Mute from "./images/mute.svg";
+import VolumeUpIcon from '@material-ui/icons/VolumeUp';
+import VolumeOffIcon from '@material-ui/icons/VolumeOff';
 
 import bgMusic from "../Common/sound/Our-Mountain_v003_Looping.mp3";
 //import bgMusic from "../Common/sound/Lost-Jungle_Looping.mp3";
@@ -11,8 +10,8 @@ import bgMusic from "../Common/sound/Our-Mountain_v003_Looping.mp3";
 
 const styles = {
 	icon: {
-		width: "35px",
-        margin: "5px"
+		width: "26px",
+        margin: "8px"
       },
     container: {
         backgroundColor: "#EEEEEE",
@@ -21,25 +20,25 @@ const styles = {
 }
 
 
-export default function(props) {
+export default function() {
 
     const [musicState, setMusicState] = useState(Sound.status.PLAYING);
-    const [iconState, setIconState] = useState(Speaker);
+    const [iconState, setIconState] = useState(<VolumeUpIcon style={styles.icon} />);
 
     function switchState() {
 
         if (musicState === Sound.status.PAUSED) { //Does not trigger when I pause/play the music using my headset buttons
             setMusicState(Sound.status.PLAYING);
-            setIconState(Speaker);
+            setIconState(<VolumeUpIcon style={styles.icon} />);
         } else {
             setMusicState(Sound.status.PAUSED);
-            setIconState(Mute);
+            setIconState(<VolumeOffIcon style={styles.icon} />);
         }
         
     }
 
-    return <div style={styles.container}>
-        <Image src={iconState} style={styles.icon} draggable={false} onClick={() => switchState()}/>
+    return <div style={styles.container} onClick={() => switchState()}>
+        {iconState}
         <Sound 
             url= {bgMusic}
             playStatus={musicState} 
