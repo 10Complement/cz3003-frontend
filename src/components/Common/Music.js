@@ -12,8 +12,12 @@ import bgMusic from "../Common/sound/Our-Mountain_v003_Looping.mp3";
 const styles = {
 	icon: {
 		width: "35px",
-        margin: "0 10px",
-	  }
+        margin: "5px"
+      },
+    container: {
+        backgroundColor: "#EEEEEE",
+        borderRadius: "50%"
+    }
 }
 
 
@@ -34,7 +38,7 @@ export default function(props) {
         
     }
 
-    return <div>
+    return <div style={styles.container}>
         <Image src={iconState} style={styles.icon} draggable={false} onClick={() => switchState()}/>
         <Sound 
             url= {bgMusic}
