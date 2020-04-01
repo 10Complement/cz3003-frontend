@@ -14,14 +14,14 @@ export default function() {
 
 	/* State Declaration */
 	const [currDifficulty, setCurrDifficulty] = useState("easy");
-	const [question, setQuestion] = useState("");
+	const [question, setQuestion] = useState("Loading...");
 	const [answers, setAnswers] = useState([]);
 
 	/* Local Variables */
 	let all_questions = {};
 	let qnHistory = {
 		attemptedQnId: [],
-		attempts: [],
+		attempts: {},
 		currDifficulty: "easy",
 		currQnId: ""
 	};
@@ -49,14 +49,18 @@ export default function() {
 
 	function generateNextQn() {
 		let { currDifficulty, attempts, attemptedQnId } = qnHistory;
-		const nextLevel = attempts[attempts.length - 1] || false;
+		const attemptKeys = Object.keys(attempts);
+		const nextLevel = attempts[attemptKeys[attemptKeys.length - 1]] || false;
+
+		/* Only maximum of 3 attempts */
+		if (attemptedQnId.length === 3) {
+			alert("Section completed");
+		}
 
 		if (nextLevel) {
 			currDifficulty = increaseDifficulty(currDifficulty);
 			setCurrDifficulty(currDifficulty);
 		}
-
-		console.log(currDifficulty);
 
 		const keys = Object.keys(all_questions[currDifficulty]);
 
@@ -86,7 +90,7 @@ export default function() {
 				<Col key={i + key} sm={6}>
 					<AnswerButton
 						key={i + key}
-						id={i}
+						id={key}
 						isAns={i === answerId}
 						onClick={handleAnswerClick}
 					>
@@ -100,11 +104,12 @@ export default function() {
 	function handleAnswerClick(id, isAns) {
 		if (isAns) {
 			/* User gets it correct */
-			qnHistory.attempts.push(true);
+			if (qnHistory.attempts[id] === undefined) qnHistory.attempts[id] = true;
+
 			setTimeout(generateNextQn, 1000);
 		} else {
 			/* User gets it wrong */
-			qnHistory.attempts.push(false);
+			qnHistory.attempts[id] = false;
 		}
 	}
 
@@ -113,7 +118,11 @@ export default function() {
 			<Container>
 				<Row>
 					<Col>
-						<Question header={"Current difficulty: " + currDifficulty}>
+						<Question
+							title={`Attempt ${Object.keys(qnHistory.attempts).length +
+								1} of 3`}
+							subtitle={"Current difficulty: " + currDifficulty}
+						>
 							{question}
 						</Question>
 					</Col>
@@ -128,5 +137,6 @@ export default function() {
 function increaseDifficulty(currDifficulty) {
 	if (currDifficulty === "easy") return "medium";
 	else if (currDifficulty === "medium") return "hard";
-	else return "hard";
+	else if (currDifficulty === "hard") return "DONE";
+	else return "easy";
 }
