@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Sound from "react-sound";
+import Sound, {soundManager} from "react-sound";
 
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import VolumeOffIcon from '@material-ui/icons/VolumeOff';
@@ -7,6 +7,8 @@ import VolumeOffIcon from '@material-ui/icons/VolumeOff';
 import bgMusic from "../Common/sound/Our-Mountain_v003_Looping.mp3"; //It says looping but it doesn't loop by itself, it loops because of the configuration in the music component
 //import bgMusic from "../Common/sound/Lost-Jungle_Looping.mp3"; //Alternative music, can also be any other music
 //Source: https://soundimage.org/fantasywonder/
+
+window.soundManager.setup({debugMode: false});
 
 const styles = {
 	icon: {
