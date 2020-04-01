@@ -27,7 +27,9 @@ const styles = {
 		padding: "40px 20px"
 	},
 	parallax: {
-		width: "100%",
+		width: "105%",
+		height: "100%",
+		right: "-15px",
 		position: "fixed",
 		zIndex: "-10"
 	},

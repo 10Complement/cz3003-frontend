@@ -29,13 +29,19 @@ const styles = {
 		padding: "40px 20px"
 	},
 	parallax: {
-		width: "100%",
-		// right: "-15px",
+		width: "105%",
+		height: "100%",
+		right: "-15px",
 		position: "fixed",
 		zIndex: "-10"
 	},
 	parallaxchild: {
-		// objectFit: "cover"
+		// transform: "translate3d(-232.5px, 49.5px, 0px)",
+		// transformStyle: "preserve-3d",
+		// backfaceVisibility: "hidden"
+		// animationName: "example",
+		// animationDuration: "4s",
+		// animationIterationCount: "infinite"
 	},
 	parallaximg: {
 		maxWidth: "100%",
@@ -133,7 +139,7 @@ export default function() {
 						style={styles.parallaximg}
 					/>
 				</div>
-				<div data-depth="0.4" style={styles.parallaxchild}>
+				<div class="layer" data-depth="0.4" style={styles.parallaxchild}>
 					<img
 						src={clouds2}
 						alt="clouds2"
