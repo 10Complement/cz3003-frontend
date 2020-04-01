@@ -10,7 +10,7 @@ export default function(props) {
         url= {clickSound}
         playStatus={props.playStatus} 
         autoLoad={true}
-        loop={true}
+        loop={false}
     />
 
 }
