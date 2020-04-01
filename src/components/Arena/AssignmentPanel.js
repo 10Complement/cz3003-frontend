@@ -18,6 +18,7 @@ import Remove from "@material-ui/icons/Remove";
 import SaveAlt from "@material-ui/icons/SaveAlt";
 import Search from "@material-ui/icons/Search";
 import ViewColumn from "@material-ui/icons/ViewColumn";
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
 const tableIcons = {
 	Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -43,24 +44,31 @@ const tableIcons = {
 	ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
 };
 
+const data = [ //Replace with fetched data
+    {title: "Multiplication", status: "Submitted", teacher: "Algebra teacher"},
+    {title: "Algebra", status: "Not attempted", teacher: "Algebra teacher"},
+    {title: "Geometry", status: "Submitted", teacher: "Geometry teacher"}
+]
+
 export default function() {
     return <MaterialTable
         icons={tableIcons}
         title="Assignments"
         columns={[
             {title: 'Title', field: 'title'},
-            {title: 'Status', field: 'status'}, //Submitted or not submitted
+            {title: 'Status', field: 'status'}, //Submitted or not attempted
             {title: 'Teacher', field: 'teacher'} //Teacher who gave out the assignment and is responsible for it
         ]}
-        data={[]}
+        data={data}
         actions={[
             {
-                icon: "", //Icon to attempt question needed
+                icon: ArrowForwardIcon,
                 tooltip: "Attempt question",
                 onClick: (event, rowData) => {} //Function to load assignment (iff not already submitted!)
             }
         ]}
         options={{
+            filtering: true, //Not sure we want this
             sorting: true,
             actionsColumnIndex: -1
         }}

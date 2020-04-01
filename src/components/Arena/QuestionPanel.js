@@ -18,6 +18,7 @@ import Remove from "@material-ui/icons/Remove";
 import SaveAlt from "@material-ui/icons/SaveAlt";
 import Search from "@material-ui/icons/Search";
 import ViewColumn from "@material-ui/icons/ViewColumn";
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
 const tableIcons = {
 	Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -43,6 +44,12 @@ const tableIcons = {
 	ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
 };
 
+const data = [ //Replace with fetched data
+    {question: "What is the meaning of Life?", status: "Attempted"},
+    {question: "Am I stupid?", status: "Not attempted"},
+    {question: "Are humans crazy about toilet paper?", status: "Not attempted"}
+]
+
 export default function() {
     return <MaterialTable
         icons={tableIcons}
@@ -51,16 +58,16 @@ export default function() {
             {title: 'Question', field: 'question'},
             {title: 'Status', field: 'status'} //Attempted or not attempted
         ]}
-        data={[]}
+        data={data}
         actions={[
             {
-                icon: "", //Icon to attempt question needed
+                icon: ArrowForwardIcon,
                 tooltip: "Attempt question",
                 onClick: (event, rowData) => {} //Function to load question to attempt (iff not already attempted!)
             }
         ]}
         options={{
-            //filtering: true, //Not sure we want this
+            filtering: true, //Not sure we want this
             sorting: true,
             actionsColumnIndex: -1
         }}
