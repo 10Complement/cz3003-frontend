@@ -1,33 +1,55 @@
-import React from "react";
-import Button from "@material-ui/core/Button";
-import { makeStyles } from "@material-ui/core/styles";
-import Box from "@material-ui/core/Box";
+import React, { useState } from "react";
 import Rating from "material-ui-rating";
+import Sound from "react-sound";
 
-const useStyles = makeStyles(theme => ({
+import { ClickSound } from "../Common";
+
+const styles = {
+	root: {},
 	button: {
-		margin: theme.spacing(1)
+		textAlign: "center",
+		paddingTop: "20px",
+		paddingBottom: "20px",
+		minHeight: "7em",
+		minWidth: "100%"
+	},
+	title: {
+		fontSize: "25px"
+	},
+	text: {
+		fontSize: "15px"
 	}
-}));
+};
 
 export default function(props) {
 	const stars = props.stars || 0;
-	const classes = useStyles();
-	return (
-		<div align="center">
-			<Button
-				variant="contained"
-				color="default"
-				className={classes.button}
-				startIcon={<props.icon />}
-				size="large"
-			>
-				{props.message}
-			</Button>
+	const { hasStars, hasPop } = props;
+	
+	const [clickStatus, setClickStatus] = useState(Sound.status.STOPPED);
 
-			<Box component="fieldset" mb={4} borderColor="transparent">
+	return (
+		<div align="center" onClick={() => setClickStatus(Sound.status.PLAYING)}>
+			<ClickSound playStatus={clickStatus} />
+			<div
+				// variant="dark"
+				style={styles.button}
+				// color="default"
+				// className={classes.button}
+				// size="large"
+				className="btn btn-dark"
+			>
+				<props.icon />
+				<br />
+				<div style={styles.title}>{props.message}</div>
+				{hasStars && <Rating name="read-only" value={stars} max={3} readOnly />}
+				{hasPop && (
+					<div style={styles.text}>Population: {props.population}</div>
+				)}
+			</div>
+
+			{/* <Box component="fieldset" mb={4} borderColor="transparent">
 				<Rating name="read-only" value={stars} max="3" readOnly />
-			</Box>
+			</Box> */}
 		</div>
 	);
 }
