@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Sound, {soundManager} from "react-sound";
+import Sound from "react-sound";
 
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import VolumeOffIcon from '@material-ui/icons/VolumeOff';
