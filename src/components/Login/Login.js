@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
@@ -33,6 +34,7 @@ const styles = {
 export default function() {
 	//const { student, setStudent } = this.context;
 	// const [validated, setValidated] = useState(false);
+	const history = useHistory();
 	const [errors, setErrors] = useState({
 		matric: { isValidated: true, msg: "" },
 		group: { isValidated: true, msg: "" }
@@ -95,6 +97,7 @@ export default function() {
 							// TODO:
 							// 1. Store user session in UserContext
 							// 2. Navigate to Overview Container
+							history.push("/");
 						} else {
 							setErrors({
 								...errors,
