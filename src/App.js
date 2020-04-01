@@ -4,7 +4,7 @@ import routes from "./routes/common";
 import { BrowserRouter as Router, Switch } from "react-router-dom";
 
 import { NavbarContainer } from "./components/Navbar";
-import { LoginContainer} from "./components/Login";
+import { LoginContainer } from "./components/Login";
 
 /*  Master App component that provides routing and encapsulates all components */
 
@@ -17,15 +17,27 @@ const classes = {
 
 export default function() {
 	return (
-		<Router>
-			 <NavbarContainer title="Quest Game" />
-			<div  style={classes.main}>
-				{/* <Switch>{routes}</Switch> */}
+		<div style={classes.main}>
+			{/* <Switch>{routes}</Switch> */}
 
-				<LoginContainer></LoginContainer>
-			</div> 
-
-			
-		</Router>
+			<LoginContainer></LoginContainer>
+		</div>
 	);
 }
+
+/* import { UserProvider } from "./contexts/UserContext";
+
+  Master App component that provides routing and encapsulates all components 
+
+export default function() {
+	return (
+		<Router>
+			<UserProvider>
+				<NavbarContainer />
+				<div id="main">
+					<Switch>{routes}</Switch>
+				</div>
+			</UserProvider>
+		</Router>
+	);
+} */

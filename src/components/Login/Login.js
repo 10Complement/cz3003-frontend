@@ -4,6 +4,8 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import bgImg from "../Overview/images/game_background_1.png";
 import axios from "axios";
+//import { UserProvider } from "./contexts";
+//const contextType = UserProvider;
 
 const styles = {
 	root: {
@@ -29,8 +31,8 @@ const styles = {
 };
 
 export default function() {
-	var studentMatric = "";
-
+	var feedbackMatric = "";
+	//const { student, setStudent } = this.context;
 	const [validated, setValidated] = useState(false);
 	const [errors, setErrors] = useState({ matric: false, group: false });
 	const handleSubmit = event => {
@@ -39,13 +41,17 @@ export default function() {
 		event.stopPropagation();
 		let userID = document.getElementById("UserID").value;
 		let group = document.getElementById("Class").value;
+		console.log(group);
 
 		const currErrors = { ...errors };
+		// Check if matric number follows the correct format
 		if (!userID.match("^[a-zA-Z][0-9]{7}[a-zA-Z]$")) {
 			currErrors.matric = true;
+			feedbackMatric = "Please enter your User ID in the correct format.";
 		} else {
 			currErrors.matric = false;
 		}
+
 		if (group === "") {
 			currErrors.group = true;
 		} else {
@@ -60,33 +66,23 @@ export default function() {
 				}
 			})
 			.then(function(response) {
-				studentClass = response;
-				//console.log(studentClass);
+				studentClass = response.data;
+				console.log(studentClass);
 			});
-
-		if (group === studentClass) {
-			currErrors.group = false;
-		} else {
-			currErrors.group = true;
+		if (studentClass !== "") {
+			if (group === studentClass) {
+				currErrors.group = false;
+				console.log("correct");
+				//const newStudent = {
+				//matric: userID,
+				//class: group
+				//};
+				//setStudent(newStudent);
+			} else {
+				currErrors.group = true;
+			}
 		}
-
-		if (studentClass === "") {
-			currErrors.matric = true;
-			var form = document.getElementById("myForm");
-			form.reset();
-		} else {
-			currErrors.matric = false;
-		}
-
-		//const form = event.currentTarget;
-
 		setErrors(currErrors);
-
-		//  else {
-		// 	if (!userID.value.match("^[a-zA-Z][0-9]{7}[a-zA-Z]$")) {
-		// 		alert("wrong");
-		// 	}
-		// }
 	};
 
 	return (
@@ -109,7 +105,7 @@ export default function() {
 								isInvalid={errors.matric}
 							/>
 							<Form.Control.Feedback type="invalid">
-								Please enter your User ID.
+								Please enter your User ID
 							</Form.Control.Feedback>
 						</Form.Group>
 						<Form.Group controlId="Class">
