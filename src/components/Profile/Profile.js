@@ -21,24 +21,24 @@ const styles = {
 
 export default function(props) {
 	const { playerName = "Player Name", matric = "U171711G" } = props;
-	// const [numberstars, setNumberstars] = React.useState(0);
-	// useEffect(() => {
-	// 	//fetchInfo();
-	// 	// const fetchInfo = () => {
-	// 	axios
-	// 		.get(process.env.REACT_APP_API + "/russ/getStar/", {
-	// 			params: {
-	// 				worldID: "World-1",
-	// 				matric: "U1720925C"
-	// 			}
-	// 		})
-	// 		.then(function(res) {
-	// 			setNumberstars(res["data"]["stars"]);
-	// 			console.log(res);
-	// 			console.log(numberstars);
-	// 		});
-	// };
-	// }, []);
+	const [numberstars, setNumberstars] = React.useState(0);
+	useEffect(() => {
+		// 	//fetchInfo();
+		// 	// const fetchInfo = () => {
+		axios
+			.get(process.env.REACT_APP_API + "/russ/getStar/", {
+				params: {
+					worldID: "World-1",
+					matric: "U1720925C"
+				}
+			})
+			.then(function(res) {
+				setNumberstars(res["data"]["stars"]);
+				console.log(res);
+				console.log(numberstars);
+			});
+		//};
+	}, []);
 
 	return (
 		<Card className="m-4 p-4" style={styles.card}>
