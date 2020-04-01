@@ -36,11 +36,10 @@ export default function() {
 		<>
 			<div style={styles.root}>
 				<Container>
-					<h1 style={{ color: "white" }}>This is SectionContainer</h1>
-					<p style={{ color: "white" }}>
-						You are in World ID: {wID} Section ID: {sID}
+					<h1 style={{ color: "white" }} className="h3">
+						World ID: {wID} Section ID: {sID}
 						<br />
-					</p>
+					</h1>
 					<Row>
 						<Col>
 							<Learning />
