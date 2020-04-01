@@ -60,7 +60,7 @@ export default function() {
             }
         ]}
         options={{
-            filtering: true, //Not sure we want this
+            //filtering: true, //Not sure we want this
             sorting: true,
             actionsColumnIndex: -1
         }}
