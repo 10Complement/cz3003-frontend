@@ -49,7 +49,7 @@ export default function() {
         title="Assignments"
         columns={[
             {title: 'Title', field: 'title'},
-            {title: 'Status', field: 'status'}, //Attempted or not attempted
+            {title: 'Status', field: 'status'}, //Submitted or not submitted
             {title: 'Teacher', field: 'teacher'} //Teacher who gave out the assignment and is responsible for it
         ]}
         data={[]}
@@ -57,7 +57,7 @@ export default function() {
             {
                 icon: "", //Icon to attempt question needed
                 tooltip: "Attempt question",
-                onClick: (event, rowData) => {} //Function to load question to attempt (iff not already attempted!)
+                onClick: (event, rowData) => {} //Function to load assignment (iff not already submitted!)
             }
         ]}
         options={{
