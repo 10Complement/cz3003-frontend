@@ -31,58 +31,84 @@ const styles = {
 };
 
 export default function() {
-	var feedbackMatric = "";
 	//const { student, setStudent } = this.context;
-	const [validated, setValidated] = useState(false);
-	const [errors, setErrors] = useState({ matric: false, group: false });
-	const handleSubmit = event => {
-		var studentClass = "";
+	// const [validated, setValidated] = useState(false);
+	const [errors, setErrors] = useState({
+		matric: { isValidated: true, msg: "" },
+		group: { isValidated: true, msg: "" }
+	});
+
+	const handleValidation = event => {
+		const currErrors = { ...errors };
+
 		event.preventDefault();
 		event.stopPropagation();
 		let userID = document.getElementById("UserID").value;
 		let group = document.getElementById("Class").value;
-		console.log(group);
 
-		const currErrors = { ...errors };
 		// Check if matric number follows the correct format
-		if (!userID.match("^[a-zA-Z][0-9]{7}[a-zA-Z]$")) {
-			currErrors.matric = true;
-			feedbackMatric = "Please enter your User ID in the correct format.";
+		if (userID === "") {
+			currErrors.matric.isValidated = false;
+			currErrors.matric.msg = "Please enter your User ID.";
+		} else if (!userID.match("^[a-zA-Z][0-9]{7}[a-zA-Z]$")) {
+			currErrors.matric.isValidated = false;
+			currErrors.matric.msg =
+				"Please enter your User ID in the correct format.";
 		} else {
-			currErrors.matric = false;
+			currErrors.matric.isValidated = true;
 		}
 
 		if (group === "") {
-			currErrors.group = true;
+			currErrors.group.isValidated = false;
+			currErrors.group.msg = "Please enter your class.";
 		} else {
-			currErrors.group = false;
+			currErrors.group.isValidated = true;
 		}
-		// API Call to check if student exist is registered &
-		// if the class provided is correct
-		axios
-			.get(process.env.REACT_APP_API + "/elric/checkValidStudent/", {
-				params: {
-					matric: userID
-				}
-			})
-			.then(function(response) {
-				studentClass = response.data;
-				console.log(studentClass);
-			});
-		if (studentClass !== "") {
-			if (group === studentClass) {
-				currErrors.group = false;
-				console.log("correct");
-				//const newStudent = {
-				//matric: userID,
-				//class: group
-				//};
-				//setStudent(newStudent);
-			} else {
-				currErrors.group = true;
-			}
-		}
+
 		setErrors(currErrors);
+
+		return currErrors.matric.isValidated && currErrors.group.isValidated;
+	};
+
+	const handleSubmit = event => {
+		event.preventDefault();
+		event.stopPropagation();
+		let userID = document.getElementById("UserID").value;
+		let group = document.getElementById("Class").value;
+
+		const isValidated = handleValidation(event);
+
+		if (isValidated) {
+			// API Call to check if student exist is registered &
+			// if the class provided is correct
+			axios
+				.get(process.env.REACT_APP_API + "/elric/checkValidStudent/", {
+					params: {
+						matric: userID
+					}
+				})
+				.then(function(response) {
+					const studentClass = response.data;
+
+					if (studentClass !== "Invalid") {
+						if (group === studentClass) {
+							// TODO:
+							// 1. Store user session in UserContext
+							// 2. Navigate to Overview Container
+						} else {
+							setErrors({
+								...errors,
+								group: { isValidated: false, msg: "Incorrect class." }
+							});
+						}
+					} else {
+						setErrors({
+							...errors,
+							matric: { isValidated: false, msg: "User ID doesn't exist." }
+						});
+					}
+				});
+		}
 	};
 
 	return (
@@ -92,7 +118,7 @@ export default function() {
 					<Form
 						id="myForm"
 						noValidate
-						validated={validated}
+						// validated={validated}
 						onSubmit={handleSubmit}
 					>
 						<Form.Check type="switch" id="custom-switch" label="Student" />
@@ -102,10 +128,10 @@ export default function() {
 								required
 								placeholder="User ID"
 								style={styles.form}
-								isInvalid={errors.matric}
+								isInvalid={!errors.matric.isValidated}
 							/>
 							<Form.Control.Feedback type="invalid">
-								Please enter your User ID
+								{errors.matric.msg}
 							</Form.Control.Feedback>
 						</Form.Group>
 						<Form.Group controlId="Class">
@@ -114,10 +140,10 @@ export default function() {
 								required
 								placeholder="Class"
 								style={styles.form}
-								isInvalid={errors.group}
+								isInvalid={!errors.group.isValidated}
 							/>
 							<Form.Control.Feedback type="invalid">
-								Please enter your Class.
+								{errors.group.msg}
 							</Form.Control.Feedback>
 						</Form.Group>
 						<Button variant="secondary" type="submit" style={styles.button}>
