@@ -3,6 +3,7 @@ import "./App.css";
 import routes from "./routes/common";
 import { BrowserRouter as Router, Switch } from "react-router-dom";
 import { NavbarContainer } from "./components/Navbar";
+import { Profile } from "./components/Profile";
 /*  Master App component that provides routing and encapsulates all components */
 
 const classes = {
@@ -18,6 +19,7 @@ export default function() {
 			<NavbarContainer title="Quest Game" />
 			<div style={classes.main}>
 				<Switch>{routes}</Switch>
+				<Profile></Profile>
 			</div>
 		</Router>
 	);
