@@ -1,8 +1,14 @@
 import React, { useEffect } from "react";
+import Parallax from "parallax-js";
 import { Link, useParams, useLocation } from "react-router-dom";
 
 import { Container, Row, Col } from "react-bootstrap";
 import bgImg from "./images/game_background_4.png";
+import sky from "./images/sky.png";
+import rocks from "./images/rocks.png";
+import ground from "./images/ground.png";
+import clouds1 from "./images/clouds_1.png";
+import clouds2 from "./images/clouds_2.png";
 
 import { IconButton } from "../Common";
 import AssignmentIcon from "@material-ui/icons/Assignment";
@@ -11,14 +17,26 @@ const axios = require("axios");
 
 const styles = {
 	root: {
-		height: "100%",
-		backgroundImage: `url(${bgImg})`,
-		backgroundSize: "cover",
-		backgroundAttachment: "fixed"
+		height: "100%"
+		// backgroundImage: `url(${bgImg})`,
+		// backgroundSize: "cover",
+		// backgroundAttachment: "fixed"
 	},
 	button: {
 		textAlign: "center",
 		padding: "40px 20px"
+	},
+	parallax: {
+		width: "100%",
+		position: "fixed",
+		zIndex: "-10"
+	},
+	parallaxchild: {
+		// objectFit: "cover"
+	},
+	parallaximg: {
+		maxWidth: "100%",
+		maxHeight: "100%"
 	}
 };
 
@@ -33,6 +51,10 @@ export default function() {
 	useEffect(() => {
 		// Perform API calls
 		// Update states
+
+		var scene = document.getElementById("scene");
+		var parallaxInstance = new Parallax(scene);
+
 		axios
 			.get(process.env.REACT_APP_API + "/elric/getCurrentWorldStatus/", {
 				params: {
@@ -75,6 +97,48 @@ export default function() {
 	return (
 		<>
 			<div style={styles.root}>
+				<div id="scene" style={styles.parallax}>
+					<div data-depth="0.0" style={styles.parallaxchild}>
+						<img
+							src={sky}
+							alt="sky"
+							draggable={false}
+							style={styles.parallaximg}
+						/>
+					</div>
+					<div data-depth="0.1" style={styles.parallaxchild}>
+						<img
+							src={rocks}
+							alt="rocks"
+							draggable={false}
+							style={styles.parallaximg}
+						/>
+					</div>
+					<div data-depth="0.2" style={styles.parallaxchild}>
+						<img
+							src={ground}
+							alt="ground"
+							draggable={false}
+							style={styles.parallaximg}
+						/>
+					</div>
+					<div data-depth="0.3" style={styles.parallaxchild}>
+						<img
+							src={clouds1}
+							alt="clouds1"
+							draggable={false}
+							style={styles.parallaximg}
+						/>
+					</div>
+					<div data-depth="0.4" style={styles.parallaxchild}>
+						<img
+							src={clouds2}
+							alt="clouds2"
+							draggable={false}
+							style={styles.parallaximg}
+						/>
+					</div>
+				</div>
 				<Container>
 					<h1>This is WorldContainer</h1>
 					<p>
