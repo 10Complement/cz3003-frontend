@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import Parallax from "parallax-js";
+import "../Common/Animation.css";
 import { Link } from "react-router-dom";
 import PublicIcon from "@material-ui/icons/Public";
 
@@ -35,17 +36,18 @@ const styles = {
 		position: "fixed",
 		zIndex: "-10"
 	},
-	parallaxchild: {
-		// transform: "translate3d(-232.5px, 49.5px, 0px)",
-		// transformStyle: "preserve-3d",
-		// backfaceVisibility: "hidden"
-		// animationName: "example",
-		// animationDuration: "4s",
-		// animationIterationCount: "infinite"
-	},
+	// parallaxchild: {
+	// 	// transform: "translate3d(-232.5px, 49.5px, 0px)",
+	// 	// transformStyle: "preserve-3d",
+	// 	// backfaceVisibility: "hidden"
+	// 	// animationName: "example",
+	// 	// animationDuration: "4s",
+	// 	// animationIterationCount: "infinite"
+	// },
 	parallaximg: {
-		maxWidth: "100%",
-		maxHeight: "100%"
+		width: "100%",
+		height: "100%",
+		objectFit: "cover"
 	}
 };
 
@@ -61,7 +63,8 @@ export default function() {
 		// Update states
 
 		var scene = document.getElementById("scene");
-		var parallaxInstance = new Parallax(scene);
+		// var parallaxInstance = new Parallax(scene);
+		new Parallax(scene);
 
 		const worlds = [
 			"World-1",
@@ -115,7 +118,11 @@ export default function() {
 						style={styles.parallaximg}
 					/>
 				</div>
-				<div data-depth="0.1" style={styles.parallaxchild}>
+				<div
+					data-depth="0.1"
+					// class="parallaxchild"
+					style={styles.parallaxchild}
+				>
 					<img
 						src={rocks1}
 						alt="rocks1"
@@ -131,7 +138,11 @@ export default function() {
 						style={styles.parallaximg}
 					/>
 				</div>
-				<div data-depth="0.3" style={styles.parallaxchild}>
+				<div
+					data-depth="0.3"
+					class="parallaxchild2"
+					style={styles.parallaxchild}
+				>
 					<img
 						src={clouds1}
 						alt="clouds1"
@@ -139,7 +150,12 @@ export default function() {
 						style={styles.parallaximg}
 					/>
 				</div>
-				<div class="layer" data-depth="0.4" style={styles.parallaxchild}>
+				<div
+					class="layer"
+					data-depth="0.4"
+					class="parallaxchild"
+					style={styles.parallaxchild}
+				>
 					<img
 						src={clouds2}
 						alt="clouds2"
@@ -147,7 +163,11 @@ export default function() {
 						style={styles.parallaximg}
 					/>
 				</div>
-				<div data-depth="0.5" style={styles.parallaxchild}>
+				<div
+					data-depth="0.5"
+					class="parallaxchild2"
+					style={styles.parallaxchild}
+				>
 					<img
 						src={clouds3}
 						alt="clouds3"
@@ -155,7 +175,11 @@ export default function() {
 						style={styles.parallaximg}
 					/>
 				</div>
-				<div data-depth="0.6" style={styles.parallaxchild}>
+				<div
+					data-depth="0.6"
+					class="parallaxchild2"
+					style={styles.parallaxchild}
+				>
 					<img
 						src={clouds4}
 						alt="clouds4"

@@ -55,7 +55,8 @@ export default function() {
 		// Update states
 
 		var scene = document.getElementById("scene");
-		var parallaxInstance = new Parallax(scene);
+		// var parallaxInstance = new Parallax(scene);
+		new Parallax(scene);
 
 		axios
 			.get(process.env.REACT_APP_API + "/elric/getCurrentWorldStatus/", {
