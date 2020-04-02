@@ -6,6 +6,7 @@ import { OverviewContainer } from "../components/Overview";
 import { WorldContainer } from "../components/World";
 import { LeaderboardContainer } from "../components/Leaderboard";
 import { LoginContainer } from "../components/Login";
+import { ProfileContainer } from "../components/Profile";
 
 export default [
 	<Route
@@ -16,5 +17,6 @@ export default [
 	<Route key="world" path="/world/:wID" component={WorldContainer} />,
 	<Route key="leaderboard" path="/leader" component={LeaderboardContainer} />,
 	<Route key="login" path="/login" component={LoginContainer} />,
+	<Route key="profile" path="/profile" component={ProfileContainer} />,
 	<Route key="overview" path="/" component={OverviewContainer} />
 ];
