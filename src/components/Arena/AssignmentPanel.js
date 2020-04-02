@@ -21,7 +21,7 @@ export default function() {
     const actions = [
         {
             icon: ArrowForwardIcon,
-            tooltip: "Attempt question",
+            tooltip: "Start assignment",
             onClick: (event, rowData) => {} //Function to load assignment (iff not already submitted!)
         }
     ]
