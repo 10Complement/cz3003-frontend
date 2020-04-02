@@ -12,13 +12,14 @@ const axios = require("axios");
 export default function() {
 	const { wID, sID } = useParams();
 
-	/* State Declaration */
+	/* States */
+	const qnBank = React.useRef();
 	const [currDifficulty, setCurrDifficulty] = useState("easy");
 	const [question, setQuestion] = useState("Loading...");
 	const [answers, setAnswers] = useState([]);
 
 	/* Local Variables */
-	let all_questions = {};
+	/* TODO: Change to states */
 	let qnHistory = {
 		attemptedQnId: [],
 		attempts: {},
@@ -37,24 +38,25 @@ export default function() {
 					sectionID: wID + "-" + sID
 				}
 			})
-			.then(function(response) {
-				all_questions = response["data"];
-
+			.then(response => {
+				qnBank.current = response.data;
 				generateNextQn();
 			})
-			.catch(function(error) {
+			.catch(error => {
 				console.log(error);
 			});
-	}, []);
+	}, [wID, sID]);
 
 	function generateNextQn() {
+		const all_questions = qnBank.current;
 		let { currDifficulty, attempts, attemptedQnId } = qnHistory;
 		const attemptKeys = Object.keys(attempts);
 		const nextLevel = attempts[attemptKeys[attemptKeys.length - 1]] || false;
 
-		/* Only maximum of 3 attempts */
+		/* Only maximum of 3 questions */
 		if (attemptedQnId.length === 3) {
-			alert("Section completed");
+			alert(`Section completed! _ stars earned.`);
+			return;
 		}
 
 		if (nextLevel) {
@@ -119,9 +121,9 @@ export default function() {
 				<Row>
 					<Col>
 						<Question
-							title={`Attempt ${Object.keys(qnHistory.attempts).length +
+							title={`Question ${Object.keys(qnHistory.attempts).length +
 								1} of 3`}
-							subtitle={"Current difficulty: " + currDifficulty}
+							subtitle={`Current difficulty: ${currDifficulty}`}
 						>
 							{question}
 						</Question>
