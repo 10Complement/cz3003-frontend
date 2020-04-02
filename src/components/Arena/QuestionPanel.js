@@ -20,8 +20,9 @@ export default function() {
 				const d = res.data;
 
 				const questionsData = Object.keys(d).map(key => {
-                    const s = "Condition" ? "Value if true" : "Value if false";
+                    //Check if creator is current user, if yes return nothing, otherwise proceed
                     //Find out status -> {"Attempted", "Not attempted"} //Own questions are removed from this list -> separate panel for own questions?
+                    const s = "Condition" ? "Value if true" : "Value if false";
                     return {id: key, question: d[key].question, creator: d[key].creator, totalAttempts: d[key].attempts, status: "Default attempt value"};
                 });
 
@@ -36,16 +37,11 @@ export default function() {
         {title: 'Total attempts', field: 'totalAttempts'}, //Number of people who attempted this question
         {title: 'Status', field: 'status'} //Attempted or not attempted
     ]
-/*     const data = [ //Dummy data
-        {id: 0, question: "What is the meaning of life?", creator: "User 1", totalAttempts: 5, status: "Attempted"},
-        {id: 1, question: "Am I stupid?", creator: "User 3", totalAttempts: 2, status: "Not attempted"},
-        {id: 2, question: "Are humans crazy about toilet paper?", creator: "User 11", totalAttempts: 4, status: "Not attempted"}
-    ] */
     const actions = [
         {
             icon: ArrowForwardIcon,
             tooltip: "Attempt question",
-            onClick: (event, rowData) => {} //Function to load question to attempt (iff not already attempted!)
+            onClick: (event, rowData) => {alert("You attempted question " + rowData.id)} //Function to redirect user to question page and pass questionID
         }
     ]
     const options = {
@@ -55,4 +51,5 @@ export default function() {
     }
 
     return <TableStructure title={title} columns={columns} data={questions} actions={actions} options={options}/>;
+    //Missing button to create new arena question
 }
