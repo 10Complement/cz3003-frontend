@@ -16,7 +16,7 @@ export default function(props) {
 	};
 
 	function handleOnClick() {
-		onClick(id, isAns);
+		if (onClick) onClick(id, isAns);
 
 		if (isAns === true) {
 			setBtnVariant("success");
