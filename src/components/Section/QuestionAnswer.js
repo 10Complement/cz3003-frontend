@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -13,18 +13,38 @@ export default function({ qnBank }) {
 	const [currDifficulty, setCurrDifficulty] = useState(0);
 	const [question, setQuestion] = useState("");
 	const [options, setOptions] = useState([]);
-	const attempts = useRef([]);
+	const attempts = useRef({});
 
-	/* On first render */
+	const nextQn = useCallback(() => {
+		const questions = qnBank[difficultyLevels[currDifficulty]];
+		const key = randomUniqueKey(questions, attempts.current);
+		setQuestion(questions[key].question);
+
+		const ansIndex = questions[key].answer;
+		const options = questions[key].options.map((opt, i) => (
+			<Col key={i + key} sm={6}>
+				<AnswerButton
+					key={i + key}
+					id={key}
+					isAns={i === ansIndex}
+					// onClick={handleAnswerClick}
+				>
+					{opt}
+				</AnswerButton>
+			</Col>
+		));
+		setOptions(options);
+	}, [currDifficulty, qnBank]);
+
 	useEffect(() => {
-		console.log(qnBank);
+		nextQn();
 
 		/* Cleanup */
 		return () => {
 			setCurrDifficulty(0);
 			attempts.current = [];
 		};
-	}, []);
+	}, [nextQn]);
 
 	return (
 		<>
@@ -47,4 +67,13 @@ export default function({ qnBank }) {
 }
 
 const difficultyLevels = ["easy", "medium", "hard"];
-const random = max => Math.floor(Math.random() * (max - 1));
+const randomUniqueKey = (questions, attempts) => {
+	const keys = Object.keys(questions);
+	let i = 0;
+
+	do {
+		i = Math.floor(Math.random() * (keys.length - 1));
+	} while (attempts[keys[i]]);
+
+	return keys[i];
+};
