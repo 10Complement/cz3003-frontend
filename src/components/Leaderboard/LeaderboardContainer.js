@@ -4,9 +4,16 @@ import axios from "axios";
 
 import {TableStructure} from "../Common";
 
+import bgImg from "../Overview/images/game_background_1.png";
 import SaveAlt from "@material-ui/icons/SaveAlt";
 
 const styles = {
+	root: {
+		height: "100%",
+		backgroundImage: `url(${bgImg})`,
+		backgroundSize: "cover",
+		backgroundAttachment: "fixed"
+	},
 	leaderboardContainer: {
 		paddingTop: "20px",
 		paddingBottom: "20px"
@@ -100,8 +107,10 @@ export default function() {
 	}
 
 	return (
-		<Container size="sm" style={styles.leaderboardContainer}>
-			<TableStructure title={title} columns={columns} data={dataSet} actions={actions} options={options}/>
-		</Container>
+		<div style={styles.root}>
+			<Container size="sm" style={styles.leaderboardContainer}>
+				<TableStructure title={title} columns={columns} data={dataSet} actions={actions} options={options}/>
+			</Container>
+		</div>
 	);
 }
