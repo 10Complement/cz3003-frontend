@@ -9,6 +9,7 @@ import Learning from "./Learning";
 const styles = {
 	root: {
 		height: "100%",
+		paddingTop: "40px",
 		backgroundImage: `url(${bgImg})`,
 		backgroundSize: "cover",
 		backgroundAttachment: "fixed"
