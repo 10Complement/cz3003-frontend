@@ -40,6 +40,12 @@ export default function() {
 		group: { isValidated: true, msg: "" }
 	});
 
+	var user = "Teacher";
+	const handleUser = () => {
+		user = "Student";
+		console.log("Test1");
+		return user;
+	};
 	const handleValidation = event => {
 		const currErrors = { ...errors };
 
@@ -83,34 +89,41 @@ export default function() {
 		if (isValidated) {
 			// API Call to check if student exist is registered &
 			// if the class provided is correct
-			axios
-				.get(process.env.REACT_APP_API + "/elric/checkValidStudent/", {
-					params: {
-						matric: userID
-					}
-				})
-				.then(function(response) {
-					const studentClass = response.data;
 
-					if (studentClass !== "Invalid") {
-						if (group === studentClass) {
-							// TODO:
-							// 1. Store user session in UserContext
-							// 2. Navigate to Overview Container
-							history.push("/");
-						} else {
-							setErrors({
-								...errors,
-								group: { isValidated: false, msg: "Incorrect class." }
-							});
-						}
+			var api;
+
+			let studentapi = "/elric/checkValidStudent/?matric=" + userID;
+			let teacherapi = "/elric/checkValidTeacher/?teacher_id=" + userID;
+
+			if (user === "Student") {
+				api = studentapi;
+			} else {
+				api = teacherapi;
+			}
+
+			axios.get(process.env.REACT_APP_API + api).then(function(response) {
+				const savedClass = response.data;
+				console.log(savedClass);
+
+				if (savedClass !== "Invalid") {
+					if (group === savedClass) {
+						// TODO:
+						// 1. Store user session in UserContext
+						// 2. Navigate to Overview Container
+						history.push("/");
 					} else {
 						setErrors({
 							...errors,
-							matric: { isValidated: false, msg: "User ID doesn't exist." }
+							group: { isValidated: false, msg: "Incorrect class." }
 						});
 					}
-				});
+				} else {
+					setErrors({
+						...errors,
+						matric: { isValidated: false, msg: "User ID doesn't exist." }
+					});
+				}
+			});
 		}
 	};
 
@@ -124,7 +137,12 @@ export default function() {
 						// validated={validated}
 						onSubmit={handleSubmit}
 					>
-						<Form.Check type="switch" id="custom-switch" label="Student" />
+						<Form.Check
+							type="switch"
+							id="custom-switch"
+							label="Student"
+							onClick={handleUser}
+						/>
 						<Form.Group controlId="UserID">
 							<Form.Label></Form.Label>
 							<Form.Control
