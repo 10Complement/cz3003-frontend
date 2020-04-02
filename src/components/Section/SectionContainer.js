@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
+import axios from "axios";
 import bgImg from "./images/game_background_3.png";
 
 import QuestionAnswer from "./QuestionAnswer";
@@ -24,14 +25,24 @@ export default function() {
 	const { wID, sID } = useParams();
 
 	/* State Declaration */
-	// const { count, setCount } = React.useState(0);
+	const [qnBank, setQnBank] = useState();
 
 	/* Called only once whenever component is mounted */
 	useEffect(() => {
-		// console.log(useParams());
-		// Perform API calls
-		// Update states
-	}, []);
+		axios
+			.get(process.env.REACT_APP_API + "/russ/getques/", {
+				params: {
+					worldID: "World-" + wID,
+					sectionID: wID + "-" + sID
+				}
+			})
+			.then(response => {
+				setQnBank(response.data);
+			})
+			.catch(error => {
+				console.log(error);
+			});
+	}, [wID, sID]);
 
 	return (
 		<>
@@ -46,7 +57,7 @@ export default function() {
 							<Learning />
 						</Col>
 						<Col>
-							<QuestionAnswer />
+							<QuestionAnswer qnBank={qnBank} />
 						</Col>
 					</Row>
 				</Container>

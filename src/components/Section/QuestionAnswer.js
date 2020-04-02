@@ -1,119 +1,30 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import AnswerButton from "./AnswerButton";
 import Question from "./Question";
-import { useParams } from "react-router-dom";
 
-const axios = require("axios");
-
-export default function() {
-	const { wID, sID } = useParams();
+export default function({ qnBank }) {
+	if (!qnBank) return <span style={{ color: "white" }}>Loading...</span>;
 
 	/* States */
-	const qnBank = React.useRef();
-	const [currDifficulty, setCurrDifficulty] = useState("easy");
-	const [question, setQuestion] = useState("Loading...");
-	const [answers, setAnswers] = useState([]);
+	const [currDifficulty, setCurrDifficulty] = useState(0);
+	const [question, setQuestion] = useState("");
+	const [options, setOptions] = useState([]);
+	const attempts = useRef([]);
 
-	/* Local Variables */
-	/* TODO: Change to states */
-	let qnHistory = {
-		attemptedQnId: [],
-		attempts: {},
-		currDifficulty: "easy",
-		currQnId: ""
-	};
-
-	/* Called only once whenever component is mounted */
+	/* On first render */
 	useEffect(() => {
-		// Perform API calls
-		// Update states
-		axios
-			.get(process.env.REACT_APP_API + "/russ/getques/", {
-				params: {
-					worldID: "World-" + wID,
-					sectionID: wID + "-" + sID
-				}
-			})
-			.then(response => {
-				qnBank.current = response.data;
-				generateNextQn();
-			})
-			.catch(error => {
-				console.log(error);
-			});
-	}, [wID, sID]);
+		console.log(qnBank);
 
-	function generateNextQn() {
-		const all_questions = qnBank.current;
-		let { currDifficulty, attempts, attemptedQnId } = qnHistory;
-		const attemptKeys = Object.keys(attempts);
-		const nextLevel = attempts[attemptKeys[attemptKeys.length - 1]] || false;
-
-		/* Only maximum of 3 questions */
-		if (attemptedQnId.length === 3) {
-			alert(`Section completed! _ stars earned.`);
-			return;
-		}
-
-		if (nextLevel) {
-			currDifficulty = increaseDifficulty(currDifficulty);
-			setCurrDifficulty(currDifficulty);
-		}
-
-		const keys = Object.keys(all_questions[currDifficulty]);
-
-		/* Choose random key that is not repeated previously */
-		let randId;
-		do {
-			randId = Math.floor(Math.random() * (keys.length - 1));
-		} while (attemptedQnId.includes(keys[randId]));
-
-		/* Display question */
-		const newQuestion = all_questions[currDifficulty][keys[randId]];
-		displayQnAns(
-			newQuestion.question,
-			newQuestion.answer,
-			newQuestion.options,
-			keys[randId]
-		);
-
-		attemptedQnId.push(keys[randId]);
-		qnHistory = { ...qnHistory, currDifficulty, attemptedQnId };
-	}
-
-	function displayQnAns(question, answerId, options, key) {
-		setQuestion(question);
-		setAnswers(
-			options.map((option, i) => (
-				<Col key={i + key} sm={6}>
-					<AnswerButton
-						key={i + key}
-						id={key}
-						isAns={i === answerId}
-						onClick={handleAnswerClick}
-					>
-						{option}
-					</AnswerButton>
-				</Col>
-			))
-		);
-	}
-
-	function handleAnswerClick(id, isAns) {
-		if (isAns) {
-			/* User gets it correct */
-			if (qnHistory.attempts[id] === undefined) qnHistory.attempts[id] = true;
-
-			setTimeout(generateNextQn, 1000);
-		} else {
-			/* User gets it wrong */
-			qnHistory.attempts[id] = false;
-		}
-	}
+		/* Cleanup */
+		return () => {
+			setCurrDifficulty(0);
+			attempts.current = [];
+		};
+	}, []);
 
 	return (
 		<>
@@ -121,24 +32,19 @@ export default function() {
 				<Row>
 					<Col>
 						<Question
-							title={`Question ${Object.keys(qnHistory.attempts).length +
-								1} of 3`}
-							subtitle={`Current difficulty: ${currDifficulty}`}
+							title={`Question ${currDifficulty + 1} of 3`}
+							subtitle={`Current difficulty: ${difficultyLevels[currDifficulty]}`}
 						>
 							{question}
 						</Question>
 					</Col>
 				</Row>
 				<br />
-				<Row>{answers}</Row>
+				<Row>{options}</Row>
 			</Container>
 		</>
 	);
 }
 
-function increaseDifficulty(currDifficulty) {
-	if (currDifficulty === "easy") return "medium";
-	else if (currDifficulty === "medium") return "hard";
-	else if (currDifficulty === "hard") return "DONE";
-	else return "easy";
-}
+const difficultyLevels = ["easy", "medium", "hard"];
+const random = max => Math.floor(Math.random() * (max - 1));
