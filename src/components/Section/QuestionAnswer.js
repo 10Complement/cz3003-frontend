@@ -13,10 +13,16 @@ const sampleQnSet = {
 };
 
 export default function(props) {
-	const { qnSet = sampleQnSet, title = "Loading...", subtitle } = props;
-	const [isCorrect, setCorrect] = useState("NIL");
-	const [allOptions, setAllOptions] = useState([]);
+	const {
+		qnSet = sampleQnSet,
+		title = "Loading...",
+		subtitle,
+		onFirstResponse
+	} = props;
+	const [correctFirstTry, setCorrectFirstTry] = useState("NIL");
+	const [allOptionButtons, setAllOptionButtons] = useState([]);
 
+	/* Renders all option buttons */
 	useEffect(() => {
 		const { id, answer, options } = qnSet;
 
@@ -24,8 +30,8 @@ export default function(props) {
 			// Only setCorrect once!
 			// User is classified as correct/wrong on the first click.
 			isAns === true
-				? setCorrect(c => (c === "NIL") === true)
-				: setCorrect(c => (c === "NIL") === false);
+				? setCorrectFirstTry(c => (c === "NIL") === true)
+				: setCorrectFirstTry(c => (c === "NIL") === false);
 		};
 
 		const all_options = options.map((option, i) => (
@@ -34,7 +40,7 @@ export default function(props) {
 					key={i + id}
 					id={id}
 					isAns={i === answer}
-					disabled={isCorrect === true}
+					disabled={correctFirstTry === true}
 					onClick={handleAnswerClick}
 				>
 					{option}
@@ -42,8 +48,15 @@ export default function(props) {
 			</Col>
 		));
 
-		setAllOptions(all_options);
-	}, [qnSet, isCorrect]);
+		setAllOptionButtons(all_options);
+	}, [qnSet, correctFirstTry]);
+
+	/* 	Run callback specified by parent on the first response */
+	// Will pass correctFirstTry as parameter
+	useEffect(() => {
+		if (correctFirstTry !== "NIL" && onFirstResponse)
+			onFirstResponse(correctFirstTry);
+	}, [correctFirstTry, onFirstResponse]);
 
 	return (
 		<>
@@ -54,7 +67,7 @@ export default function(props) {
 					</Question>
 				</Col>
 			</Row>
-			<Row>{allOptions}</Row>
+			<Row>{allOptionButtons}</Row>
 		</>
 	);
 }
