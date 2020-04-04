@@ -11,7 +11,7 @@ export default function(props) {
 
 	const handleOnClick = () => {
 		/* Run callBack function */
-		if (onClick) onClick(id, isAns);
+		if (typeof onClick === "function") onClick(id, isAns);
 
 		/* Change colour according to isAns */
 		isAns === true ? setBtnVariant("success") : setBtnVariant("danger");
