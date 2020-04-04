@@ -1,79 +1,60 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect } from "react";
 
-import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import AnswerButton from "./AnswerButton";
 import Question from "./Question";
 
-export default function({ qnBank }) {
-	if (!qnBank) return <span style={{ color: "white" }}>Loading...</span>;
+const sampleQnSet = {
+	id: "randomstring",
+	answer: 0,
+	question: "This is a sample question",
+	options: ["Correct answer", "Wrong answer"]
+};
 
-	/* States */
-	const [currDifficulty, setCurrDifficulty] = useState(0);
-	const [question, setQuestion] = useState("");
-	const [options, setOptions] = useState([]);
-	const attempts = useRef({});
+export default function(props) {
+	const { qnSet = sampleQnSet, title = "Loading...", subtitle } = props;
+	const [isCorrect, setCorrect] = useState("NIL");
+	const [allOptions, setAllOptions] = useState([]);
 
-	const nextQn = useCallback(() => {
-		const questions = qnBank[difficultyLevels[currDifficulty]];
-		const key = randomUniqueKey(questions, attempts.current);
-		setQuestion(questions[key].question);
+	useEffect(() => {
+		const { id, answer, options } = qnSet;
 
-		const ansIndex = questions[key].answer;
-		const options = questions[key].options.map((opt, i) => (
-			<Col key={i + key} sm={6}>
+		const handleAnswerClick = (id, isAns) => {
+			// Only setCorrect once!
+			// User is classified as correct/wrong on the first click.
+			isAns === true
+				? setCorrect(c => (c === "NIL") === true)
+				: setCorrect(c => (c === "NIL") === false);
+		};
+
+		const all_options = options.map((option, i) => (
+			<Col key={i + id} sm={6}>
 				<AnswerButton
-					key={i + key}
-					id={key}
-					isAns={i === ansIndex}
-					// onClick={handleAnswerClick}
+					key={i + id}
+					id={id}
+					isAns={i === answer}
+					disabled={isCorrect === true}
+					onClick={handleAnswerClick}
 				>
-					{opt}
+					{option}
 				</AnswerButton>
 			</Col>
 		));
-		setOptions(options);
-	}, [currDifficulty, qnBank]);
 
-	useEffect(() => {
-		nextQn();
-
-		/* Cleanup */
-		return () => {
-			setCurrDifficulty(0);
-			attempts.current = [];
-		};
-	}, [nextQn]);
+		setAllOptions(all_options);
+	}, [qnSet, isCorrect]);
 
 	return (
 		<>
-			<Container>
-				<Row>
-					<Col>
-						<Question
-							title={`Question ${currDifficulty + 1} of 3`}
-							subtitle={`Current difficulty: ${difficultyLevels[currDifficulty]}`}
-						>
-							{question}
-						</Question>
-					</Col>
-				</Row>
-				<br />
-				<Row>{options}</Row>
-			</Container>
+			<Row>
+				<Col>
+					<Question title={title} subtitle={subtitle}>
+						{qnSet.question}
+					</Question>
+				</Col>
+			</Row>
+			<Row>{allOptions}</Row>
 		</>
 	);
 }
-
-const difficultyLevels = ["easy", "medium", "hard"];
-const randomUniqueKey = (questions, attempts) => {
-	const keys = Object.keys(questions);
-	let i = 0;
-
-	do {
-		i = Math.floor(Math.random() * (keys.length - 1));
-	} while (attempts[keys[i]]);
-
-	return keys[i];
-};
