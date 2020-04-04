@@ -3,37 +3,30 @@ import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 
 export default function(props) {
-	const { id, isAns, onClick } = props;
+	const { id, isAns, onClick, disabled } = props;
 
 	/* State Declaration */
 	const [btnVariant, setBtnVariant] = useState("secondary");
-	const [disabled, setDisabled] = useState(false);
+	const [localDisabled, setLocalDisabled] = useState(false);
 
-	const style = {
-		btn: {
-			width: "100%"
-		}
-	};
-
-	function handleOnClick() {
+	const handleOnClick = () => {
+		/* Run callBack function */
 		if (onClick) onClick(id, isAns);
 
-		if (isAns === true) {
-			setBtnVariant("success");
-		} else {
-			setBtnVariant("danger");
-		}
-		setDisabled(true);
-	}
+		/* Change colour according to isAns */
+		isAns === true ? setBtnVariant("success") : setBtnVariant("danger");
+
+		/* Prevents any more clicks */
+		setLocalDisabled(true);
+	};
 
 	return (
 		<>
 			<Button
-				className="my-2"
-				style={style.btn}
+				className="my-2 w-100"
 				variant={btnVariant}
 				onClick={handleOnClick}
-				disabled={disabled}
+				disabled={disabled || localDisabled}
 			>
 				{props.children}
 			</Button>
