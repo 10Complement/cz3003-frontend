@@ -25,12 +25,29 @@ export default function(props) {
 		const { id, answer, options } = qnSet;
 
 		const handleAnswerClick = (id, isAns) => {
-			// Only call setCorrect once!
+			/* Only call setCorrect once! */
 			// User is classified as correct/wrong on the first click.
 			if (isAns === true) {
-				setCorrectFirstTry(c => c === "NIL" && true);
+				/* 	Run callback specified by parent on the first response */
+				// Will pass id and correctFirstTry as parameter
+				setCorrectFirstTry(c => {
+					if (c === "NIL") {
+						if (typeof onFirstResponse === "function")
+							onFirstResponse(id, true);
+						return true;
+					}
+					return c;
+				});
 				setDisableAll(true);
-			} else setCorrectFirstTry(c => c === "NIL" && false);
+			} else
+				setCorrectFirstTry(c => {
+					if (c === "NIL") {
+						if (typeof onFirstResponse === "function")
+							onFirstResponse(id, false);
+						return false;
+					}
+					return c;
+				});
 		};
 
 		const all_options = options.map((option, i) => (
@@ -48,16 +65,7 @@ export default function(props) {
 		));
 
 		setAllOptionButtons(all_options);
-	}, [qnSet, correctFirstTry, disableAll]);
-
-	/* 	Run callback specified by parent on the first response */
-	// Will pass id and correctFirstTry as parameter
-	useEffect(() => {
-		const { id } = qnSet;
-
-		if (correctFirstTry !== "NIL" && onFirstResponse)
-			onFirstResponse(id, correctFirstTry);
-	}, [correctFirstTry, onFirstResponse, qnSet]);
+	}, [qnSet, correctFirstTry, disableAll, onFirstResponse]);
 
 	return (
 		<>
