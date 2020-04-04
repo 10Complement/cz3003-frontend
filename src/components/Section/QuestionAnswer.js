@@ -15,6 +15,7 @@ import Question from "./Question";
 export default function(props) {
 	const { qnSet, title, subtitle, onFirstResponse } = props;
 	const [correctFirstTry, setCorrectFirstTry] = useState("NIL");
+	const [disableAll, setDisableAll] = useState(false);
 	const [allOptionButtons, setAllOptionButtons] = useState([]);
 
 	/* Renders all option buttons */
@@ -26,9 +27,10 @@ export default function(props) {
 		const handleAnswerClick = (id, isAns) => {
 			// Only call setCorrect once!
 			// User is classified as correct/wrong on the first click.
-			isAns === true
-				? setCorrectFirstTry(c => c === "NIL" && true)
-				: setCorrectFirstTry(c => c === "NIL" && false);
+			if (isAns === true) {
+				setCorrectFirstTry(c => c === "NIL" && true);
+				setDisableAll(true);
+			} else setCorrectFirstTry(c => c === "NIL" && false);
 		};
 
 		const all_options = options.map((option, i) => (
@@ -37,7 +39,7 @@ export default function(props) {
 					key={i + id}
 					id={id}
 					isAns={i === answer}
-					disabled={correctFirstTry === true}
+					disabled={disableAll}
 					onClick={handleAnswerClick}
 				>
 					{option}
@@ -46,14 +48,16 @@ export default function(props) {
 		));
 
 		setAllOptionButtons(all_options);
-	}, [qnSet, correctFirstTry]);
+	}, [qnSet, correctFirstTry, disableAll]);
 
 	/* 	Run callback specified by parent on the first response */
-	// Will pass correctFirstTry as parameter
+	// Will pass id and correctFirstTry as parameter
 	useEffect(() => {
+		const { id } = qnSet;
+
 		if (correctFirstTry !== "NIL" && onFirstResponse)
-			onFirstResponse(correctFirstTry);
-	}, [correctFirstTry, onFirstResponse]);
+			onFirstResponse(id, correctFirstTry);
+	}, [correctFirstTry, onFirstResponse, qnSet]);
 
 	return (
 		<>
