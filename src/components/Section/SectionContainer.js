@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useEffect, useReducer, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 import axios from "axios";
@@ -13,15 +13,16 @@ const styles = {
 		paddingTop: "40px",
 		backgroundImage: `url(${bgImg})`,
 		backgroundSize: "cover",
-		backgroundAttachment: "fixed"
+		backgroundAttachment: "fixed",
 	},
 	button: {
 		textAlign: "center",
-		padding: "40px 20px"
-	}
+		padding: "40px 20px",
+	},
 };
 
 const levels = ["easy", "medium", "hard"];
+const maxAttempts = 3;
 
 const initQn = {
 	difficulty: 0,
@@ -30,8 +31,8 @@ const initQn = {
 		id: "randomstring",
 		answer: 0,
 		question: "Loading...",
-		options: []
-	}
+		options: [],
+	},
 };
 
 const qnReducer = (state, action) => {
@@ -43,7 +44,7 @@ const qnReducer = (state, action) => {
 		case "NEXT_QN":
 			/* 1. Increase level only if user got question correct on first try */
 			if (history[current.id] === true) {
-				if (difficulty < levels.length - 2) difficulty++;
+				if (difficulty < levels.length - 1) difficulty++;
 			}
 
 			/* 2. Update current */
@@ -51,7 +52,6 @@ const qnReducer = (state, action) => {
 			const newKey = randomUniqueKey(bank[difficultyText], history);
 
 			current = { ...bank[difficultyText][newKey], id: newKey };
-
 			break;
 		case "HISTORY":
 			let { id, correctFirstTry } = action;
@@ -62,15 +62,17 @@ const qnReducer = (state, action) => {
 			console.error("Invalid action type passed into qnBankReducer");
 	}
 
+	// console.log({ history, current, difficulty, bank });
 	return { history, current, difficulty, bank };
 };
 
-export default function() {
+export default function () {
 	const { wID, sID } = useParams();
 
 	/* State Declaration */
 	// const [qnBank, setQnBank] = useState();
 	const [qn, dispatchQn] = useReducer(qnReducer, initQn);
+	const attemptsLeft = useRef(maxAttempts);
 
 	/* Called only once whenever component is mounted */
 	useEffect(() => {
@@ -78,24 +80,35 @@ export default function() {
 			.get(process.env.REACT_APP_API + "/russ/getques/", {
 				params: {
 					worldID: "World-" + wID,
-					sectionID: wID + "-" + sID
-				}
+					sectionID: wID + "-" + sID,
+				},
 			})
-			.then(response => {
+			.then((response) => {
 				dispatchQn({ type: "INIT", data: response.data });
 				dispatchQn({ type: "NEXT_QN" });
 			})
-			.catch(error => {
+			.catch((error) => {
 				console.error(error);
 			});
 	}, [wID, sID]);
 
 	const recordHistory = (id, correctFirstTry) => {
+		// console.log("recordHistory:");
 		dispatchQn({
 			type: "HISTORY",
 			id: id,
-			correctFirstTry: correctFirstTry
+			correctFirstTry: correctFirstTry,
 		});
+	};
+
+	const nextQn = (id) => {
+		attemptsLeft.current--;
+		// console.log("nextQn:");
+		if (attemptsLeft.current > 0) {
+			dispatchQn({ type: "NEXT_QN" });
+		} else {
+			alert("Section completed!");
+		}
 	};
 
 	return (
@@ -112,13 +125,17 @@ export default function() {
 						</Col>
 						<Col>
 							<QuestionAnswer
-								title={`Question x of 3`}
+								key={qn.current.id}
+								title={`Question ${
+									Object.keys(qn.history).length + 1
+								} of ${maxAttempts}`}
 								subtitle={
 									levels[qn.difficulty].charAt(0).toUpperCase() +
 									levels[qn.difficulty].substring(1)
 								}
 								qnSet={qn.current}
 								onFirstResponse={recordHistory}
+								onCorrectResponse={nextQn}
 							/>
 						</Col>
 					</Row>
