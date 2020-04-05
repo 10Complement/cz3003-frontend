@@ -32,30 +32,18 @@ const styles = {
 	parallax: {
 		width: "100%",
 		height: "100%",
-		// right: "-15px",
+		right: "5%",
 		position: "fixed",
 		zIndex: "-10"
-
-		// backgroundImage: 'url(${sky})',
-		// backgroundRepeat: "no-repeat",
-		// backgroundSize: "cover",
-		// width: "100%",
-		// height: "100vh",
-		// backgroundPosition: "center center",
-		// position: "relative"
 	},
 	parallaxparent: {
 		width: "100%",
 		height: "100%"
 	},
 	parallaximg: {
-		width: "100%",
+		width: "110%",
 		height: "100%",
 		objectFit: "cover"
-		// maxWidth: "100%",
-    	// height: "auto",
-		// width: "auto",
-		// objectFit: "fill" 
 	}
 };
 

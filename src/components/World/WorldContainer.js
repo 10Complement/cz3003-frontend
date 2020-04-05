@@ -18,7 +18,7 @@ const axios = require("axios");
 
 const styles = {
 	root: {
-		height: "100%"
+		// height: "100%"
 		// backgroundImage: `url(${bgImg})`,
 		// backgroundSize: "cover",
 		// backgroundAttachment: "fixed"
@@ -28,15 +28,20 @@ const styles = {
 		padding: "40px 20px"
 	},
 	parallax: {
-		width: "105%",
+		width: "100%",
 		height: "100%",
-		right: "-15px",
+		right: "5%",
 		position: "fixed",
 		zIndex: "-10"
 	},
+	parallaxparent: {
+		width: "100%",
+		height: "100%"
+	},
 	parallaximg: {
-		maxWidth: "100%",
-		maxHeight: "100%"
+		width: "110%",
+		height: "100%",
+		objectFit: "cover"
 	}
 };
 
@@ -99,7 +104,7 @@ export default function() {
 		<>
 			<div style={styles.root}>
 				<div id="scene" style={styles.parallax}>
-					<div data-depth="0.0">
+					<div data-depth="0.0" style={styles.parallaxparent}>
 						<img
 							src={sky}
 							alt="sky"
@@ -107,7 +112,7 @@ export default function() {
 							style={styles.parallaximg}
 						/>
 					</div>
-					<div data-depth="0.1">
+					<div data-depth="0.1" style={styles.parallaxparent}>
 						<img
 							src={rocks}
 							alt="rocks"
@@ -115,7 +120,7 @@ export default function() {
 							style={styles.parallaximg}
 						/>
 					</div>
-					<div data-depth="0.2">
+					<div data-depth="0.2" style={styles.parallaxparent}>
 						<img
 							src={ground}
 							alt="ground"
@@ -123,19 +128,21 @@ export default function() {
 							style={styles.parallaximg}
 						/>
 					</div>
-					<div data-depth="0.3" class="parallaxchild">
+					<div data-depth="0.3" style={styles.parallaxparent}>
 						<img
 							src={clouds1}
 							alt="clouds1"
 							draggable={false}
+							class="parallaxchild"
 							style={styles.parallaximg}
 						/>
 					</div>
-					<div data-depth="0.4" class="parallaxchild2">
+					<div data-depth="0.4" style={styles.parallaxparent}>
 						<img
 							src={clouds2}
 							alt="clouds2"
 							draggable={false}
+							class="parallaxchild2"
 							style={styles.parallaximg}
 						/>
 					</div>
