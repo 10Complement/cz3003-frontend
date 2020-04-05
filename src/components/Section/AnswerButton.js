@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import Button from "react-bootstrap/Button";
 
-export default function(props) {
+export default function (props) {
 	const { id, isAns, onClick, disabled } = props;
 
 	/* State Declaration */
@@ -23,10 +23,11 @@ export default function(props) {
 	return (
 		<>
 			<Button
-				className="my-2 w-100"
+				className="my-2"
 				variant={btnVariant}
 				onClick={handleOnClick}
 				disabled={disabled || localDisabled}
+				block
 			>
 				{props.children}
 			</Button>
