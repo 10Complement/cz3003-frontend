@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import Parallax from "parallax-js";
+import "../Common/Animation.css";
 import { Link, useParams, useLocation } from "react-router-dom";
 
 import { Container, Row, Col } from "react-bootstrap";
@@ -125,7 +126,7 @@ export default function() {
 							style={styles.parallaximg}
 						/>
 					</div>
-					<div data-depth="0.3" style={styles.parallaxchild}>
+					<div data-depth="0.3" class="parallaxchild" style={styles.parallaxchild}>
 						<img
 							src={clouds1}
 							alt="clouds1"
@@ -133,7 +134,7 @@ export default function() {
 							style={styles.parallaximg}
 						/>
 					</div>
-					<div data-depth="0.4" style={styles.parallaxchild}>
+					<div data-depth="0.4" class="parallaxchild2" style={styles.parallaxchild}>
 						<img
 							src={clouds2}
 							alt="clouds2"
