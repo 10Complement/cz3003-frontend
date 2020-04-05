@@ -12,8 +12,8 @@ import Question from "./Question";
 // 	options: ["Correct answer", "Wrong answer"]
 // };
 
-export default function(props) {
-	const { qnSet, title, subtitle, onFirstResponse } = props;
+export default function (props) {
+	const { qnSet, title, subtitle, onFirstResponse, onCorrectResponse } = props;
 	const [correctFirstTry, setCorrectFirstTry] = useState("NIL");
 	const [disableAll, setDisableAll] = useState(false);
 	const [allOptionButtons, setAllOptionButtons] = useState([]);
@@ -25,29 +25,26 @@ export default function(props) {
 		const { id, answer, options } = qnSet;
 
 		const handleAnswerClick = (id, isAns) => {
-			/* Only call setCorrect once! */
-			// User is classified as correct/wrong on the first click.
-			if (isAns === true) {
-				/* 	Run callback specified by parent on the first response */
-				// Will pass id and correctFirstTry as parameter
-				setCorrectFirstTry(c => {
-					if (c === "NIL") {
-						if (typeof onFirstResponse === "function")
-							onFirstResponse(id, true);
-						return true;
-					}
-					return c;
-				});
-				setDisableAll(true);
-			} else
-				setCorrectFirstTry(c => {
-					if (c === "NIL") {
-						if (typeof onFirstResponse === "function")
-							onFirstResponse(id, false);
-						return false;
-					}
-					return c;
-				});
+			setCorrectFirstTry((c) => {
+				let newC = c;
+				/* Only call setCorrect once! */
+				// User is classified as correct/wrong on the first click.
+				if (c === "NIL") {
+					/* 	Run callback specified by parent on the first response */
+					// Will pass id and correctFirstTry as parameter
+					if (typeof onFirstResponse === "function") onFirstResponse(id, isAns);
+					newC = isAns;
+				}
+				/* 	Run callback specified by parent on a correct response */
+				// Will pass id as parameter
+				if (isAns && typeof onCorrectResponse === "function")
+					onCorrectResponse(id);
+				return newC;
+			});
+
+			/* Disable all buttons */
+			// No more inputs will be allowed after a correct answer is chosen
+			if (isAns) setDisableAll(true);
 		};
 
 		const all_options = options.map((option, i) => (
@@ -65,7 +62,7 @@ export default function(props) {
 		));
 
 		setAllOptionButtons(all_options);
-	}, [qnSet, correctFirstTry, disableAll, onFirstResponse]);
+	}, [qnSet, correctFirstTry, disableAll, onFirstResponse, onCorrectResponse]);
 
 	return (
 		<>
