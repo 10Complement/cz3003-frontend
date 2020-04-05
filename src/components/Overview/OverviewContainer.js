@@ -36,14 +36,6 @@ const styles = {
 		position: "fixed",
 		zIndex: "-10"
 	},
-	// parallaxchild: {
-	// 	// transform: "translate3d(-232.5px, 49.5px, 0px)",
-	// 	// transformStyle: "preserve-3d",
-	// 	// backfaceVisibility: "hidden"
-	// 	// animationName: "example",
-	// 	// animationDuration: "4s",
-	// 	// animationIterationCount: "infinite"
-	// },
 	parallaximg: {
 		width: "100%",
 		height: "100%",
@@ -110,7 +102,7 @@ export default function() {
 	return (
 		<div style={styles.root}>
 			<div id="scene" style={styles.parallax}>
-				<div data-depth="0.0" style={styles.parallaxchild}>
+				<div data-depth="0.0">
 					<img
 						src={sky}
 						alt="sky"
@@ -120,8 +112,6 @@ export default function() {
 				</div>
 				<div
 					data-depth="0.1"
-					// class="parallaxchild"
-					style={styles.parallaxchild}
 				>
 					<img
 						src={rocks1}
@@ -130,7 +120,7 @@ export default function() {
 						style={styles.parallaximg}
 					/>
 				</div>
-				<div data-depth="0.2" style={styles.parallaxchild}>
+				<div data-depth="0.2">
 					<img
 						src={rocks2}
 						alt="rocks2"
@@ -141,7 +131,6 @@ export default function() {
 				<div
 					data-depth="0.3"
 					class="parallaxchild2"
-					style={styles.parallaxchild}
 				>
 					<img
 						src={clouds1}
@@ -154,7 +143,6 @@ export default function() {
 					class="layer"
 					data-depth="0.4"
 					class="parallaxchild"
-					style={styles.parallaxchild}
 				>
 					<img
 						src={clouds2}
@@ -166,7 +154,6 @@ export default function() {
 				<div
 					data-depth="0.5"
 					class="parallaxchild2"
-					style={styles.parallaxchild}
 				>
 					<img
 						src={clouds3}
@@ -178,7 +165,6 @@ export default function() {
 				<div
 					data-depth="0.6"
 					class="parallaxchild2"
-					style={styles.parallaxchild}
 				>
 					<img
 						src={clouds4}

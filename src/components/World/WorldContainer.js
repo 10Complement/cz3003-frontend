@@ -34,9 +34,6 @@ const styles = {
 		position: "fixed",
 		zIndex: "-10"
 	},
-	parallaxchild: {
-		// objectFit: "cover"
-	},
 	parallaximg: {
 		maxWidth: "100%",
 		maxHeight: "100%"
@@ -102,7 +99,7 @@ export default function() {
 		<>
 			<div style={styles.root}>
 				<div id="scene" style={styles.parallax}>
-					<div data-depth="0.0" style={styles.parallaxchild}>
+					<div data-depth="0.0">
 						<img
 							src={sky}
 							alt="sky"
@@ -110,7 +107,7 @@ export default function() {
 							style={styles.parallaximg}
 						/>
 					</div>
-					<div data-depth="0.1" style={styles.parallaxchild}>
+					<div data-depth="0.1">
 						<img
 							src={rocks}
 							alt="rocks"
@@ -118,7 +115,7 @@ export default function() {
 							style={styles.parallaximg}
 						/>
 					</div>
-					<div data-depth="0.2" style={styles.parallaxchild}>
+					<div data-depth="0.2">
 						<img
 							src={ground}
 							alt="ground"
@@ -126,7 +123,7 @@ export default function() {
 							style={styles.parallaximg}
 						/>
 					</div>
-					<div data-depth="0.3" class="parallaxchild" style={styles.parallaxchild}>
+					<div data-depth="0.3" class="parallaxchild">
 						<img
 							src={clouds1}
 							alt="clouds1"
@@ -134,7 +131,7 @@ export default function() {
 							style={styles.parallaximg}
 						/>
 					</div>
-					<div data-depth="0.4" class="parallaxchild2" style={styles.parallaxchild}>
+					<div data-depth="0.4" class="parallaxchild2">
 						<img
 							src={clouds2}
 							alt="clouds2"
