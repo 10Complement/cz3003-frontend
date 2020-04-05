@@ -20,7 +20,7 @@ const axios = require("axios");
 
 const styles = {
 	root: {
-		height: "100%"
+		// height: "100%"
 		// backgroundImage: `url(${bgImg})`,
 		// backgroundSize: "cover",
 		// backgroundAttachment: "fixed"
@@ -30,16 +30,32 @@ const styles = {
 		padding: "40px 20px"
 	},
 	parallax: {
-		width: "105%",
+		width: "100%",
 		height: "100%",
-		right: "-15px",
+		// right: "-15px",
 		position: "fixed",
 		zIndex: "-10"
+
+		// backgroundImage: 'url(${sky})',
+		// backgroundRepeat: "no-repeat",
+		// backgroundSize: "cover",
+		// width: "100%",
+		// height: "100vh",
+		// backgroundPosition: "center center",
+		// position: "relative"
+	},
+	parallaxparent: {
+		width: "100%",
+		height: "100%"
 	},
 	parallaximg: {
 		width: "100%",
 		height: "100%",
 		objectFit: "cover"
+		// maxWidth: "100%",
+    	// height: "auto",
+		// width: "auto",
+		// objectFit: "fill" 
 	}
 };
 
@@ -102,7 +118,7 @@ export default function() {
 	return (
 		<div style={styles.root}>
 			<div id="scene" style={styles.parallax}>
-				<div data-depth="0.0">
+				<div data-depth="0.0" style={styles.parallaxparent}>
 					<img
 						src={sky}
 						alt="sky"
@@ -110,9 +126,7 @@ export default function() {
 						style={styles.parallaximg}
 					/>
 				</div>
-				<div
-					data-depth="0.1"
-				>
+				<div data-depth="0.1" style={styles.parallaxparent}>
 					<img
 						src={rocks1}
 						alt="rocks1"
@@ -120,7 +134,7 @@ export default function() {
 						style={styles.parallaximg}
 					/>
 				</div>
-				<div data-depth="0.2">
+				<div data-depth="0.2" style={styles.parallaxparent}>
 					<img
 						src={rocks2}
 						alt="rocks2"
@@ -130,46 +144,50 @@ export default function() {
 				</div>
 				<div
 					data-depth="0.3"
-					class="parallaxchild2"
+					style={styles.parallaxparent}
 				>
 					<img
 						src={clouds1}
 						alt="clouds1"
 						draggable={false}
+						class="parallaxchild2"
 						style={styles.parallaximg}
 					/>
 				</div>
 				<div
 					class="layer"
 					data-depth="0.4"
-					class="parallaxchild"
+					style={styles.parallaxparent}
 				>
 					<img
 						src={clouds2}
 						alt="clouds2"
 						draggable={false}
+						class="parallaxchild"
 						style={styles.parallaximg}
 					/>
 				</div>
 				<div
 					data-depth="0.5"
-					class="parallaxchild2"
+					style={styles.parallaxparent}
 				>
 					<img
 						src={clouds3}
 						alt="clouds3"
 						draggable={false}
+						class="parallaxchild2"
 						style={styles.parallaximg}
 					/>
 				</div>
 				<div
 					data-depth="0.6"
-					class="parallaxchild2"
+					style={styles.parallaxparent}
 				>
 					<img
 						src={clouds4}
 						alt="clouds4"
 						draggable={false}
+						class="parallaxchild2"
 						style={styles.parallaximg}
 					/>
 				</div>
