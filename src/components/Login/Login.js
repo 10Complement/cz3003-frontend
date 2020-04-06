@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import bgImg from "../Overview/images/game_background_1.png";
 import axios from "axios";
-//import { UserProvider } from "./contexts";
+import { UserContext } from "../../contexts/UserContext";
+
 //const contextType = UserProvider;
 
 const styles = {
@@ -32,7 +33,7 @@ const styles = {
 };
 
 export default function() {
-	//const { student, setStudent } = this.context;
+	const { student, setStudent } = useContext(UserContext);
 	// const [validated, setValidated] = useState(false);
 	const history = useHistory();
 	const [errors, setErrors] = useState({
@@ -40,12 +41,8 @@ export default function() {
 		group: { isValidated: true, msg: "" }
 	});
 
-	var user = "Teacher";
-	const handleUser = () => {
-		user = "Student";
-		console.log("Test1");
-		return user;
-	};
+	const [user, setUser] = useState("Student");
+
 	const handleValidation = event => {
 		const currErrors = { ...errors };
 
@@ -103,14 +100,20 @@ export default function() {
 
 			axios.get(process.env.REACT_APP_API + api).then(function(response) {
 				const savedClass = response.data;
-				console.log(savedClass);
 
 				if (savedClass !== "Invalid") {
 					if (group === savedClass) {
 						// TODO:
-						// 1. Store user session in UserContext
-						// 2. Navigate to Overview Container
+						// 1. Navigate to Overview Container
 						history.push("/");
+						// 2. Store user session in UserContext
+						const user = { matric: userID, class: group };
+						console.log(user.matric);
+						return (
+							<UserContext.Provider
+								value={{ setStudent: user }}
+							></UserContext.Provider>
+						);
 					} else {
 						setErrors({
 							...errors,
@@ -137,12 +140,12 @@ export default function() {
 						// validated={validated}
 						onSubmit={handleSubmit}
 					>
-						<Form.Check
+						{/* <Form.Check
 							type="switch"
 							id="custom-switch"
 							label="Student"
 							onClick={handleUser}
-						/>
+						/> */}
 						<Form.Group controlId="UserID">
 							<Form.Label></Form.Label>
 							<Form.Control
@@ -167,6 +170,27 @@ export default function() {
 								{errors.group.msg}
 							</Form.Control.Feedback>
 						</Form.Group>
+
+						{["radio"].map(type => (
+							<div key={`inline-${type}`} className="mb-3">
+								<Form.Check
+									inline
+									label="Student"
+									type={type}
+									name="radioBtnGroup"
+									onChange={() => setUser("Student")}
+									id={`inline-${type}-1`}
+								/>
+								<Form.Check
+									inline
+									label="Teacher"
+									type={type}
+									name="radioBtnGroup"
+									onChange={() => setUser("Teacher")}
+									id={`inline-${type}-2`}
+								/>
+							</div>
+						))}
 						<Button variant="secondary" type="submit" style={styles.button}>
 							Submit
 						</Button>
