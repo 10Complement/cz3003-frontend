@@ -4,7 +4,7 @@ import "../Common/Animation.css";
 import { Link, useParams, useLocation } from "react-router-dom";
 
 import { Container, Row, Col } from "react-bootstrap";
-import bgImg from "./images/game_background_4.png";
+// import bgImg from "./images/game_background_4.png";
 import sky from "./images/sky.png";
 import rocks from "./images/rocks.png";
 import ground from "./images/ground.png";
@@ -17,35 +17,29 @@ import AssignmentIcon from "@material-ui/icons/Assignment";
 const axios = require("axios");
 
 const styles = {
-	root: {
-		// height: "100%"
-		// backgroundImage: `url(${bgImg})`,
-		// backgroundSize: "cover",
-		// backgroundAttachment: "fixed"
-	},
 	button: {
 		textAlign: "center",
-		padding: "40px 20px"
+		padding: "40px 20px",
 	},
 	parallax: {
 		width: "100%",
 		height: "100%",
 		right: "5%",
 		position: "fixed",
-		zIndex: "-10"
+		zIndex: "-10",
 	},
 	parallaxparent: {
 		width: "100%",
-		height: "100%"
+		height: "100%",
 	},
 	parallaximg: {
 		width: "110%",
 		height: "100%",
-		objectFit: "cover"
-	}
+		objectFit: "cover",
+	},
 };
 
-export default function() {
+export default function () {
 	const { wID } = useParams();
 	const { pathname } = useLocation();
 
@@ -65,10 +59,10 @@ export default function() {
 			.get(process.env.REACT_APP_API + "/elric/getCurrentWorldStatus/", {
 				params: {
 					worldID: "World-" + wID,
-					matric: "U1720526F"
-				}
+					matric: "U1720526F",
+				},
 			})
-			.then(function(response) {
+			.then(function (response) {
 				// handle success
 				// console.log(response.data);
 				const all_buttons = response.data.map((res, i) => {
@@ -91,72 +85,70 @@ export default function() {
 				});
 				setSectionButtons(all_buttons);
 			})
-			.catch(function(error) {
+			.catch(function (error) {
 				// handle error
 				console.log(error);
 			})
-			.then(function() {
+			.then(function () {
 				// always executed
 			});
 	}, [pathname, wID]);
 
 	return (
 		<>
-			<div style={styles.root}>
-				<div id="scene" style={styles.parallax}>
-					<div data-depth="0.0" style={styles.parallaxparent}>
-						<img
-							src={sky}
-							alt="sky"
-							draggable={false}
-							style={styles.parallaximg}
-						/>
-					</div>
-					<div data-depth="0.1" style={styles.parallaxparent}>
-						<img
-							src={rocks}
-							alt="rocks"
-							draggable={false}
-							style={styles.parallaximg}
-						/>
-					</div>
-					<div data-depth="0.2" style={styles.parallaxparent}>
-						<img
-							src={ground}
-							alt="ground"
-							draggable={false}
-							style={styles.parallaximg}
-						/>
-					</div>
-					<div data-depth="0.3" style={styles.parallaxparent}>
-						<img
-							src={clouds1}
-							alt="clouds1"
-							draggable={false}
-							class="parallaxchild"
-							style={styles.parallaximg}
-						/>
-					</div>
-					<div data-depth="0.4" style={styles.parallaxparent}>
-						<img
-							src={clouds2}
-							alt="clouds2"
-							draggable={false}
-							class="parallaxchild2"
-							style={styles.parallaximg}
-						/>
-					</div>
+			<div id="scene" style={styles.parallax}>
+				<div data-depth="0.0" style={styles.parallaxparent}>
+					<img
+						src={sky}
+						alt="sky"
+						draggable={false}
+						style={styles.parallaximg}
+					/>
 				</div>
-				<Container>
-					<h1>This is WorldContainer</h1>
-					<p>
-						You are in World ID: {wID}
-						<br />
-						Change the browser URL parameter and see the ID change
-					</p>
-					<Row>{sectionButtons}</Row>
-				</Container>
+				<div data-depth="0.1" style={styles.parallaxparent}>
+					<img
+						src={rocks}
+						alt="rocks"
+						draggable={false}
+						style={styles.parallaximg}
+					/>
+				</div>
+				<div data-depth="0.2" style={styles.parallaxparent}>
+					<img
+						src={ground}
+						alt="ground"
+						draggable={false}
+						style={styles.parallaximg}
+					/>
+				</div>
+				<div data-depth="0.3" style={styles.parallaxparent}>
+					<img
+						src={clouds1}
+						alt="clouds1"
+						draggable={false}
+						className="parallaxchild"
+						style={styles.parallaximg}
+					/>
+				</div>
+				<div data-depth="0.4" style={styles.parallaxparent}>
+					<img
+						src={clouds2}
+						alt="clouds2"
+						draggable={false}
+						className="parallaxchild2"
+						style={styles.parallaximg}
+					/>
+				</div>
 			</div>
+			<Container>
+				<h1>This is WorldContainer</h1>
+				<p>
+					You are in World ID: {wID}
+					<br />
+					Change the browser URL parameter and see the ID change
+				</p>
+				<Row>{sectionButtons}</Row>
+			</Container>
 		</>
 	);
 }
