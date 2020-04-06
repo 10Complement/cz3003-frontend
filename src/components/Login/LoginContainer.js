@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
@@ -7,36 +7,35 @@ import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Card from "react-bootstrap/Card";
 import bgImg from "../Overview/images/game_background_1.png";
 import axios from "axios";
-//import { UserProvider } from "./contexts";
-//const contextType = UserProvider;
+import { UserContext } from "../../contexts/UserContext";
 
 const styles = {
 	root: {
 		height: "100%",
 		backgroundImage: `url(${bgImg})`,
 		backgroundSize: "cover",
-		backgroundAttachment: "fixed"
+		backgroundAttachment: "fixed",
 	},
 	card: {
 		maxWidth: "350px",
-		margin: "auto"
+		margin: "auto",
 	},
 	form: {
 		backgroundColor: "rgba(52, 52, 52, 0)",
-		color: "white"
-	}
+		color: "white",
+	},
 };
 
-export default function() {
-	//const { student, setStudent } = this.context;
-	// const [validated, setValidated] = useState(false);
+export default function () {
 	const history = useHistory();
+	const student = useContext(UserContext);
+	const [isStudent, setStudent] = useState(true);
 	const [errors, setErrors] = useState({
 		matric: { isValidated: true, msg: "" },
-		group: { isValidated: true, msg: "" }
+		group: { isValidated: true, msg: "" },
 	});
 
-	const handleValidation = event => {
+	const handleValidation = (event) => {
 		const currErrors = { ...errors };
 
 		event.preventDefault();
@@ -68,7 +67,7 @@ export default function() {
 		return currErrors.matric.isValidated && currErrors.group.isValidated;
 	};
 
-	const handleSubmit = event => {
+	const handleSubmit = (event) => {
 		event.preventDefault();
 		event.stopPropagation();
 		let userID = document.getElementById("UserID").value;
@@ -77,33 +76,46 @@ export default function() {
 		const isValidated = handleValidation(event);
 
 		if (isValidated) {
+			const studentAPI = "/elric/checkValidStudent/";
+			const teacherAPI = "/elric/checkValidTeacher/";
+			const api = isStudent ? studentAPI : teacherAPI;
+
 			// API Call to check if student exist is registered &
 			// if the class provided is correct
 			axios
-				.get(process.env.REACT_APP_API + "/elric/checkValidStudent/", {
+				.get(process.env.REACT_APP_API + api, {
 					params: {
-						matric: userID
-					}
+						matric: userID,
+					},
 				})
-				.then(function(response) {
+				.then(function (response) {
 					const studentClass = response.data;
 
 					if (studentClass !== "Invalid") {
 						if (group === studentClass) {
-							// TODO:
 							// 1. Store user session in UserContext
+							const s = {
+								matric: userID,
+								name: undefined,
+								class: group,
+								current_progress: undefined,
+								avatar_url: undefined,
+								stars: undefined,
+								medals: undefined,
+							};
+							student.setStudent(s);
 							// 2. Navigate to Overview Container
 							history.push("/");
 						} else {
 							setErrors({
 								...errors,
-								group: { isValidated: false, msg: "Incorrect class." }
+								group: { isValidated: false, msg: "Incorrect class." },
 							});
 						}
 					} else {
 						setErrors({
 							...errors,
-							matric: { isValidated: false, msg: "User ID doesn't exist." }
+							matric: { isValidated: false, msg: "User ID doesn't exist." },
 						});
 					}
 				});
@@ -117,16 +129,20 @@ export default function() {
 					<Card.Body>
 						<Card.Title className="mb-4">Login</Card.Title>
 
-						<Form
-							id="myForm"
-							noValidate
-							// validated={validated}
-							onSubmit={handleSubmit}
-						>
-							{/* <Form.Check type="switch" id="custom-switch" label="Student" /> */}
+						<Form id="myForm" noValidate onSubmit={handleSubmit}>
 							<ButtonGroup size="sm">
-								<Button variant="primary">Student</Button>
-								<Button variant="secondary">Teacher</Button>
+								<Button
+									variant={isStudent ? "primary" : "secondary"}
+									onClick={() => setStudent(true)}
+								>
+									Student
+								</Button>
+								<Button
+									variant={!isStudent ? "primary" : "secondary"}
+									onClick={() => setStudent(false)}
+								>
+									Teacher
+								</Button>
 							</ButtonGroup>
 
 							<Form.Group controlId="UserID">
