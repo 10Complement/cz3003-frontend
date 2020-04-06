@@ -103,8 +103,6 @@ export default function() {
 					if (group === savedClass) {
 						// TODO:
 						// 1. Store user session in UserContext
-						const user = { matric: userID, class: group };
-						console.log(user.matric);
 						const s = {
 							matric: userID,
 							name: undefined,
