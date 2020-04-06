@@ -7,8 +7,6 @@ import bgImg from "../Overview/images/game_background_1.png";
 import axios from "axios";
 import { UserContext } from "../../contexts/UserContext";
 
-//const contextType = UserProvider;
-
 const styles = {
 	root: {
 		height: "100%",
@@ -33,7 +31,7 @@ const styles = {
 };
 
 export default function() {
-	const { student, setStudent } = useContext(UserContext);
+	const student = useContext(UserContext);
 	// const [validated, setValidated] = useState(false);
 	const history = useHistory();
 	const [errors, setErrors] = useState({
@@ -104,16 +102,21 @@ export default function() {
 				if (savedClass !== "Invalid") {
 					if (group === savedClass) {
 						// TODO:
-						// 1. Navigate to Overview Container
-						history.push("/");
-						// 2. Store user session in UserContext
+						// 1. Store user session in UserContext
 						const user = { matric: userID, class: group };
 						console.log(user.matric);
-						return (
-							<UserContext.Provider
-								value={{ setStudent: user }}
-							></UserContext.Provider>
-						);
+						const s = {
+							matric: userID,
+							name: undefined,
+							class: group,
+							current_progress: undefined,
+							avatar_url: undefined,
+							stars: undefined,
+							medals: undefined
+						};
+						student.setStudent(s);
+						// 2. Navigate to Overview Container
+						history.push("/");
 					} else {
 						setErrors({
 							...errors,
