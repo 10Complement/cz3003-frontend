@@ -14,28 +14,28 @@ const styles = {
 		height: "100%",
 		backgroundImage: `url(${bgImg})`,
 		backgroundSize: "cover",
-		backgroundAttachment: "fixed",
+		backgroundAttachment: "fixed"
 	},
 	card: {
 		maxWidth: "350px",
-		margin: "auto",
+		margin: "auto"
 	},
 	form: {
 		backgroundColor: "rgba(52, 52, 52, 0)",
-		color: "white",
-	},
+		color: "white"
+	}
 };
 
-export default function () {
+export default function() {
 	const history = useHistory();
 	const student = useContext(UserContext);
 	const [isStudent, setStudent] = useState(true);
 	const [errors, setErrors] = useState({
 		matric: { isValidated: true, msg: "" },
-		group: { isValidated: true, msg: "" },
+		group: { isValidated: true, msg: "" }
 	});
 
-	const handleValidation = (event) => {
+	const handleValidation = event => {
 		const currErrors = { ...errors };
 
 		event.preventDefault();
@@ -67,7 +67,7 @@ export default function () {
 		return currErrors.matric.isValidated && currErrors.group.isValidated;
 	};
 
-	const handleSubmit = (event) => {
+	const handleSubmit = event => {
 		event.preventDefault();
 		event.stopPropagation();
 		let userID = document.getElementById("UserID").value;
@@ -76,49 +76,52 @@ export default function () {
 		const isValidated = handleValidation(event);
 
 		if (isValidated) {
-			const studentAPI = "/elric/checkValidStudent/";
-			const teacherAPI = "/elric/checkValidTeacher/";
+			// Since studentAPI and teacherAPI have diff parameters name,
+			// userID is added at the back of the API.
+			const studentAPI = "/elric/checkValidStudent/?matric=" + userID;
+			const teacherAPI = "/elric/checkValidTeacher/?teacher_id=" + userID;
 			const api = isStudent ? studentAPI : teacherAPI;
-
 			// API Call to check if student exist is registered &
 			// if the class provided is correct
-			axios
+
+			/* 	axios
 				.get(process.env.REACT_APP_API + api, {
 					params: {
-						matric: userID,
-					},
-				})
-				.then(function (response) {
-					const studentClass = response.data;
+						matric: userID
+					}
+				}) */
 
-					if (studentClass !== "Invalid") {
-						if (group === studentClass) {
-							// 1. Store user session in UserContext
-							const s = {
-								matric: userID,
-								name: undefined,
-								class: group,
-								current_progress: undefined,
-								avatar_url: undefined,
-								stars: undefined,
-								medals: undefined,
-							};
-							student.setStudent(s);
-							// 2. Navigate to Overview Container
-							history.push("/");
-						} else {
-							setErrors({
-								...errors,
-								group: { isValidated: false, msg: "Incorrect class." },
-							});
-						}
+			axios.get(process.env.REACT_APP_API + api).then(function(response) {
+				const studentClass = response.data;
+
+				if (studentClass !== "Invalid") {
+					if (group === studentClass) {
+						// 1. Store user session in UserContext
+						const s = {
+							matric: userID,
+							name: undefined,
+							class: group,
+							current_progress: undefined,
+							avatar_url: undefined,
+							stars: undefined,
+							medals: undefined
+						};
+						student.setStudent(s);
+						// 2. Navigate to Overview Container
+						history.push("/");
 					} else {
 						setErrors({
 							...errors,
-							matric: { isValidated: false, msg: "User ID doesn't exist." },
+							group: { isValidated: false, msg: "Incorrect class." }
 						});
 					}
-				});
+				} else {
+					setErrors({
+						...errors,
+						matric: { isValidated: false, msg: "User ID doesn't exist." }
+					});
+				}
+			});
 		}
 	};
 
@@ -130,15 +133,15 @@ export default function () {
 						<Card.Title className="mb-4">Login</Card.Title>
 
 						<Form id="myForm" noValidate onSubmit={handleSubmit}>
-							<ButtonGroup size="sm">
+							<ButtonGroup variant="secondary" size="sm">
 								<Button
-									variant={isStudent ? "primary" : "secondary"}
+									variant={isStudent ? "light" : "dark"}
 									onClick={() => setStudent(true)}
 								>
 									Student
 								</Button>
 								<Button
-									variant={!isStudent ? "primary" : "secondary"}
+									variant={!isStudent ? "light" : "dark"}
 									onClick={() => setStudent(false)}
 								>
 									Teacher
