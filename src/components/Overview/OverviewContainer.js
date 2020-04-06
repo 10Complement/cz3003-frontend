@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Parallax from "parallax-js";
 import "../Common/Animation.css";
 import { Link } from "react-router-dom";
 import PublicIcon from "@material-ui/icons/Public";
 
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Spinner } from "react-bootstrap";
 // import bgImg from "./images/game_background_1.png";
 import sky from "./images/sky.png";
 import rocks1 from "./images/rocks_1.png";
@@ -46,7 +46,8 @@ export default function () {
 	// const { count, setCount } = useState(0);
 
 	/* Called only once whenever component is mounted */
-	const [worldButtons, setWorldButtons] = React.useState([]);
+	const [worldButtons, setWorldButtons] = useState([]);
+	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
 		// Perform API calls
@@ -56,38 +57,27 @@ export default function () {
 		// var parallaxInstance = new Parallax(scene);
 		new Parallax(scene);
 
-		const worlds = [
-			"World-1",
-			"World-2",
-			"World-3",
-			"World-4",
-			"World-5",
-			"World-6",
-		];
-		const populationCalls = worlds.map((world) => {
-			return axios.get(
-				process.env.REACT_APP_API + "/wy/getWorldPopulation/?worldID=" + world
-			);
-		});
+		axios
+			.get(process.env.REACT_APP_API + "/russ/getAllWorldPopulation")
+			.then((response) => {
+				const worlds = response.data;
 
-		Promise.all(populationCalls)
-			.then((arr_response) => {
-				const all_buttons = arr_response.map((res, i) => {
-					const { worldPopulation } = res.data;
-					const component = (
+				const all_buttons = worlds.map((world, i) => {
+					const worldID = world.worldID.slice(6);
+					setIsLoading(false);
+					return (
 						<Col key={i} style={styles.button} xs={6} md={4}>
-							<Link to={`/world/${i + 1}`}>
+							<Link to={`/world/${worldID}`}>
 								<IconButton
 									icon={PublicIcon}
-									message={"World " + (i + 1)}
+									message={`World ${worldID}`}
 									key={i}
-									population={worldPopulation}
+									population={world.population}
 									hasPop
 								></IconButton>
 							</Link>
 						</Col>
 					);
-					return component;
 				});
 
 				setWorldButtons(all_buttons);
@@ -161,39 +151,20 @@ export default function () {
 					/>
 				</div>
 			</div>
-			<Container>
-				<h1>This is OverviewContainer</h1>
-				<nav>
-					<ul>
-						<li>
-							<Link to="/world/1">World 1</Link>
-						</li>
-						<li>
-							<Link to="/world/1/section/1">World 1 Section 1</Link>
-						</li>
-					</ul>
-				</nav>
-				<Row>{worldButtons}</Row>
 
-				{/* <ul id="scene">
-					<li className="layer" dataDepth="0.00">
-						Testing 1
-						<img src="./images/clouds1.png" />
-					</li>
-					<li className="layer" dataDepth="0.50">
-						Testing 2
-						<img src="./images/clouds2.png" />
-					</li>
-					<li className="layer" dataDepth="1.00">
-						Testing 3
-						<img src="./images/clouds3.png" />
-					</li>
-				</ul> */}
+			<Container className="text-center">
+				{isLoading ? (
+					<>
+						<Spinner animation="grow" />
+						<p>loading...</p>
+					</>
+				) : (
+					<>
+						<h1>Hello adventurer</h1>
+						<Row>{worldButtons}</Row>
+					</>
+				)}
 			</Container>
-			{/* <script type="text/javascript">
-				var scene = document.getElementById("scene"); var parallaxInstance = new
-				Parallax(scene);
-			</script> */}
 		</>
 	);
 }
