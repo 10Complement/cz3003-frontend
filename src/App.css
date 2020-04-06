@@ -1,11 +1,13 @@
 #root {
 	display: flex;
-	flex-direction: column;
-	height: 100vh;
+	min-height: 100vh;
 }
 
 #main {
+	display: flex;
 	flex-grow: 1;
+	align-items: center;
+	padding-top: 55px;
 }
 
 button.btn:disabled {

@@ -1,0 +1,59 @@
+.parallaxchild {
+	position: relative;
+	/* animation-name: example;
+	animation-duration: 10s;
+    animation-iteration-count: infinite; */
+	animation: movement 10s linear infinite;
+}
+@keyframes movement {
+	0% {
+		-webkit-transform: rotate(0deg) translateX(5px) translateY(10px)
+			rotate(0deg) scale(1);
+	}
+	25% {
+		-webkit-transform: rotate(90deg) translateX(5px) translateY(10px)
+			rotate(-90deg) scale(1);
+	}
+	50% {
+		-webkit-transform: rotate(180deg) translateX(5px) translateY(10px)
+			rotate(-180deg) scale(1);
+	}
+	75% {
+		-webkit-transform: rotate(270deg) translateX(5px) translateY(10px)
+			rotate(-270deg) scale(1);
+	}
+	100% {
+		-webkit-transform: rotate(360deg) translateX(5px) translateY(10px)
+			rotate(-360deg) scale(1);
+	}
+}
+
+.parallaxchild2 {
+	position: relative;
+	/* animation-name: example;
+	animation-duration: 10s;
+    animation-iteration-count: infinite; */
+	animation: movement2 7s linear infinite;
+}
+@keyframes movement2 {
+	0% {
+		-webkit-transform: rotate(0deg) translateX(5px) translateY(15px)
+			rotate(0deg) scale(1);
+	}
+	25% {
+		-webkit-transform: rotate(90deg) translateX(5px) translateY(15px)
+			rotate(-90deg) scale(1);
+	}
+	50% {
+		-webkit-transform: rotate(180deg) translateX(5px) translateY(15px)
+			rotate(-180deg) scale(1);
+	}
+	75% {
+		-webkit-transform: rotate(270deg) translateX(5px) translateY(15px)
+			rotate(-270deg) scale(1);
+	}
+	100% {
+		-webkit-transform: rotate(360deg) translateX(5px) translateY(15px)
+			rotate(-360deg) scale(1);
+	}
+}

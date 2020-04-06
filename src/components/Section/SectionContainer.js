@@ -10,6 +10,7 @@ import Learning from "./Learning";
 const styles = {
 	root: {
 		height: "100%",
+		width: "100%",
 		paddingTop: "40px",
 		backgroundImage: `url(${bgImg})`,
 		backgroundSize: "cover",
@@ -114,6 +115,7 @@ export default function () {
 	return (
 		<>
 			<div style={styles.root}>
+				{/* TODO: @GuangWei Add background */}
 				<Container>
 					<h1 style={{ color: "white" }} className="h3">
 						World ID: {wID} Section ID: {sID}
