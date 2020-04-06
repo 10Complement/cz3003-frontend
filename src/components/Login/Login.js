@@ -182,6 +182,7 @@ export default function() {
 									type={type}
 									name="radioBtnGroup"
 									onChange={() => setUser("Student")}
+									checked={true}
 									id={`inline-${type}-1`}
 								/>
 								<Form.Check
