@@ -6,12 +6,12 @@ import { Music } from "../Common";
 import { UserContext } from "../../contexts/UserContext";
 import { Badges } from "../Common";
 
-export default function() {
+export default function () {
 	const { student } = useContext(UserContext);
 	const { name, medals = 3, stars = 12 } = student;
 
 	return (
-		<Navbar expand="lg" variant="dark" bg="dark">
+		<Navbar expand="lg" variant="dark" bg="dark" fixed="top">
 			<Container>
 				<Navbar.Brand as={Link} to="/">
 					{name ? `Welcome, ${name}!` : "SDLC Quest"}
