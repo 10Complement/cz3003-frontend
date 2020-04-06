@@ -8,13 +8,13 @@ import { Badges } from "../Common";
 
 export default function () {
 	const { student } = useContext(UserContext);
-	const { name, medals = 3, stars = 12 } = student;
+	const { matric, medals = 3, stars = 12 } = student;
 
 	return (
 		<Navbar expand="lg" variant="dark" bg="dark" fixed="top">
 			<Container>
 				<Navbar.Brand as={Link} to="/">
-					{name ? `Welcome, ${name}!` : "SDLC Quest"}
+					{matric ? `Welcome, ${matric}!` : "SDLC Quest"}
 				</Navbar.Brand>
 				<Music />
 				<Badges medals={medals} stars={stars} />

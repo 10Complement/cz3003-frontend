@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
@@ -7,8 +7,7 @@ import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Card from "react-bootstrap/Card";
 import bgImg from "../Overview/images/game_background_1.png";
 import axios from "axios";
-//import { UserProvider } from "./contexts";
-//const contextType = UserProvider;
+import { UserContext } from "../../contexts/UserContext";
 
 const styles = {
 	root: {
@@ -28,9 +27,9 @@ const styles = {
 };
 
 export default function() {
-	//const { student, setStudent } = this.context;
-	// const [validated, setValidated] = useState(false);
 	const history = useHistory();
+	const student = useContext(UserContext);
+	const [isStudent, setStudent] = useState(true);
 	const [errors, setErrors] = useState({
 		matric: { isValidated: true, msg: "" },
 		group: { isValidated: true, msg: "" }
@@ -77,36 +76,52 @@ export default function() {
 		const isValidated = handleValidation(event);
 
 		if (isValidated) {
+			// Since studentAPI and teacherAPI have diff parameters name,
+			// userID is added at the back of the API.
+			const studentAPI = "/elric/checkValidStudent/?matric=" + userID;
+			const teacherAPI = "/elric/checkValidTeacher/?teacher_id=" + userID;
+			const api = isStudent ? studentAPI : teacherAPI;
 			// API Call to check if student exist is registered &
 			// if the class provided is correct
-			axios
-				.get(process.env.REACT_APP_API + "/elric/checkValidStudent/", {
+
+			/* 	axios
+				.get(process.env.REACT_APP_API + api, {
 					params: {
 						matric: userID
 					}
-				})
-				.then(function(response) {
-					const studentClass = response.data;
+				}) */
 
-					if (studentClass !== "Invalid") {
-						if (group === studentClass) {
-							// TODO:
-							// 1. Store user session in UserContext
-							// 2. Navigate to Overview Container
-							history.push("/");
-						} else {
-							setErrors({
-								...errors,
-								group: { isValidated: false, msg: "Incorrect class." }
-							});
-						}
+			axios.get(process.env.REACT_APP_API + api).then(function(response) {
+				const studentClass = response.data;
+
+				if (studentClass !== "Invalid") {
+					if (group === studentClass) {
+						// 1. Store user session in UserContext
+						const s = {
+							matric: userID,
+							name: undefined,
+							class: group,
+							current_progress: undefined,
+							avatar_url: undefined,
+							stars: undefined,
+							medals: undefined
+						};
+						student.setStudent(s);
+						// 2. Navigate to Overview Container
+						history.push("/");
 					} else {
 						setErrors({
 							...errors,
-							matric: { isValidated: false, msg: "User ID doesn't exist." }
+							group: { isValidated: false, msg: "Incorrect class." }
 						});
 					}
-				});
+				} else {
+					setErrors({
+						...errors,
+						matric: { isValidated: false, msg: "User ID doesn't exist." }
+					});
+				}
+			});
 		}
 	};
 
@@ -117,16 +132,20 @@ export default function() {
 					<Card.Body>
 						<Card.Title className="mb-4">Login</Card.Title>
 
-						<Form
-							id="myForm"
-							noValidate
-							// validated={validated}
-							onSubmit={handleSubmit}
-						>
-							{/* <Form.Check type="switch" id="custom-switch" label="Student" /> */}
-							<ButtonGroup size="sm">
-								<Button variant="primary">Student</Button>
-								<Button variant="secondary">Teacher</Button>
+						<Form id="myForm" noValidate onSubmit={handleSubmit}>
+							<ButtonGroup variant="secondary" size="sm">
+								<Button
+									variant={isStudent ? "light" : "dark"}
+									onClick={() => setStudent(true)}
+								>
+									Student
+								</Button>
+								<Button
+									variant={!isStudent ? "light" : "dark"}
+									onClick={() => setStudent(false)}
+								>
+									Teacher
+								</Button>
 							</ButtonGroup>
 
 							<Form.Group controlId="UserID">
