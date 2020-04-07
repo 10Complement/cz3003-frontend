@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import axios from "axios";
 import { QuestionAnswer } from "../Section";
@@ -22,7 +22,8 @@ const styles = {
 
 export default function() {
 
-    const { qID } = useParams();
+	const { qID } = useParams();
+	const history = useHistory();
 	const [questionSet, setQuestion] = useState({
 		id: qID,
 		answer: 0,
@@ -33,19 +34,12 @@ export default function() {
 	const [subtitle, setSubtitle] = useState("");
 
 	const firstResponseCallback = (id, isAns) => {
-		//Add user in DB
-		let medals;
-		if (isAns) {
-			medals = 1;
-		} else {
-			medals = 0;
-		}
-		//Set medals in DB
+		const medals = isAns ? 1 : 0;
+		//Add user to list of users who attempted the question and set medals for this user in DB
 	};
 	const correctResponseCallback = (id) => {
 		alert("Good job, you answered question " + id + " correctly!");
-		//Return to arena
-		//Note: medals are aready set through firstResponseCallback
+		history.push("/arena"); //Note: medals are aready set through firstResponseCallback
 	};
 
     useEffect(() => {

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
 
 import {TableStructure} from "../Common";
@@ -7,6 +8,7 @@ import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
 export default function() {
 
+    const history = useHistory();
     const [questions, setQuestions] = useState([]);
 
     useEffect(() => {
@@ -40,7 +42,7 @@ export default function() {
         {
             icon: ArrowForwardIcon,
             tooltip: "Attempt question",
-            onClick: (event, rowData) => {alert("You attempted question " + rowData.id)} //Function to redirect user to question page and pass questionID
+            onClick: (event, rowData) => {history.push("/arena/question/" + rowData.id)} //Function to redirect user to question page and pass questionID
         }
     ]
     const options = {
