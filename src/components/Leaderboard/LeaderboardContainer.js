@@ -10,6 +10,7 @@ import SaveAlt from "@material-ui/icons/SaveAlt";
 const styles = {
 	root: {
 		height: "100%",
+		width: "100%",
 		backgroundImage: `url(${bgImg})`,
 		backgroundSize: "cover",
 		backgroundAttachment: "fixed"
