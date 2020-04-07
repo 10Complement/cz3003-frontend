@@ -160,7 +160,7 @@ export default function () {
 					</>
 				) : (
 					<>
-						<h1>Hello adventurer</h1>
+						<h1><Link to="/arena">Hello adventurer</Link></h1>
 						<Row>{worldButtons}</Row>
 					</>
 				)}

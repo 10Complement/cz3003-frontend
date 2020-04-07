@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useHistory } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import axios from "axios";
 import { QuestionAnswer } from "../Section";
-
+import { UserContext } from "../../contexts/UserContext";
 import bgImg from "../Overview/images/game_background_1.png";
 
 const styles = {
@@ -24,6 +24,7 @@ export default function() {
 
 	const { qID } = useParams();
 	const history = useHistory();
+	const student = useContext(UserContext);
 	const [questionSet, setQuestion] = useState({
 		id: qID,
 		answer: 0,
@@ -34,8 +35,13 @@ export default function() {
 	const [subtitle, setSubtitle] = useState("");
 
 	const firstResponseCallback = (id, isAns) => {
-		const medals = isAns ? 1 : 0;
+		const medal = isAns ? 1 : 0;
+		
 		//Add user to list of users who attempted the question and set medals for this user in DB
+		const req = {questionID: qID, matric: student.student.matric, medal: medal};
+		axios
+			.post('https://us-central1-complement-4254e.cloudfunctions.net/app/russ/setArenaQuestionScore', req)
+			.then((res) => { console.log(res); })
 	};
 	const correctResponseCallback = (id) => {
 		alert("Good job, you answered question " + id + " correctly!");
