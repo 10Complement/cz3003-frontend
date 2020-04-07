@@ -18,7 +18,6 @@ export default function() {
 			.get(process.env.REACT_APP_API + "/russ/GetArenaQuestions") //Missing end of link
 			.then(res => {
 				const d = res.data;
-
 				const questionsData = Object.keys(d).map(key => {
                     //Check if creator is current user, if yes return nothing, otherwise proceed
                     //Find out status -> {"Attempted", "Not attempted"} //Own questions are removed from this list -> separate panel for own questions?
