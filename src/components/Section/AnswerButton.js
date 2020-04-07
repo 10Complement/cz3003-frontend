@@ -1,44 +1,36 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import Button from "react-bootstrap/Button";
 
-export default function(props) {
-  /* State Declaration */
-  const [btnVariant, setBtnVariant] = useState("secondary");
-  const [clicked, setClicked] = useState(false);
+export default function (props) {
+	const { id, isAns, onClick, disabled } = props;
 
-  const style = {
-    btn: {
-      width: "100%"
-    }
-  };
+	/* State Declaration */
+	const [btnVariant, setBtnVariant] = useState("secondary");
+	const [localDisabled, setLocalDisabled] = useState(false);
 
-  function handleBtnClick() {
-    if (props.isAns === true) {
-      setBtnVariant("success");
-    } else {
-      setBtnVariant("danger");
-    }
-    setClicked(true);
-  }
+	const handleOnClick = () => {
+		/* Run callBack function */
+		if (typeof onClick === "function") onClick(id, isAns);
 
-  useEffect(() => {
-    // console.log(useParams());
-    // Perform API calls
-    // Update states
-  }, []);
+		/* Change colour according to isAns */
+		isAns === true ? setBtnVariant("success") : setBtnVariant("danger");
 
-  return (
-    <>
-      <Button
-        className="m-1"
-        style={style.btn}
-        variant={btnVariant}
-        onClick={handleBtnClick}
-        disabled={clicked}
-      >
-        {props.label}
-      </Button>
-    </>
-  );
+		/* Prevents any more clicks */
+		setLocalDisabled(true);
+	};
+
+	return (
+		<>
+			<Button
+				className="my-2"
+				variant={btnVariant}
+				onClick={handleOnClick}
+				disabled={disabled || localDisabled}
+				block
+			>
+				{props.children}
+			</Button>
+		</>
+	);
 }
