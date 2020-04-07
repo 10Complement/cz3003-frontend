@@ -27,10 +27,10 @@ export default function() {
 	const [questionSet, setQuestion] = useState({
 		id: qID,
 		answer: 0,
-		question: "Loading...",
+		question: "",
 		options: [],
 	});
-	const title = "Arena question";
+	const [title, setTitle] = useState("Loading...");
 	const [subtitle, setSubtitle] = useState("");
 
 	const firstResponseCallback = (id, isAns) => {
@@ -58,8 +58,10 @@ export default function() {
 					question: data.question,
 					options: data.options
 				};
-				const sub = "Created by user " + data.creator;
+				const t = "Question created by user " + data.creator;
+				const sub = "Total attempts: " + data.attempts;
 				setQuestion(qnSet);
+				setTitle(t);
 				setSubtitle(sub);
 			});
 	};
