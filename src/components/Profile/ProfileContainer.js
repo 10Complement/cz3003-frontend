@@ -16,22 +16,22 @@ const styles = {
 		height: "100%",
 		backgroundImage: `url(${bgImg})`,
 		backgroundSize: "cover",
-		backgroundAttachment: "fixed"
+		backgroundAttachment: "fixed",
 	},
 	card: {
-		width: "1000px"
+		width: "1000px",
 	},
 	sectionStarContainer: {
 		width: "530px",
 		paddingTop: "20px",
-		paddingBottom: "20px"
-	}
+		paddingBottom: "20px",
+	},
 };
 const imagesize = {
-	width: "200px"
+	width: "200px",
 };
 
-export default function(props) {
+export default function (props) {
 	const { playerName = "Player Name", matric = "U1720925C" } = props;
 	const [dataSet, setData] = useState([]);
 	const [totalNumberStars, setTotalNumberStars] = useState(0);
@@ -43,13 +43,13 @@ export default function(props) {
 		axios
 			.get(process.env.REACT_APP_API + "/elric/getWorldStatus", {
 				params: {
-					matric: "U1720925C"
-				}
+					matric: "U1720925C",
+				},
 			})
-			.then(res => {
+			.then((res) => {
 				const d = res.data;
 
-				const cleaned = d.map(item => {
+				const cleaned = d.map((item) => {
 					return { section: item.stage, stars: item.stars };
 				});
 
@@ -62,10 +62,10 @@ export default function(props) {
 			.get(process.env.REACT_APP_API + "/russ/getStar/", {
 				params: {
 					worldID: "World-1",
-					matric: "U1720925C"
-				}
+					matric: "U1720925C",
+				},
 			})
-			.then(function(res) {
+			.then(function (res) {
 				setTotalNumberStars(res["data"]["stars"]);
 				console.log(res);
 				console.log(totalNumberStars);
@@ -108,7 +108,7 @@ export default function(props) {
 									title="Your Progress"
 									columns={[
 										{ title: "Section", field: "section" },
-										{ title: "Stars", field: "stars" }
+										{ title: "Stars", field: "stars" },
 									]}
 									data={dataSet}
 								/>
