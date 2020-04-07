@@ -12,7 +12,8 @@ import bgImg from "../Overview/images/game_background_1.png";
 
 const styles = {
     root: {
-		height: "100%",
+        height: "100%",
+        width: "100%",
 		backgroundImage: `url(${bgImg})`,
 		backgroundSize: "cover",
 		backgroundAttachment: "fixed"
