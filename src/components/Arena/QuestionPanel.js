@@ -1,11 +1,22 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContext";
+import { Container, Row, Col } from "react-bootstrap";
 import axios from "axios";
 
+import ArenaButton from "./ArenaButton";
 import {TableStructure} from "../Common";
 
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+
+const styles = {
+    root: {
+        alignContent: "center"
+    },
+    row: {
+        paddingBottom: "20px"
+    }
+}
 
 export default function() {
 
@@ -54,6 +65,16 @@ export default function() {
         actionsColumnIndex: -1
     }
 
-    return <TableStructure title={title} columns={columns} data={questions} actions={actions} options={options}/>;
+    return <div style={styles.root}>
+
+            <Container>
+                <Row style={styles.row}>
+                    <Col><ArenaButton message="New question"/></Col>
+                    <Col><ArenaButton message="Own questions"/></Col>
+                </Row>
+            </Container>
+            <TableStructure title={title} columns={columns} data={questions} actions={actions} options={options}/>
+            {/* <ArenaButton message="Create new arena question"/> */}
+        </div>;
     //Missing button to create new arena question
 }
