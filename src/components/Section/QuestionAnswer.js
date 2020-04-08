@@ -13,7 +13,14 @@ import Question from "./Question";
 // };
 
 export default function (props) {
-	const { qnSet, title, subtitle, onFirstResponse, onCorrectResponse } = props;
+	const {
+		qnSet,
+		header,
+		title,
+		subtitle,
+		onFirstResponse,
+		onCorrectResponse,
+	} = props;
 	const [correctFirstTry, setCorrectFirstTry] = useState("NIL");
 	const [disableAll, setDisableAll] = useState(false);
 	const [allOptionButtons, setAllOptionButtons] = useState([]);
@@ -68,7 +75,7 @@ export default function (props) {
 		<>
 			<Row>
 				<Col>
-					<Question title={title} subtitle={subtitle}>
+					<Question header={header} title={title} subtitle={subtitle}>
 						{qnSet && qnSet.question}
 					</Question>
 				</Col>
