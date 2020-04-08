@@ -49,7 +49,7 @@ export default function () {
 									<NavDropdown.Item as={Link} to="/leader">
 										Leaderboard
 									</NavDropdown.Item>
-									<NavDropdown.Item as={Link} to="#">
+									<NavDropdown.Item as={Link} to="/arena">
 										Arena
 									</NavDropdown.Item>
 									<NavDropdown.Divider />
