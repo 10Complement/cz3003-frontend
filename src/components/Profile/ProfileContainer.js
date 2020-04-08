@@ -35,11 +35,8 @@ const imagesize = {
 
 export default function (props) {
 	const { student } = useContext(UserContext);
-	const { matric } = student;
-	console.log(matric);
-	//const { playerName = "Player Name" } = props;
+	const { matric, name, stars, medals } = student;
 	const [dataSet, setData] = useState([]);
-	const [totalNumberStars, setTotalNumberStars] = useState(0);
 	useEffect(() => {
 		fetchInfo();
 	}, []);
@@ -60,19 +57,6 @@ export default function (props) {
 				console.log(cleaned);
 				setData(cleaned);
 			});
-		//get the total number of stars and medals
-		axios
-			.get(process.env.REACT_APP_API + "/russ/getStar/", {
-				params: {
-					worldID: "World-1",
-					matric: matric,
-				},
-			})
-			.then(function (res) {
-				setTotalNumberStars(res["data"]["stars"]);
-				console.log(res);
-				console.log(totalNumberStars);
-			});
 	};
 
 	return (
@@ -91,10 +75,13 @@ export default function (props) {
 							size={imagesize}
 						></Avatar>
 						<div className="w-100 d-flex justify-content-center my-2">
+							{name}
+						</div>
+						<div className="w-100 d-flex justify-content-center my-2">
 							{matric}
 						</div>
 						<div className="w-100 d-flex justify-content-center my-2">
-							<Badges stars={totalNumberStars} medals={10} />
+							<Badges stars={stars} medals={medals} />
 						</div>
 
 						<Button className="w-30 mx-auto" variant="dark">
