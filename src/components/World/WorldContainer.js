@@ -1,18 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import Parallax from "parallax-js";
 import "../Common/Animation.css";
 import { Link, useParams, useLocation } from "react-router-dom";
-
 import { Container, Row, Col } from "react-bootstrap";
+
 // import bgImg from "./images/game_background_4.png";
 import sky from "./images/sky.png";
 import rocks from "./images/rocks.png";
 import ground from "./images/ground.png";
 import clouds1 from "./images/clouds_1.png";
 import clouds2 from "./images/clouds_2.png";
+import AssignmentIcon from "@material-ui/icons/Assignment";
 
 import { IconButton } from "../Common";
-import AssignmentIcon from "@material-ui/icons/Assignment";
+import { UserContext } from "../../contexts/UserContext";
 
 const axios = require("axios");
 
@@ -43,8 +44,9 @@ export default function () {
 	const { wID } = useParams();
 	const { pathname } = useLocation();
 
-	const [sectionButtons, setSectionButtons] = React.useState([]);
 	/* State Declaration */
+	const [sectionButtons, setSectionButtons] = React.useState([]);
+	const { student } = useContext(UserContext);
 
 	/* Called only once whenever component is mounted */
 	useEffect(() => {
@@ -59,15 +61,14 @@ export default function () {
 			.get(process.env.REACT_APP_API + "/elric/getCurrentWorldStatus/", {
 				params: {
 					worldID: "World-" + wID,
-					matric: "U1720526F",
+					matric: student.matric,
 				},
 			})
 			.then(function (response) {
 				// handle success
-				// console.log(response.data);
 				const all_buttons = response.data.map((res, i) => {
 					const { stars } = res;
-					// console.log(stars);
+
 					const component = (
 						<Col key={i} style={styles.button} xs={6} md={4}>
 							<Link to={`${pathname}/section/${i + 1}`}>
