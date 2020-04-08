@@ -26,8 +26,8 @@ export default function() {
                 console.log(d);
 				const questionsData = Object.keys(d).map(key => {
                     //Check if creator is current user, if yes return nothing, otherwise proceed
-                    if (d[key].creator === matric) { return } //Own questions are removed from this list -> separate panel for own questions?
-                    const status = Object.keys(d[key].players).includes(matric) ? "Attempted" : "Not attempted";
+                    if (d[key].creator === matric) { return {} } //Own questions are removed from this list -> separate panel for own questions?
+                    const status = (d[key].players && Object.keys(d[key].players).includes(matric)) ? "Attempted" : "Not attempted";
                     return {id: key, question: d[key].question, creator: d[key].creator, totalAttempts: d[key].attempts, status: status};
                 });
 
