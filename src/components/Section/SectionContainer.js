@@ -89,7 +89,7 @@ const qnReducer = (state, action) => {
 			console.error("Invalid action type passed into qnBankReducer");
 	}
 
-	// console.log({ history, current, difficulty, bank });
+	console.log({ history, current, difficulty, bank });
 	return { history, current, difficulty, bank };
 };
 
@@ -125,21 +125,32 @@ export default function () {
 
 	const recordHistory = (id, correctFirstTry) => {
 		// console.log("recordHistory:");
-		dispatchQn({
-			type: "HISTORY",
-			id: id,
-			correctFirstTry: correctFirstTry,
-		});
+		setTimeout(
+			() =>
+				dispatchQn({
+					type: "HISTORY",
+					id: id,
+					correctFirstTry: correctFirstTry,
+				}),
+			500
+		);
 	};
 
 	const nextQn = (id) => {
 		attemptsLeft.current--;
-		// console.log("nextQn:");
 		if (attemptsLeft.current > 0) {
-			dispatchQn({ type: "NEXT_QN" });
+			setTimeout(() => dispatchQn({ type: "NEXT_QN" }), 500);
 		} else {
 			alert("Section completed!");
 		}
+	};
+
+	const qnNum = () => {
+		const length = Object.keys(qn.history).length;
+
+		if (length === 0) return 1;
+		else if (length === maxAttempts) return maxAttempts;
+		else return length + 1;
 	};
 
 	return (
@@ -227,9 +238,7 @@ export default function () {
 						<Col>
 							<QuestionAnswer
 								key={qn.current.id}
-								title={`Question ${
-									Object.keys(qn.history).length + 1
-								} of ${maxAttempts}`}
+								title={`Question ${qnNum()} of ${maxAttempts}`}
 								subtitle={
 									levels[qn.difficulty].charAt(0).toUpperCase() +
 									levels[qn.difficulty].substring(1)
