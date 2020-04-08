@@ -104,6 +104,7 @@ export default function() {
 
     const switchTable = () => {
         if (buttonMsg === "Own questions") {
+            setQuestions([])
             fetchQuestionsOwn();
             setButtonMsg("Arena questions");
             setTableData({
@@ -113,6 +114,7 @@ export default function() {
                 options: optionsOwn
             })
         } else {
+            setQuestions([])
             fetchQuestionsArena();
             setButtonMsg("Own questions");
             setTableData({
