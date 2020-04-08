@@ -18,10 +18,6 @@ export default function () {
 	const { student, setStudent } = useContext(UserContext);
 	const { matric, medals = "u", stars = "u" } = student;
 
-	React.useEffect(() => {
-		console.log(student);
-	}, []);
-
 	const clearSess = () => {
 		const s = {
 			matric: undefined,
