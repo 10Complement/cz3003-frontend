@@ -93,7 +93,7 @@ export default function () {
 			.then(function () {
 				// always executed
 			});
-	}, [pathname, wID]);
+	}, [pathname, wID, student.matric]);
 
 	return (
 		<>
