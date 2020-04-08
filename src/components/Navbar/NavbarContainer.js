@@ -1,29 +1,17 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import { Container, Navbar } from "react-bootstrap";
+import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { Music, Badges } from "../Common";
-import Logout from "./images/logout.svg";
-import Login from "./images/login.svg";
+// import Logout from "./images/logout.svg";
+// import Login from "./images/login.svg";
 import { useHistory } from "react-router-dom";
 
 import { UserContext } from "../../contexts/UserContext";
 
-const styles = {
-	logoutSpan: {
-		color: "white",
-		cursor: "pointer"
-	},
-	logoutIcon: { width: "35px" },
-	badgeContainer: {
-		display: "flex",
-		textAlign: "center"
-	}
-};
-
-export default function() {
+export default function () {
 	const history = useHistory();
 	const { student, setStudent } = useContext(UserContext);
-	const { matric, medals, stars } = student;
+	const { matric, name, medals, stars } = student;
 	const clearSess = () => {
 		const s = {
 			matric: undefined,
@@ -32,7 +20,7 @@ export default function() {
 			current_progress: undefined,
 			avatar_url: undefined,
 			stars: undefined,
-			medals: undefined
+			medals: undefined,
 		};
 		setStudent(s);
 		alert("You've been succefully logged out!");
@@ -41,26 +29,42 @@ export default function() {
 
 	return (
 		<Navbar expand="lg" variant="dark" bg="dark" fixed="top">
-			<Container style={styles.badgeContainer}>
-				<Navbar.Brand as={Link} to={"/login"}>
-					{matric ? (
-						`Welcome, ${matric}!`
-					) : (
-						<img src={Login} style={styles.logoutIcon} draggable={false}></img>
-					)}
+			<Container>
+				<Navbar.Brand as={Link} to="/">
+					SDLC Quest
 				</Navbar.Brand>
 				<Music />
-				<Badges medals={medals} stars={stars} />
-				<Navbar.Brand style={styles.logoutSpan}>
-					{matric ? (
-						<img
-							src={Logout}
-							style={styles.logoutIcon}
-							onClick={clearSess}
-							draggable={false}
-						></img>
-					) : null}
-				</Navbar.Brand>
+				<Navbar.Toggle aria-controls="navbar" />
+				<Navbar.Collapse>
+					<Nav className="ml-auto">
+						{matric ? (
+							<>
+								<Nav.Item>
+									<Badges medals={medals || 0} stars={stars || 0} />
+								</Nav.Item>
+								<NavDropdown title={name || "Name"}>
+									<NavDropdown.Item as={Link} to="#">
+										Profile
+									</NavDropdown.Item>
+									<NavDropdown.Item as={Link} to="/leader">
+										Leaderboard
+									</NavDropdown.Item>
+									<NavDropdown.Item as={Link} to="#">
+										Arena
+									</NavDropdown.Item>
+									<NavDropdown.Divider />
+									<NavDropdown.Item onClick={clearSess}>
+										Logout
+									</NavDropdown.Item>
+								</NavDropdown>
+							</>
+						) : (
+							<Nav.Link as={Link} to="/login">
+								Login
+							</Nav.Link>
+						)}
+					</Nav>
+				</Navbar.Collapse>
 			</Container>
 		</Navbar>
 	);
