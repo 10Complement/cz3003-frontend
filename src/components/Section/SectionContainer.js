@@ -1,8 +1,18 @@
 import React, { useEffect, useReducer, useRef } from "react";
+import Parallax from "parallax-js";
+import "../Common/Animation.css";
 import { useParams } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 import axios from "axios";
-import bgImg from "./images/game_background_3.png";
+// import bgImg from "./images/game_background_3.png";
+import sky from "./images/sky.png";
+import rocks from "./images/rocks.png";
+import plant from "./images/plant.png";
+import ground1 from "./images/ground_1.png";
+import ground2 from "./images/ground_2.png";
+import ground3 from "./images/ground_3.png";
+import clouds1 from "./images/clouds_1.png";
+import clouds2 from "./images/clouds_2.png";
 
 import QuestionAnswer from "./QuestionAnswer";
 import Learning from "./Learning";
@@ -11,14 +21,30 @@ const styles = {
 	root: {
 		height: "100%",
 		width: "100%",
-		paddingTop: "40px",
-		backgroundImage: `url(${bgImg})`,
-		backgroundSize: "cover",
-		backgroundAttachment: "fixed",
+		// paddingTop: "40px",
+		// backgroundImage: `url(${bgImg})`,
+		// backgroundSize: "cover",
+		// backgroundAttachment: "fixed",
 	},
 	button: {
 		textAlign: "center",
 		padding: "40px 20px",
+	},
+	parallax: {
+		width: "100%",
+		height: "100%",
+		right: "5%",
+		position: "fixed",
+		zIndex: "-10",
+	},
+	parallaxparent: {
+		width: "100%",
+		height: "100%",
+	},
+	parallaximg: {
+		width: "110%",
+		height: "100%",
+		objectFit: "cover",
 	},
 };
 
@@ -77,6 +103,10 @@ export default function () {
 
 	/* Called only once whenever component is mounted */
 	useEffect(() => {
+		var scene = document.getElementById("scene");
+		// var parallaxInstance = new Parallax(scene);
+		new Parallax(scene);
+
 		axios
 			.get(process.env.REACT_APP_API + "/russ/getques/", {
 				params: {
@@ -115,8 +145,77 @@ export default function () {
 	return (
 		<>
 			<div style={styles.root}>
-				{/* TODO: @GuangWei Add background */}
+				<div id="scene" style={styles.parallax}>
+					<div data-depth="0.0" style={styles.parallaxparent}>
+						<img
+							src={sky}
+							alt="sky"
+							draggable={false}
+							style={styles.parallaximg}
+						/>
+					</div>
+					<div data-depth="0.1" style={styles.parallaxparent}>
+						<img
+							src={rocks}
+							alt="rocks"
+							draggable={false}
+							style={styles.parallaximg}
+						/>
+					</div>
+					<div data-depth="0.2" style={styles.parallaxparent}>
+						<img
+							src={plant}
+							alt="plant"
+							draggable={false}
+							style={styles.parallaximg}
+						/>
+					</div>
+					<div data-depth="0.3" style={styles.parallaxparent}>
+						<img
+							src={ground1}
+							alt="ground1"
+							draggable={false}
+							style={styles.parallaximg}
+						/>
+					</div>
+					<div className="layer" data-depth="0.4" style={styles.parallaxparent}>
+						<img
+							src={ground2}
+							alt="ground2"
+							draggable={false}
+							style={styles.parallaximg}
+						/>
+					</div>
+					<div data-depth="0.5" style={styles.parallaxparent}>
+						<img
+							src={ground3}
+							alt="ground3"
+							draggable={false}
+							style={styles.parallaximg}
+						/>
+					</div>
+					<div data-depth="0.6" style={styles.parallaxparent}>
+						<img
+							src={clouds1}
+							alt="clouds1"
+							draggable={false}
+							className="parallaxchild"
+							style={styles.parallaximg}
+						/>
+					</div>
+					<div data-depth="0.6" style={styles.parallaxparent}>
+						<img
+							src={clouds2}
+							alt="clouds2"
+							draggable={false}
+							className="parallaxchild2"
+							style={styles.parallaximg}
+						/>
+					</div>
+				</div>
 				<Container>
+					<br />
+					<br />
 					<h1 style={{ color: "white" }} className="h3">
 						World ID: {wID} Section ID: {sID}
 						<br />
