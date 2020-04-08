@@ -11,12 +11,16 @@ const styles = {
 		color: "white",
 		cursor: "pointer",
 	},
-	logoutIcon: { width: "35px", marginRight: "5px" },
+	logoutIcon: { width: "35px" },
 };
 
 export default function () {
-	const { student } = useContext(UserContext);
+	const { student, setStudent } = useContext(UserContext);
 	const { matric, medals = "u", stars = "u" } = student;
+
+	React.useEffect(() => {
+		console.log(student);
+	}, []);
 
 	const clearSess = () => {
 		const s = {
@@ -28,7 +32,7 @@ export default function () {
 			stars: undefined,
 			medals: undefined,
 		};
-		student.setStudent(s);
+		setStudent(s);
 		alert("You've been succefully logged out!");
 	};
 
@@ -42,7 +46,6 @@ export default function () {
 				<Badges medals={medals} stars={stars} />
 				<span style={styles.logoutSpan} onClick={clearSess}>
 					<img src={Logout} style={styles.logoutIcon} draggable={false} />
-					Logout
 				</span>
 			</Container>
 		</Navbar>
