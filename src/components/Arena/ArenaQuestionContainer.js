@@ -36,8 +36,6 @@ export default function() {
 
 	const firstResponseCallback = (id, isAns) => {
 		const medal = isAns ? 1 : 0;
-		
-		//Add user to list of users who attempted the question and set medals for this user in DB
 		const req = {questionID: qID, matric: student.student.matric, medal: medal};
 		axios
 			.post('https://us-central1-complement-4254e.cloudfunctions.net/app/russ/setArenaQuestionScore', req)
@@ -54,10 +52,9 @@ export default function() {
     
     const fetchQuestion = () => {
 		axios
-			.get(process.env.REACT_APP_API + "/russ/GetSelectArenaQuestions/?questionID=" + qID) //Missing end of link
+			.get(process.env.REACT_APP_API + "/russ/GetSelectArenaQuestions/?questionID=" + qID)
 			.then(res => {
-				const data = res.data; //Verify if data format is correct, otherwise format before setQuestion()
-				console.log(data);
+				const data = res.data;
 				const qnSet = {
 					id: qID,
 					answer: data.answer,

@@ -56,17 +56,16 @@ export default function() {
         {
             icon: ArrowForwardIcon,
             tooltip: "Attempt question",
-            onClick: (event, rowData) => {history.push("/arena/question/" + rowData.id)} //Function to redirect user to question page and pass questionID
+            onClick: (event, rowData) => {history.push("/arena/question/" + rowData.id)}
         }
     ]
     const options = {
-        filtering: true, //Not sure we want this
+        filtering: true,
         sorting: true,
         actionsColumnIndex: -1
     }
 
     return <div style={styles.root}>
-
             <Container>
                 <Row style={styles.row}>
                     <Col><ArenaButton message="New question"/></Col>
@@ -74,7 +73,5 @@ export default function() {
                 </Row>
             </Container>
             <TableStructure title={title} columns={columns} data={questions} actions={actions} options={options}/>
-            {/* <ArenaButton message="Create new arena question"/> */}
         </div>;
-    //Missing button to create new arena question
 }
