@@ -1,4 +1,4 @@
-import React, { useEffect, useState, forwardRef } from "react";
+import React, { useEffect, useState, forwardRef, useContext } from "react";
 import { Avatar } from "../Common";
 
 import { Card } from "react-bootstrap";
@@ -10,10 +10,12 @@ import Container from "react-bootstrap/Container";
 import axios from "axios";
 import MaterialTable from "material-table";
 import bgImg from "../Overview/images/game_background_1.png";
+import { UserContext } from "../../contexts/UserContext";
 
 const styles = {
 	root: {
 		height: "100%",
+		width: "100%",
 		backgroundImage: `url(${bgImg})`,
 		backgroundSize: "cover",
 		backgroundAttachment: "fixed",
@@ -32,7 +34,10 @@ const imagesize = {
 };
 
 export default function (props) {
-	const { playerName = "Player Name", matric = "U1720925C" } = props;
+	const { student } = useContext(UserContext);
+	const { matric } = student;
+	console.log(matric);
+	//const { playerName = "Player Name" } = props;
 	const [dataSet, setData] = useState([]);
 	const [totalNumberStars, setTotalNumberStars] = useState(0);
 	useEffect(() => {
@@ -41,28 +46,26 @@ export default function (props) {
 
 	const fetchInfo = () => {
 		axios
+			//get the number of stars in each level
 			.get(process.env.REACT_APP_API + "/elric/getWorldStatus", {
 				params: {
-					matric: "U1720925C",
+					matric: matric,
 				},
 			})
 			.then((res) => {
 				const d = res.data;
-
 				const cleaned = d.map((item) => {
 					return { section: item.stage, stars: item.stars };
 				});
-
 				console.log(cleaned);
-
 				setData(cleaned);
 			});
-
+		//get the total number of stars and medals
 		axios
 			.get(process.env.REACT_APP_API + "/russ/getStar/", {
 				params: {
 					worldID: "World-1",
-					matric: "U1720925C",
+					matric: matric,
 				},
 			})
 			.then(function (res) {
@@ -87,13 +90,10 @@ export default function (props) {
 							className="mb-4 w-100 d-flex justify-content-center my-2"
 							size={imagesize}
 						></Avatar>
-						{
-							<div class="w-100 d-flex justify-content-center my-2">
-								{playerName}
-							</div>
-						}
-						<div class="w-100 d-flex justify-content-center my-2">{matric}</div>
-						<div class="w-100 d-flex justify-content-center my-2">
+						<div className="w-100 d-flex justify-content-center my-2">
+							{matric}
+						</div>
+						<div className="w-100 d-flex justify-content-center my-2">
 							<Badges stars={totalNumberStars} medals={10} />
 						</div>
 
