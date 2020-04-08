@@ -67,8 +67,6 @@ export default function() {
     }
 
     //Own questions table data
-    const [questionsOwn, setQuestionsOwn] = useState([]);
-
 	const fetchQuestionsOwn = () => {
 		axios
 			.get(process.env.REACT_APP_API + "/russ/GetArenaQuestions")
@@ -87,7 +85,7 @@ export default function() {
     const titleOwn = "Own questions"
     const columnsOwn = [
         {title: 'Question', field: 'question'},
-        {title: 'Total attempts', field: 'totalAttempts'}, //Number of people who attempted this question
+        {title: 'Total attempts', field: 'totalAttempts'} //Number of people who attempted this question
     ]
     const actionsOwn = []
     const optionsOwn = {
@@ -114,7 +112,7 @@ export default function() {
                 actions: actionsOwn,
                 options: optionsOwn
             })
-        } else { //buttonMsg === "Arena questions"
+        } else {
             fetchQuestionsArena();
             setButtonMsg("Own questions");
             setTableData({
@@ -127,12 +125,12 @@ export default function() {
     }
 
     return <div style={styles.root}>
-            <Container>
-                <Row style={styles.row}>
-                    <Col><ArenaButton message="New question"/></Col>
-                    <Col><div onClick={switchTable}><ArenaButton message={buttonMsg}/></div></Col>
-                </Row>
-            </Container>
-            <TableStructure title={tableData.title} columns={tableData.columns} data={questions} actions={tableData.actions} options={tableData.options}/>
-        </div>;
+        <Container>
+            <Row style={styles.row}>
+                <Col><ArenaButton message="New question"/></Col>
+                <Col><div onClick={switchTable}><ArenaButton message={buttonMsg}/></div></Col>
+            </Row>
+        </Container>
+        <TableStructure title={tableData.title} columns={tableData.columns} data={questions} actions={tableData.actions} options={tableData.options}/>
+    </div>;
 }
