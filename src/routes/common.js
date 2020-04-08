@@ -6,6 +6,8 @@ import { OverviewContainer } from "../components/Overview";
 import { WorldContainer } from "../components/World";
 import { LeaderboardContainer } from "../components/Leaderboard";
 import { LoginContainer } from "../components/Login";
+import { ArenaContainer } from "../components/Arena";
+import { ArenaQuestionContainer } from "../components/Arena";
 
 export default [
 	<Route
@@ -16,5 +18,7 @@ export default [
 	<Route key="world" path="/world/:wID" component={WorldContainer} />,
 	<Route key="leaderboard" path="/leader" component={LeaderboardContainer} />,
 	<Route key="login" path="/login" component={LoginContainer} />,
+	<Route key="arenaQuestion" path="/arena/question/:qID" component={ArenaQuestionContainer} />,
+	<Route key="arena" path="/arena" component={ArenaContainer} />,
 	<Route key="overview" path="/" component={OverviewContainer} />
 ];
