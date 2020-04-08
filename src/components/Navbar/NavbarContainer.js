@@ -5,9 +5,10 @@ import { Music } from "../Common";
 
 import { UserContext } from "../../contexts/UserContext";
 import { Badges } from "../Common";
+import { Avatar } from "../Common";
 import Row from "react-bootstrap/Row";
 const avatarsize = {
-	width: "40px"
+	width: "40px",
 };
 
 export default function () {
@@ -23,6 +24,11 @@ export default function () {
 				<Music />
 				<Badges medals={medals} stars={stars} />
 			</Container>
+			<Link to={`/profile`}>
+				<span>
+					<Avatar size={avatarsize} />
+				</span>
+			</Link>
 		</Navbar>
 	);
 }
