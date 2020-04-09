@@ -39,7 +39,6 @@ export default function() {
 		const req = {questionID: qID, matric: student.student.matric, medal: medal};
 		axios
 			.post('https://us-central1-complement-4254e.cloudfunctions.net/app/russ/setArenaQuestionScore', req)
-			.then((res) => { console.log(res); })
 	};
 	const correctResponseCallback = (id) => {
 		alert("Good job, you answered question " + id + " correctly!");

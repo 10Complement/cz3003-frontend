@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContext";
 import { Container, Row, Col } from "react-bootstrap";
 import axios from "axios";
@@ -75,7 +75,6 @@ export default function() {
                 var questionsData = Object.keys(d)
                     .filter(key => { return d[key].creator === matric })
                     .map(key => {
-                        const status = (d[key].players && Object.keys(d[key].players).includes(matric)) ? "Attempted" : "Not attempted";
                         return {id: key, question: d[key].question, totalAttempts: d[key].attempts};
                     });
 				setQuestions(questionsData);
@@ -129,7 +128,7 @@ export default function() {
     return <div style={styles.root}>
         <Container>
             <Row style={styles.row}>
-                <Col><ArenaButton message="New question"/></Col>
+                <Col><Link to="/arena/question/new"><ArenaButton message="New question"/></Link></Col>
                 <Col><div onClick={switchTable}><ArenaButton message={buttonMsg}/></div></Col>
             </Row>
         </Container>
