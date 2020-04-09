@@ -16,7 +16,7 @@ export default function(props) {
 		changeOptionNr(4);
     }, []);
 
-const changeOptionNr = n => {
+    const changeOptionNr = n => {
         const range = [...Array(n).keys()];
         const options = range.map(k => {
             const i = k+1;
@@ -56,7 +56,7 @@ const changeOptionNr = n => {
                 <Form.Label>
                     Number of options
                 </Form.Label>
-                <Col id="optionsNr">{optionsNr}</Col>
+                <Row><Col id="optionsNr" >{optionsNr}</Col></Row>
             </Form.Group>
             <Form.Group>
                 <Form.Label>Question</Form.Label>

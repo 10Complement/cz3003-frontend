@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { useHistory } from "react-router-dom";
-import { Container, Col, Card, Form, Button } from "react-bootstrap";
+import { Container, Card, Form, Button } from "react-bootstrap";
 import axios from "axios";
 import NewQuestionCard from "./NewQuestionCard";
 import { UserContext } from "../../contexts/UserContext";
@@ -45,7 +45,10 @@ export default function() {
         }
 
         //Post new question to backend
-        //Redirect back to arena
+
+
+        alert("New question created!");
+        history.push("/arena");
     }
 
     return (
