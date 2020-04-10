@@ -39,7 +39,11 @@ export default function() {
                 var questionsData = Object.keys(d)
                     .filter(key => { return d[key].creator !== matric })
                     .map(key => {
-                        const status = (d[key].players && Object.keys(d[key].players).includes(matric)) ? "Attempted" : "Not attempted";
+                        const p = d[key].players;
+                        var status = (p && Object.keys(p).includes(matric)) ? "Attempted" : "Not attempted";
+                        if (status === "Attempted") {
+                            status = (p[matric].medal === 0) ? "Attempted, failed" : "Attempted, solved";
+                        }
                         return {id: key, question: d[key].question, creator: d[key].creator, totalAttempts: d[key].attempts, status: status};
                     });
 				setQuestions(questionsData);
