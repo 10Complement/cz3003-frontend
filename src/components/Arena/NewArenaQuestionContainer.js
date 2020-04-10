@@ -31,6 +31,11 @@ export default function() {
     const history = useHistory();
     const student = useContext(UserContext);
     const [validated, setValidated] = useState(false);
+    const questionId = "question";
+    const correctAnsId = "correctAns";
+    const minOpt = 2;
+    const maxOpt = 8;
+    const defOpt = 4;
     
     const postQuestion = event => {
         const form = event.currentTarget;
@@ -45,7 +50,26 @@ export default function() {
         }
 
         //Post new question to backend
-
+        const question = document.getElementById(questionId).value;
+        const a = document.getElementById(correctAnsId).value.slice(7);
+        const answer = parseInt(a) - 1;
+        var options = [];
+        for (var i in [...Array(maxOpt - minOpt + 1).keys()]) {
+            const opt = document.getElementById(questionId + i);
+            if (opt) {
+                options.push(opt.value);
+            }
+        }
+        const creator = student.student.matric;
+        
+        const newQ = {
+            questions: question,
+            answer: answer,
+            options: options,
+            creator: creator,
+            attempts: 0
+        };
+        axios.post(process.env.REACT_APP_API + '/russ/addArenaQuestion', newQ)
 
         alert("New question created!");
         history.push("/arena");
@@ -58,7 +82,7 @@ export default function() {
                     <Card.Body>
                         <center><Card.Title className="mb-4">Create a new arena question</Card.Title></center>
                         <Form id="newQForm" noValidate validated={validated} onSubmit={postQuestion}>
-                            <NewQuestionCard options={6} questionId="questionG" correctAnsId="correctAnsG" />
+                            <NewQuestionCard questionId={questionId} correctAnsId={correctAnsId} minOpt={minOpt} maxOpt={maxOpt} defOpt={defOpt} />
                             <center><Button variant="secondary" type="submit" style={styles.button}>
 								Publish new question
 							</Button></center>

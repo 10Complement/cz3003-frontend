@@ -13,7 +13,7 @@ export default function(props) {
     const [optionsSelection, setOptionSelection] = useState(<option></option>);
 
     useEffect(() => {
-		changeOptionNr(4);
+		changeOptionNr(props.defOpt);
     }, []);
 
     const changeOptionNr = n => {
@@ -22,7 +22,7 @@ export default function(props) {
             const i = k+1;
             return (
                 <Col style={styles.col} key={i} xs={12} md={6}>
-                    <Form.Control id={props.questionID + "-" + i} as="textarea" rows="2" placeholder={"Enter option " + i} required />
+                    <Form.Control id={props.questionId + k} as="textarea" rows="2" placeholder={"Enter option " + i} required />
                     <Form.Control.Feedback type="invalid">{"Please enter option" + i + "!"}</Form.Control.Feedback>
                 </Col>
             );
@@ -37,10 +37,10 @@ export default function(props) {
         setOptionSelection(optionsSelect);
     }
 
-    const optionsRange = [...Array(7).keys()];
+    const optionsRange = [...Array(props.maxOpt - props.minOpt + 1).keys()];
     const optionsNr = optionsRange.map(k => {
         const i = k+2;
-        if (i === 4) {
+        if (i === props.defOpt) {
             return (
                 <Form.Check key={i} inline type="radio" label={i} name="option" id={i} onChange={() => changeOptionNr(i)} defaultChecked />
             )
@@ -53,15 +53,15 @@ export default function(props) {
     return (
         <div>
             <Form.Group>
-                <Form.Label>
-                    Number of options
-                </Form.Label>
-                <Row><Col id="optionsNr" >{optionsNr}</Col></Row>
-            </Form.Group>
-            <Form.Group>
                 <Form.Label>Question</Form.Label>
                 <Form.Control id={props.questionId} size="lg" type="text" placeholder="Enter your question here" required />
                 <Form.Control.Feedback type="invalid">Please enter a question!</Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group>
+                <Form.Label>
+                    Number of options
+                </Form.Label>
+                <Row><Col id="optionsNr">{optionsNr}</Col></Row>
             </Form.Group>
             <Form.Group>
                 <Form.Label>Options</Form.Label>
@@ -69,9 +69,9 @@ export default function(props) {
                     {optionsBoxes}
                 </Row>
             </Form.Group>
-            <Form.Group controlId={props.correctAnsId}>
+            <Form.Group>
                 <Form.Label>Correct answer</Form.Label>
-                <Form.Control as="select">
+                <Form.Control as="select" id={props.correctAnsId}>
                     {optionsSelection}
                 </Form.Control>
             </Form.Group>
