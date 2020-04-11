@@ -32,7 +32,6 @@ export default function() {
     const student = useContext(UserContext);
     const [validated, setValidated] = useState(false);
     const questionId = "question";
-    const correctAnsId = "correctAns";
     const minOpt = 2;
     const maxOpt = 8;
     const defOpt = 4;
@@ -51,7 +50,7 @@ export default function() {
 
         //Post new question to backend
         const question = document.getElementById(questionId).value;
-        const a = document.getElementById(correctAnsId).value.slice(7);
+        const a = document.getElementById(questionId + "Ans").value.slice(7);
         const answer = parseInt(a) - 1;
         var options = [];
         for (var i in [...Array(maxOpt - minOpt + 1).keys()]) {
@@ -82,8 +81,8 @@ export default function() {
                     <Card.Body>
                         <center><Card.Title className="mb-4">Create a new arena question</Card.Title></center>
                         <Form id="newQForm" noValidate validated={validated} onSubmit={postQuestion}>
-                            <NewQuestionCard questionId={questionId} correctAnsId={correctAnsId} minOpt={minOpt} maxOpt={maxOpt} defOpt={defOpt} />
-                            <center><Button variant="secondary" type="submit" style={styles.button}>
+                            <NewQuestionCard questionId={questionId} minOpt={minOpt} maxOpt={maxOpt} defOpt={defOpt} />
+                            <center><Button variant="success" type="submit" style={styles.button}>
 								Publish new question
 							</Button></center>
                         </Form>

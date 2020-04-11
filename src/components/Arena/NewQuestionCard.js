@@ -42,11 +42,11 @@ export default function(props) {
         const i = k+2;
         if (i === props.defOpt) {
             return (
-                <Form.Check key={i} inline type="radio" label={i} name="option" id={i} onChange={() => changeOptionNr(i)} defaultChecked />
+                <Form.Check key={i} inline type="radio" label={i} name={props.questionId + "Option"} id={i} onChange={() => changeOptionNr(i)} defaultChecked />
             )
         }
         return (
-            <Form.Check key={i} inline type="radio" label={i} name="option" id={i} onChange={() => changeOptionNr(i)} />
+            <Form.Check key={i} inline type="radio" label={i} name={props.questionId + "Option"} id={i} onChange={() => changeOptionNr(i)} />
         );
     });
 
@@ -54,7 +54,7 @@ export default function(props) {
         <div>
             <Form.Group>
                 <Form.Label>Question</Form.Label>
-                <Form.Control id={props.questionId} size="lg" type="text" placeholder="Enter your question here" required />
+                <Form.Control id={props.questionId} type="text" placeholder="Enter your question here" required />
                 <Form.Control.Feedback type="invalid">Please enter a question!</Form.Control.Feedback>
             </Form.Group>
             <Form.Group>
@@ -71,7 +71,7 @@ export default function(props) {
             </Form.Group>
             <Form.Group>
                 <Form.Label>Correct answer</Form.Label>
-                <Form.Control as="select" id={props.correctAnsId}>
+                <Form.Control as="select" id={props.questionId + "Ans"}>
                     {optionsSelection}
                 </Form.Control>
             </Form.Group>
