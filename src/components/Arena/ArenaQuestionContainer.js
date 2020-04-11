@@ -46,10 +46,6 @@ export default function() {
 	};
 
     useEffect(() => {
-		fetchQuestion();
-    }, []);
-    
-    const fetchQuestion = () => {
 		axios
 			.get(process.env.REACT_APP_API + "/russ/GetSelectArenaQuestions/?questionID=" + qID)
 			.then(res => {
@@ -66,7 +62,7 @@ export default function() {
 				setTitle(t);
 				setSubtitle(sub);
 			});
-	};
+    }, [qID]);
 
     return (
         <div style={styles.root}>

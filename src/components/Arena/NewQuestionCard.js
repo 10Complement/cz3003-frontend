@@ -7,22 +7,13 @@ const styles = {
     }
 }
 
-export default function(props) {
-
-    const [optionsBoxes, setOptionsBoxes] = useState(<Col></Col>);
-    const [optionsSelection, setOptionSelection] = useState(<option></option>);
-
-    useEffect(() => {
-		changeOptionNr(props.defOpt);
-    }, []);
-
-    const changeOptionNr = n => {
-        const range = [...Array(n).keys()];
+function changeOptionNr(n, id) {
+    const range = [...Array(n).keys()];
         const options = range.map(k => {
             const i = k+1;
             return (
                 <Col style={styles.col} key={i} xs={12} md={6}>
-                    <Form.Control id={props.questionId + k} as="textarea" rows="2" placeholder={"Enter option " + i} required />
+                    <Form.Control id={id + k} as="textarea" rows="2" placeholder={"Enter option " + i} required />
                     <Form.Control.Feedback type="invalid">{"Please enter option" + i + "!"}</Form.Control.Feedback>
                 </Col>
             );
@@ -33,8 +24,23 @@ export default function(props) {
                 <option key={i}>{"Option " + i}</option>
             );
         });
-        setOptionsBoxes(options);
-        setOptionSelection(optionsSelect);
+        return [options, optionsSelect];
+}
+
+export default function(props) {
+
+    const [optionsBoxes, setOptionsBoxes] = useState(<Col></Col>);
+    const [optionsSelection, setOptionSelection] = useState(<option></option>);
+
+    useEffect(() => {
+        const opt = changeOptionNr(props.defOpt, props.questionId);
+        setOptionsBoxes(opt[0]);
+        setOptionSelection(opt[1]);
+    }, [props.defOpt, props.questionId]);
+
+    const updateOptionNr = (opt) => {
+        setOptionsBoxes(opt[0]);
+        setOptionSelection(opt[1]);
     }
 
     const optionsRange = [...Array(props.maxOpt - props.minOpt + 1).keys()];
@@ -42,11 +48,11 @@ export default function(props) {
         const i = k+2;
         if (i === props.defOpt) {
             return (
-                <Form.Check key={i} inline type="radio" label={i} name={props.questionId + "Option"} id={i} onChange={() => changeOptionNr(i)} defaultChecked />
+                <Form.Check key={i} inline type="radio" label={i} name={props.questionId + "Option"} id={i} onChange={() => updateOptionNr(changeOptionNr(i, props.questionId))} defaultChecked />
             )
         }
         return (
-            <Form.Check key={i} inline type="radio" label={i} name={props.questionId + "Option"} id={i} onChange={() => changeOptionNr(i)} />
+            <Form.Check key={i} inline type="radio" label={i} name={props.questionId + "Option"} id={i} onChange={() => updateOptionNr(changeOptionNr(i, props.questionId))} />
         );
     });
 
