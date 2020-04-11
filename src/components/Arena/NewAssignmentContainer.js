@@ -52,7 +52,6 @@ export default function() {
     const [validated, setValidated] = useState(false);
     const [QId, setQId] = useState(0); //Not sure I need a state for that but without state it didn't work...
     const [QIdList, setQIdList] = useState([]);
-    const [cards, setCards] = useState();
 
     const makeQuestionCards = (l) => {
         const cardSet = l.map(id => {
@@ -70,17 +69,15 @@ export default function() {
         const newId = "question" + QId;
         const arr = QIdList;
         arr.push(newId);
-        const newCardSet = makeQuestionCards(arr);
-        setCards(newCardSet);
         setQIdList(arr);
-        setQId(QId + 1);
+        setQId(QId => (QId + 1));
     }
 
     const removeQuestionCard = (id) => {
-        var arr = QIdList.filter(val => { return val !== id });
-        const newCardSet = makeQuestionCards(arr);
-        setCards(newCardSet);
-        setQIdList(arr);
+        setQIdList(QIdList => {
+            const arr = QIdList.filter((val) => ( val !== id ));
+            return arr;
+        });
     }
 
     const postAssignment = event => {
@@ -109,7 +106,7 @@ export default function() {
                                 <Form.Control id={assignmentId} size="lg" type="text" placeholder="Enter the title of the assignment" required />
                                 <Form.Control.Feedback type="invalid">Please enter a title!</Form.Control.Feedback>
                             </Form.Group>
-                            {cards}
+                            {makeQuestionCards(QIdList)}
                             <center>
                                 <Button variant="light" type="button" style={styles.button} onClick={addQuestionCard}>
                                     <AddBoxIcon /> Question
