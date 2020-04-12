@@ -151,7 +151,20 @@ export default function () {
 		if (attemptsLeft.current > 0) {
 			dispatchQn({ type: "NEXT_QN" });
 		} else {
+			/* FINAL SUBMISSION */
 			const lvl = masteryLvl(qn.history);
+
+			axios
+				.post(process.env.REACT_APP_API + "/elric/setSectionStars", {
+					params: {
+						matric: "U1720526F",
+						sectionID: wID + "-" + sID,
+						stars: lvl + 1,
+					},
+				})
+				.then((res) => console.log(res))
+				.catch((err) => console.error(err));
+
 			alert(
 				`Matric: ${student.matric}\nMastery Level: ${lvl} - ${levels[lvl]}`
 			);
