@@ -11,19 +11,10 @@ import { UserContext } from "../../contexts/UserContext";
 
 export default function () {
 	const history = useHistory();
-	const { student, setStudent } = useContext(UserContext);
-	const { matric, name, medals, stars } = student;
+	const { user } = useContext(UserContext);
+	const { matric, name, medals, stars } = user;
 	const clearSess = () => {
-		const s = {
-			matric: undefined,
-			name: undefined,
-			class: undefined,
-			current_progress: undefined,
-			avatar_url: undefined,
-			stars: undefined,
-			medals: undefined,
-		};
-		setStudent(s);
+		user.logout();
 		alert("You've been succefully logged out!");
 		history.push("/login");
 	};
