@@ -17,9 +17,33 @@ export const UserProvider = (props) => {
 
 	const user = {
 		...currentUser,
-		isAuthenticated: () => (currentUser.matric ? true : false),
-		login: (newUser) => setCurrentUser(newUser),
-		logout: () => setCurrentUser(defaultUser),
+		isAuthenticated: () => {
+			/* 1. Check current state */
+			if (currentUser.matric) return true;
+
+			/* 2. Check browser storage */
+			if (localStorage.getItem("currentUser")) {
+				setCurrentUser(JSON.parse(localStorage.getItem("currentUser")));
+				return true;
+			}
+
+			/* 3. Confirm not authenticated */
+			return false;
+		},
+		login: (newUser) => {
+			/* 1. Set current state */
+			setCurrentUser(newUser);
+
+			/* 2. Set browser storage */
+			localStorage.setItem("currentUser", JSON.stringify(newUser));
+		},
+		logout: () => {
+			/* 1. Reset current state */
+			setCurrentUser(defaultUser);
+
+			/* 2. Reset browser storage */
+			localStorage.removeItem("currentUser");
+		},
 	};
 
 	return (
