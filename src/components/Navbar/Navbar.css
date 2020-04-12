@@ -1,0 +1,9 @@
+.navbar .navbar-brand {
+	margin-right: 0;
+}
+
+@media (min-width: 992px) {
+	.navbar .navbar-collapse {
+		flex-grow: 0;
+	}
+}
