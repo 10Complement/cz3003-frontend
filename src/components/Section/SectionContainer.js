@@ -3,6 +3,7 @@ import Parallax from "parallax-js";
 import "../Common/Animation.css";
 import { useParams } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
+import Rating from "material-ui-rating";
 import axios from "axios";
 // import bgImg from "./images/game_background_3.png";
 import sky from "./images/sky.png";
@@ -89,7 +90,7 @@ const qnReducer = (state, action) => {
 			console.error("Invalid action type passed into qnBankReducer");
 	}
 
-	console.log({ history, current, difficulty, bank });
+	// console.log({ history, current, difficulty, bank });
 	return { history, current, difficulty, bank };
 };
 
@@ -141,16 +142,15 @@ export default function () {
 		if (attemptsLeft.current > 0) {
 			setTimeout(() => dispatchQn({ type: "NEXT_QN" }), 500);
 		} else {
-			alert("Section completed!");
+			console.log("Section completed!");
 		}
 	};
 
 	const qnNum = () => {
-		const length = Object.keys(qn.history).length;
-
-		if (length === 0) return 1;
-		else if (length === maxAttempts) return maxAttempts;
-		else return length + 1;
+		// const length = Object.keys(qn.history).length;
+		// if (length === 0) return 1;
+		// else if (length === maxAttempts) return maxAttempts;
+		// else return length + 1;
 	};
 
 	return (
@@ -238,7 +238,17 @@ export default function () {
 						<Col>
 							<QuestionAnswer
 								key={qn.current.id}
-								title={`Question ${qnNum()} of ${maxAttempts}`}
+								header={
+									<div className="text-center">
+										Current mastery:{" "}
+										<Rating name="read-only" value={1} max={3} readOnly />
+									</div>
+								}
+								title={
+									<>
+										Question {qnNum()} of {maxAttempts}
+									</>
+								}
 								subtitle={
 									levels[qn.difficulty].charAt(0).toUpperCase() +
 									levels[qn.difficulty].substring(1)
