@@ -44,7 +44,7 @@ export default function () {
 									<Badges medals={medals || 0} stars={stars || 0} />
 								</Nav.Item>
 								<NavDropdown title={name || "Name"}>
-									<NavDropdown.Item as={Link} to="#">
+									<NavDropdown.Item as={Link} to="/profile">
 										Profile
 									</NavDropdown.Item>
 									<NavDropdown.Item as={Link} to="/leader">
