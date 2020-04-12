@@ -1,8 +1,14 @@
-import React, { useEffect, useReducer, useRef, useContext } from "react";
+import React, {
+	useState,
+	useEffect,
+	useReducer,
+	useRef,
+	useContext,
+} from "react";
 import Parallax from "parallax-js";
 import "../Common/Animation.css";
 import { useParams } from "react-router-dom";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import Rating from "material-ui-rating";
 import axios from "axios";
 
@@ -103,7 +109,8 @@ export default function () {
 	const { student } = useContext(UserContext);
 
 	/* State Declaration */
-	// const [qnBank, setQnBank] = useState();
+	const [acceptNextQn, setAcceptNextQn] = useState(false);
+	const [nextQnText, setNextQnText] = useState("Next question >");
 	const [qn, dispatchQn] = useReducer(qnReducer, initQn);
 	const attemptsLeft = useRef(maxAttempts);
 
@@ -137,15 +144,18 @@ export default function () {
 		});
 	};
 
-	const nextQn = (id) => {
+	const nextQn = () => {
 		attemptsLeft.current--;
+		setAcceptNextQn(false);
+
 		if (attemptsLeft.current > 0) {
 			dispatchQn({ type: "NEXT_QN" });
 		} else {
 			const lvl = masteryLvl(qn.history);
-			console.log(
+			alert(
 				`Matric: ${student.matric}\nMastery Level: ${lvl} - ${levels[lvl]}`
 			);
+			setNextQnText("Submitted");
 		}
 	};
 
@@ -255,8 +265,24 @@ export default function () {
 								}
 								qnSet={qn.current}
 								onFirstResponse={recordHistory}
-								onCorrectResponse={nextQn}
+								onCorrectResponse={() => {
+									setAcceptNextQn(true);
+									if (attemptsLeft.current === 1)
+										setNextQnText("Click to submit");
+								}}
 							/>
+							<Button
+								block
+								className="my-2"
+								variant={acceptNextQn ? "info" : "outline-secondary"}
+								size="sm"
+								disabled={!acceptNextQn}
+								onClick={() => {
+									nextQn();
+								}}
+							>
+								{nextQnText}
+							</Button>
 						</Col>
 					</Row>
 				</Container>
