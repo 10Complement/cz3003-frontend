@@ -74,7 +74,6 @@ const qnReducer = (state, action) => {
 			bank = action.data;
 			break;
 		case "NEXT_QN":
-			console.log("New qn generated");
 			/* 1. Increase level only if user got question correct on first try */
 			if (history[current.id] === true) {
 				if (difficulty < levels.length - 1) difficulty++;
@@ -95,7 +94,7 @@ const qnReducer = (state, action) => {
 			console.error("Invalid action type passed into qnBankReducer");
 	}
 
-	console.log({ history, current, difficulty, bank });
+	// console.log({ history, current, difficulty, bank });
 	return { history, current, difficulty, bank };
 };
 
@@ -302,13 +301,11 @@ export default function () {
 const randomUniqueKey = (questions, history) => {
 	const qnKeys = Object.keys(questions);
 	const histKeys = Object.keys(history);
-	let i = 0;
 
-	do {
-		i = Math.floor(Math.random() * (qnKeys.length - 1));
-	} while (histKeys[qnKeys[i]]);
+	const uniqueKeys = qnKeys.filter((key) => !histKeys.includes(key));
+	const i = Math.floor(Math.random() * (uniqueKeys.length - 1));
 
-	return qnKeys[i];
+	return uniqueKeys[i];
 };
 
 const qnNum = (attemptsLeft) => {
