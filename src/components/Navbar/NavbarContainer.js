@@ -1,11 +1,12 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
-import { Music, Badges } from "../Common";
-// import Logout from "./images/logout.svg";
-// import Login from "./images/login.svg";
 import { useHistory } from "react-router-dom";
 
+// import Logout from "./images/logout.svg";
+// import Login from "./images/login.svg";
+import "./Navbar.css";
+import { Music, Badges } from "../Common";
 import { UserContext } from "../../contexts/UserContext";
 
 export default function () {
