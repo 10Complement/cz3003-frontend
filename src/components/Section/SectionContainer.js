@@ -1,10 +1,11 @@
-import React, { useEffect, useReducer, useRef } from "react";
+import React, { useEffect, useReducer, useRef, useContext } from "react";
 import Parallax from "parallax-js";
 import "../Common/Animation.css";
 import { useParams } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 import Rating from "material-ui-rating";
 import axios from "axios";
+
 // import bgImg from "./images/game_background_3.png";
 import sky from "./images/sky.png";
 import rocks from "./images/rocks.png";
@@ -17,6 +18,7 @@ import clouds2 from "./images/clouds_2.png";
 
 import QuestionAnswer from "./QuestionAnswer";
 import Learning from "./Learning";
+import { UserContext } from "../../contexts/UserContext";
 
 const styles = {
 	root: {
@@ -67,7 +69,10 @@ const qnReducer = (state, action) => {
 			break;
 		case "NEXT_QN":
 			/* 1. Increase level only if user got question correct on first try */
-			if (history[current.id] === true) {
+			if (
+				history[current.id] &&
+				history[current.id]["correctFirstTry"] === true
+			) {
 				if (difficulty < levels.length - 1) difficulty++;
 			}
 
@@ -80,7 +85,10 @@ const qnReducer = (state, action) => {
 		case "HISTORY":
 			let { id, correctFirstTry } = action;
 
-			history[id] = correctFirstTry;
+			history[id] = {
+				correctFirstTry: correctFirstTry,
+				difficulty: difficulty,
+			};
 			break;
 		default:
 			console.error("Invalid action type passed into qnBankReducer");
@@ -92,6 +100,7 @@ const qnReducer = (state, action) => {
 
 export default function () {
 	const { wID, sID } = useParams();
+	const { student } = useContext(UserContext);
 
 	/* State Declaration */
 	// const [qnBank, setQnBank] = useState();
@@ -121,24 +130,22 @@ export default function () {
 	}, [wID, sID]);
 
 	const recordHistory = (id, correctFirstTry) => {
-		// console.log("recordHistory:");
-		setTimeout(
-			() =>
-				dispatchQn({
-					type: "HISTORY",
-					id: id,
-					correctFirstTry: correctFirstTry,
-				}),
-			500
-		);
+		dispatchQn({
+			type: "HISTORY",
+			id: id,
+			correctFirstTry: correctFirstTry,
+		});
 	};
 
 	const nextQn = (id) => {
 		attemptsLeft.current--;
 		if (attemptsLeft.current > 0) {
-			setTimeout(() => dispatchQn({ type: "NEXT_QN" }), 500);
+			dispatchQn({ type: "NEXT_QN" });
 		} else {
-			console.log("Section completed!");
+			const lvl = masteryLvl(qn.history);
+			console.log(
+				`Matric: ${student.matric}\nMastery Level: ${lvl} - ${levels[lvl]}`
+			);
 		}
 	};
 
@@ -230,7 +237,11 @@ export default function () {
 								header={
 									<div className="text-center">
 										Current mastery:{" "}
-										<Rating name="read-only" value={1} max={3} readOnly />
+										<Rating
+											value={masteryLvl(qn.history) + 1}
+											max={maxAttempts}
+											readOnly
+										/>
 									</div>
 								}
 								title={
@@ -279,4 +290,18 @@ const qnNum = (attemptsLeft) => {
 		default:
 			return "?";
 	}
+};
+
+const masteryLvl = (history) => {
+	const keys = Object.keys(history);
+	let highestDifficulty = -1;
+
+	keys.forEach((key) => {
+		if (history[key].correctFirstTry === true) {
+			if (history[key].difficulty > highestDifficulty)
+				highestDifficulty = history[key].difficulty;
+		}
+	});
+
+	return highestDifficulty;
 };
