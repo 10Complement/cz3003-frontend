@@ -22,10 +22,6 @@ const styles = {
 	root: {
 		height: "100%",
 		width: "100%",
-		// paddingTop: "40px",
-		// backgroundImage: `url(${bgImg})`,
-		// backgroundSize: "cover",
-		// backgroundAttachment: "fixed",
 	},
 	button: {
 		textAlign: "center",
@@ -146,13 +142,6 @@ export default function () {
 		}
 	};
 
-	const qnNum = () => {
-		// const length = Object.keys(qn.history).length;
-		// if (length === 0) return 1;
-		// else if (length === maxAttempts) return maxAttempts;
-		// else return length + 1;
-	};
-
 	return (
 		<>
 			<div style={styles.root}>
@@ -246,7 +235,7 @@ export default function () {
 								}
 								title={
 									<>
-										Question {qnNum()} of {maxAttempts}
+										Question {qnNum(attemptsLeft.current)} of {maxAttempts}
 									</>
 								}
 								subtitle={
@@ -275,4 +264,19 @@ const randomUniqueKey = (questions, history) => {
 	} while (histKeys[qnKeys[i]]);
 
 	return qnKeys[i];
+};
+
+const qnNum = (attemptsLeft) => {
+	switch (attemptsLeft) {
+		case 3:
+			return 1;
+		case 2:
+			return 2;
+		case 1:
+			return 3;
+		case 0:
+			return 3;
+		default:
+			return "?";
+	}
 };
