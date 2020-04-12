@@ -75,10 +75,7 @@ const qnReducer = (state, action) => {
 			break;
 		case "NEXT_QN":
 			/* 1. Increase level only if user got question correct on first try */
-			if (
-				history[current.id] &&
-				history[current.id]["correctFirstTry"] === true
-			) {
+			if (history[current.id] === true) {
 				if (difficulty < levels.length - 1) difficulty++;
 			}
 
@@ -91,10 +88,7 @@ const qnReducer = (state, action) => {
 		case "HISTORY":
 			let { id, correctFirstTry } = action;
 
-			history[id] = {
-				correctFirstTry: correctFirstTry,
-				difficulty: difficulty,
-			};
+			history[id] = correctFirstTry;
 			break;
 		default:
 			console.error("Invalid action type passed into qnBankReducer");
@@ -111,6 +105,7 @@ export default function () {
 	/* State Declaration */
 	const [acceptNextQn, setAcceptNextQn] = useState(false);
 	const [nextQnText, setNextQnText] = useState("Next question >");
+	const [masteryLvl, setMasteryLvl] = useState(0);
 	const [qn, dispatchQn] = useReducer(qnReducer, initQn);
 	const attemptsLeft = useRef(maxAttempts);
 
@@ -137,6 +132,10 @@ export default function () {
 	}, [wID, sID]);
 
 	const recordHistory = (id, correctFirstTry) => {
+		/* Update mastery level */
+		if (correctFirstTry === true) setMasteryLvl(qn.difficulty + 1);
+
+		/* Record history */
 		dispatchQn({
 			type: "HISTORY",
 			id: id,
@@ -152,22 +151,21 @@ export default function () {
 			dispatchQn({ type: "NEXT_QN" });
 		} else {
 			/* FINAL SUBMISSION */
-			const lvl = masteryLvl(qn.history);
-
 			axios
 				.post(process.env.REACT_APP_API + "/elric/setSectionStars", {
-					params: {
-						matric: "U1720526F",
-						sectionID: wID + "-" + sID,
-						stars: lvl + 1,
-					},
+					matric: "U1720526F",
+					sectionID: wID + "-" + sID,
+					stars: masteryLvl,
 				})
-				.then((res) => console.log(res))
+				.then((res) => {
+					alert(
+						`Matric: ${student.matric} Name: ${
+							student.name
+						}\nMastery Level: ${masteryLvl} - ${levels[masteryLvl - 1]}`
+					);
+				})
 				.catch((err) => console.error(err));
 
-			alert(
-				`Matric: ${student.matric}\nMastery Level: ${lvl} - ${levels[lvl]}`
-			);
 			setNextQnText("Submitted");
 		}
 	};
@@ -260,11 +258,7 @@ export default function () {
 								header={
 									<div className="text-center">
 										Current mastery:{" "}
-										<Rating
-											value={masteryLvl(qn.history) + 1}
-											max={maxAttempts}
-											readOnly
-										/>
+										<Rating value={masteryLvl} max={maxAttempts} readOnly />
 									</div>
 								}
 								title={
@@ -307,13 +301,11 @@ export default function () {
 const randomUniqueKey = (questions, history) => {
 	const qnKeys = Object.keys(questions);
 	const histKeys = Object.keys(history);
-	let i = 0;
 
-	do {
-		i = Math.floor(Math.random() * (qnKeys.length - 1));
-	} while (histKeys[qnKeys[i]]);
+	const uniqueKeys = qnKeys.filter((key) => !histKeys.includes(key));
+	const i = Math.floor(Math.random() * (uniqueKeys.length - 1));
 
-	return qnKeys[i];
+	return uniqueKeys[i];
 };
 
 const qnNum = (attemptsLeft) => {
@@ -329,18 +321,4 @@ const qnNum = (attemptsLeft) => {
 		default:
 			return "?";
 	}
-};
-
-const masteryLvl = (history) => {
-	const keys = Object.keys(history);
-	let highestDifficulty = -1;
-
-	keys.forEach((key) => {
-		if (history[key].correctFirstTry === true) {
-			if (history[key].difficulty > highestDifficulty)
-				highestDifficulty = history[key].difficulty;
-		}
-	});
-
-	return highestDifficulty;
 };

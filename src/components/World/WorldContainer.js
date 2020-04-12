@@ -76,7 +76,7 @@ export default function () {
 									icon={AssignmentIcon}
 									message={"Section " + (i + 1)}
 									key={i}
-									stars={stars}
+									stars={Number(stars)}
 									hasStars
 								></IconButton>
 							</Link>
