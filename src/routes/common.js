@@ -7,6 +7,7 @@ import { OverviewContainer } from "../components/Overview";
 import { WorldContainer } from "../components/World";
 import { LeaderboardContainer } from "../components/Leaderboard";
 import { LoginContainer } from "../components/Login";
+import { ProfileContainer } from "../components/Profile";
 import { ArenaContainer, ArenaQuestionContainer, NewArenaQuestionContainer, NewAssignmentContainer, 
 	AssignmentContainer } from "../components/Arena";
 
