@@ -29,12 +29,13 @@ export default () => {
 			<Route exact path="/login" component={LoginContainer} />
 			<ProtectedRoute
 				exact
-				key="section"
 				path="/world/:wID/section/:sID"
 				component={SectionContainer}
 			/>
 			<ProtectedRoute exact path="/world/:wID" component={WorldContainer} />
 			<ProtectedRoute exact path="/leader" component={LeaderboardContainer} />
+			<ProtectedRoute exact path="/arena/assignment/new" component={NewAssignmentContainer} />
+			<ProtectedRoute exact path="/arena/assignment/:aID" component={AssignmentContainer} />
 			<ProtectedRoute
 				exact
 				path="/arena/question/new"
