@@ -36,7 +36,7 @@ export default function() {
 
 	const firstResponseCallback = (id, isAns) => {
 		const medal = isAns ? 1 : 0;
-		const req = {questionID: qID, matric: student.student.matric, medal: medal};
+		const req = {questionID: qID, matric: student.user.matric, medal: medal};
 		axios
 			.post(process.env.REACT_APP_API + '/russ/setArenaQuestionScore', req)
 	};
@@ -46,10 +46,6 @@ export default function() {
 	};
 
     useEffect(() => {
-		fetchQuestion();
-    }, []);
-    
-    const fetchQuestion = () => {
 		axios
 			.get(process.env.REACT_APP_API + "/russ/GetSelectArenaQuestions/?questionID=" + qID)
 			.then(res => {
@@ -66,7 +62,7 @@ export default function() {
 				setTitle(t);
 				setSubtitle(sub);
 			});
-	};
+    }, [qID]);
 
     return (
         <div style={styles.root}>
