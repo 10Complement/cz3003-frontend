@@ -5,7 +5,7 @@ import { UserContext } from "../../contexts/UserContext";
 export default function (props) {
 	const { user } = useContext(UserContext);
 	const { avatar_url } = user;
-	console.log(avatar_url);
+	// console.log(avatar_url);
 	return (
 		<div className={props.className}>
 			<Image
