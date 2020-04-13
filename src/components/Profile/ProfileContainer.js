@@ -11,7 +11,7 @@ import axios from "axios";
 import MaterialTable from "material-table";
 import bgImg from "../Overview/images/game_background_1.png";
 import { UserContext } from "../../contexts/UserContext";
-
+import { TableStructure } from "../Common";
 const styles = {
 	root: {
 		height: "100%",
@@ -36,6 +36,12 @@ const imagesize = {
 export default function (props) {
 	const { student } = useContext(UserContext);
 	const { matric, name, stars, medals } = student;
+	const title = "Your Progress";
+	const columns = [
+		{ title: "Section", field: "section" },
+		{ title: "Stars", field: "stars" },
+	];
+
 	const [dataSet, setData] = useState([]);
 	useEffect(() => {
 		fetchInfo();
@@ -83,20 +89,13 @@ export default function (props) {
 						<div className="w-100 d-flex justify-content-center my-2">
 							<Badges stars={stars} medals={medals} />
 						</div>
-
-						<Button className="w-30 mx-auto" variant="dark">
-							edit
-						</Button>
 					</Col>
 					<Col className="d-flex flex-column align-items-center justify-content-center">
 						<Row>
 							<Container size="sm" style={styles.sectionStarContainer}>
-								<MaterialTable
-									title="Your Progress"
-									columns={[
-										{ title: "Section", field: "section" },
-										{ title: "Stars", field: "stars" },
-									]}
+								<TableStructure
+									title={title}
+									columns={columns}
 									data={dataSet}
 								/>
 							</Container>
