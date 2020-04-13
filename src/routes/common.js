@@ -52,8 +52,8 @@ export default () => {
 };
 
 const ProtectedRoute = ({ component: Component, ...rest }) => {
-	const { student } = useContext(UserContext);
-	const isAuthenticated = student.matric ? true : false;
+	const { user } = useContext(UserContext);
+	const isAuthenticated = user.isAuthenticated();
 
 	return (
 		<Route

@@ -15,28 +15,28 @@ const styles = {
 		width: "100%",
 		backgroundImage: `url(${bgImg})`,
 		backgroundSize: "cover",
-		backgroundAttachment: "fixed"
+		backgroundAttachment: "fixed",
 	},
 	card: {
 		maxWidth: "350px",
-		margin: "auto"
+		margin: "auto",
 	},
 	form: {
 		backgroundColor: "rgba(52, 52, 52, 0)",
-		color: "white"
-	}
+		color: "white",
+	},
 };
 
-export default function() {
+export default function () {
 	const history = useHistory();
-	const student = useContext(UserContext);
+	const { user } = useContext(UserContext);
 	const [isStudent, setStudent] = useState(true);
 	const [errors, setErrors] = useState({
 		matric: { isValidated: true, msg: "" },
-		group: { isValidated: true, msg: "" }
+		group: { isValidated: true, msg: "" },
 	});
 
-	const handleValidation = event => {
+	const handleValidation = (event) => {
 		const currErrors = { ...errors };
 
 		event.preventDefault();
@@ -68,7 +68,7 @@ export default function() {
 		return currErrors.matric.isValidated && currErrors.group.isValidated;
 	};
 
-	const handleSubmit = event => {
+	const handleSubmit = (event) => {
 		event.preventDefault();
 		event.stopPropagation();
 		let userID = document.getElementById("UserID").value;
@@ -95,7 +95,7 @@ export default function() {
 			//axios.get(process.env.REACT_APP_API + api).then(function (response) {
 			//const studentClass = response.data;
 
-			axios.get(process.env.REACT_APP_API + api).then(res => {
+			axios.get(process.env.REACT_APP_API + api).then((res) => {
 				const d = res.data;
 				const studentClass = d.class;
 				if (studentClass !== "Invalid") {
@@ -108,21 +108,21 @@ export default function() {
 							current_progress: d.current_progress,
 							avatar_url: d.avatar_url,
 							stars: d.stars,
-							medals: d.medals
+							medals: d.medals,
 						};
-						student.setStudent(s);
+						user.login(s);
 						// 2. Navigate to Overview Container
 						history.push("/");
 					} else {
 						setErrors({
 							...errors,
-							group: { isValidated: false, msg: "Incorrect class." }
+							group: { isValidated: false, msg: "Incorrect class." },
 						});
 					}
 				} else {
 					setErrors({
 						...errors,
-						matric: { isValidated: false, msg: "User ID doesn't exist." }
+						matric: { isValidated: false, msg: "User ID doesn't exist." },
 					});
 				}
 			});
