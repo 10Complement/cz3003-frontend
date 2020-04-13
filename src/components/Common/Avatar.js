@@ -3,8 +3,8 @@ import Image from "react-bootstrap/Image";
 import { UserContext } from "../../contexts/UserContext";
 //import Pic from "./images/fruit_shop.jpg";
 export default function (props) {
-	const { student } = useContext(UserContext);
-	const { avatar_url } = student;
+	const { user } = useContext(UserContext);
+	const { avatar_url } = user;
 	console.log(avatar_url);
 	return (
 		<div className={props.className}>

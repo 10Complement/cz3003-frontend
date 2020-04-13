@@ -3,15 +3,14 @@ import { Avatar } from "../Common";
 
 import { Card } from "react-bootstrap";
 import { Badges } from "../Common";
-import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import axios from "axios";
-import MaterialTable from "material-table";
 import bgImg from "../Overview/images/game_background_1.png";
 import { UserContext } from "../../contexts/UserContext";
 import { TableStructure } from "../Common";
+
 const styles = {
 	root: {
 		height: "100%",
@@ -34,8 +33,8 @@ const imagesize = {
 };
 
 export default function (props) {
-	const { student } = useContext(UserContext);
-	const { matric, name, stars, medals } = student;
+	const { user } = useContext(UserContext);
+	const { matric, name, stars, medals } = user;
 	const title = "Your Progress";
 	const columns = [
 		{ title: "Section", field: "section" },
@@ -49,7 +48,7 @@ export default function (props) {
 
 	const fetchInfo = () => {
 		axios
-			//get the number of stars in each level
+			//get the number of stars in each level to display in the table
 			.get(process.env.REACT_APP_API + "/elric/getWorldStatus", {
 				params: {
 					matric: matric,
@@ -87,7 +86,7 @@ export default function (props) {
 							{matric}
 						</div>
 						<div className="w-100 d-flex justify-content-center my-2">
-							<Badges stars={stars} medals={medals} />
+							<Badges medals={medals || 0} stars={stars || 0} />
 						</div>
 					</Col>
 					<Col className="d-flex flex-column align-items-center justify-content-center">
