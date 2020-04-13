@@ -10,6 +10,7 @@ import { LoginContainer } from "../components/Login";
 import { ArenaContainer } from "../components/Arena";
 import { ArenaQuestionContainer } from "../components/Arena";
 import { NewArenaQuestionContainer } from "../components/Arena";
+import { ProfileContainer } from "../components/Profile";
 
 export default () => {
 	return (
@@ -34,6 +35,7 @@ export default () => {
 				component={ArenaQuestionContainer}
 			/>
 			<ProtectedRoute exact path="/arena" component={ArenaContainer} />
+			<ProtectedRoute exact path="/profile" component={ProfileContainer} />
 			<ProtectedRoute path="/" component={OverviewContainer} />
 		</Switch>
 	);
