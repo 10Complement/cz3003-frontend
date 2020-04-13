@@ -123,8 +123,13 @@ export default function () {
 				},
 			})
 			.then((response) => {
-				dispatchQn({ type: "INIT", data: response.data });
-				dispatchQn({ type: "NEXT_QN" });
+				if (response.data) {
+					dispatchQn({ type: "INIT", data: response.data });
+					dispatchQn({ type: "NEXT_QN" });
+				} else {
+					alert("Warning: No valid questions received from server.");
+					console.log(response);
+				}
 			})
 			.catch((error) => {
 				console.error(error);
