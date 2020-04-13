@@ -34,6 +34,7 @@ export default () => {
 				component={ArenaQuestionContainer}
 			/>
 			<ProtectedRoute exact path="/arena" component={ArenaContainer} />
+			<ProtectedRoute exact path="/profile" component={ProfileContainer} />
 			<ProtectedRoute path="/" component={OverviewContainer} />
 		</Switch>
 	);
