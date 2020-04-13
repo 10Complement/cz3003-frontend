@@ -15,6 +15,7 @@ import clouds3 from "./images/clouds_3.png";
 import clouds4 from "./images/clouds_4.png";
 import { IconButton } from "../Common";
 // Downloaded from https://craftpix.net/freebies/free-horizontal-2d-game-backgrounds/
+import { ArenaButton } from "../Arena";
 
 const axios = require("axios");
 
@@ -162,6 +163,7 @@ export default function () {
 					<>
 						<h1>Hello adventurer</h1>
 						<Row>{worldButtons}</Row>
+						<Link to="/arena"><ArenaButton message="Arena"/></Link>
 					</>
 				)}
 			</Container>

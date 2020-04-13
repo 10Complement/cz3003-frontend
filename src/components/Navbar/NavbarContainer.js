@@ -1,28 +1,71 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import { Container, Navbar } from "react-bootstrap";
-import { Music } from "../Common";
+import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
 
+// import Logout from "./images/logout.svg";
+// import Login from "./images/login.svg";
+import "./Navbar.css";
+import { Music, Badges } from "../Common";
 import { UserContext } from "../../contexts/UserContext";
-import { Badges } from "../Common";
-import { Avatar } from "../Common";
-import Row from "react-bootstrap/Row";
-const avatarsize = {
-	width: "40px",
-};
 
 export default function () {
-	const { student } = useContext(UserContext);
-	const { matric, medals = 3, stars = 12 } = student;
+	const history = useHistory();
+	const { student, setStudent } = useContext(UserContext);
+	const { matric, name, medals, stars } = student;
+	const clearSess = () => {
+		const s = {
+			matric: undefined,
+			name: undefined,
+			class: undefined,
+			current_progress: undefined,
+			avatar_url: undefined,
+			stars: undefined,
+			medals: undefined,
+		};
+		setStudent(s);
+		alert("You've been succefully logged out!");
+		history.push("/login");
+	};
 
 	return (
 		<Navbar expand="lg" variant="dark" bg="dark" fixed="top">
 			<Container>
 				<Navbar.Brand as={Link} to="/">
-					{matric ? `Welcome, ${matric}!` : "SDLC Quest"}
+					SDLC Quest
 				</Navbar.Brand>
 				<Music />
-				<Badges medals={medals} stars={stars} />
+				<Navbar.Toggle aria-controls="navbar" />
+				<Navbar.Collapse>
+					<Nav className="ml-auto">
+						{matric ? (
+							<>
+								<Nav.Item>
+									<Badges medals={medals || 0} stars={stars || 0} />
+								</Nav.Item>
+								<NavDropdown title={name || "Name"}>
+									<NavDropdown.Item as={Link} to="/profile">
+										Profile
+									</NavDropdown.Item>
+									<NavDropdown.Item as={Link} to="/leader">
+										Leaderboard
+									</NavDropdown.Item>
+									<NavDropdown.Item as={Link} to="/arena">
+										Arena
+									</NavDropdown.Item>
+									<NavDropdown.Divider />
+									<NavDropdown.Item onClick={clearSess}>
+										Logout
+									</NavDropdown.Item>
+								</NavDropdown>
+							</>
+						) : (
+							<Nav.Link as={Link} to="/login">
+								Login
+							</Nav.Link>
+						)}
+					</Nav>
+				</Navbar.Collapse>
 			</Container>
 			<Link to={`/profile`}>
 				<span>
