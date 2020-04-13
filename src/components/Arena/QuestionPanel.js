@@ -18,33 +18,59 @@ const styles = {
     }
 }
 
+function fetchQuestions() {
+    return axios.get(process.env.REACT_APP_API + "/russ/GetArenaQuestions");
+}
+
+function formatQuestions(d, own, matric) {
+    var questionsData;
+    if (own) {
+        questionsData = Object.keys(d)
+            .filter(key => { return d[key].creator === matric })
+            .map(key => {
+                return {id: key, question: d[key].question, totalAttempts: d[key].attempts};
+            });
+    } else {
+        questionsData = Object.keys(d)
+            .filter(key => { return d[key].creator !== matric })
+            .map(key => {
+                const p = d[key].players;
+                var status = (p && Object.keys(p).includes(matric)) ? "Attempted" : "Not attempted";
+                if (status === "Attempted") {
+                    status = (p[matric].medal === 0) ? "Attempted, failed" : "Attempted, solved";
+                }
+                return {id: key, question: d[key].question, creator: d[key].creator, totalAttempts: d[key].attempts, status: status};
+            });
+    }
+    return questionsData;
+}
+
 export default function() {
 
     const history = useHistory();
     const student = useContext(UserContext);
-    const matric = student.student.matric;
+    const matric = student.user.matric;
 
     //Arena questions table data
     const [questions, setQuestions] = useState([]);
 
     useEffect(() => {
-		fetchQuestionsArena();
-	}, []);
+        fetchQuestions().then(
+            (res) => {
+                const initialQ = formatQuestions(res.data, false, matric);
+                setQuestions(initialQ);
+            }
+        );
+    }, [matric])
 
-	const fetchQuestionsArena = () => {
-		axios
-			.get(process.env.REACT_APP_API + "/russ/GetArenaQuestions")
-			.then(res => {
-                const d = res.data;
-                var questionsData = Object.keys(d)
-                    .filter(key => { return d[key].creator !== matric })
-                    .map(key => {
-                        const status = (d[key].players && Object.keys(d[key].players).includes(matric)) ? "Attempted" : "Not attempted";
-                        return {id: key, question: d[key].question, creator: d[key].creator, totalAttempts: d[key].attempts, status: status};
-                    });
-				setQuestions(questionsData);
-			});
-    };
+    const getQuestions = (own) => {
+        fetchQuestions().then(
+            (res) => {
+                const initialQ = formatQuestions(res.data, own, matric);
+                setQuestions(initialQ);
+            }
+        );
+    }
 
     const titleArena = "Arena questions"
     const columnsArena = [
@@ -67,20 +93,6 @@ export default function() {
     }
 
     //Own questions table data
-	const fetchQuestionsOwn = () => {
-		axios
-			.get(process.env.REACT_APP_API + "/russ/GetArenaQuestions")
-			.then(res => {
-                const d = res.data;
-                var questionsData = Object.keys(d)
-                    .filter(key => { return d[key].creator === matric })
-                    .map(key => {
-                        return {id: key, question: d[key].question, totalAttempts: d[key].attempts};
-                    });
-				setQuestions(questionsData);
-			});
-    };
-
     const titleOwn = "Own questions"
     const columnsOwn = [
         {title: 'Question', field: 'question'},
@@ -104,7 +116,7 @@ export default function() {
     const switchTable = () => {
         if (buttonMsg === "Own questions") {
             setQuestions([])
-            fetchQuestionsOwn();
+            getQuestions(true);
             setButtonMsg("Arena questions");
             setTableData({
                 title: titleOwn,
@@ -114,7 +126,7 @@ export default function() {
             })
         } else {
             setQuestions([])
-            fetchQuestionsArena();
+            getQuestions(false);
             setButtonMsg("Own questions");
             setTableData({
                 title: titleArena,

@@ -100,7 +100,7 @@ const qnReducer = (state, action) => {
 
 export default function () {
 	const { wID, sID } = useParams();
-	const { student } = useContext(UserContext);
+	const { user } = useContext(UserContext);
 
 	/* State Declaration */
 	const [acceptNextQn, setAcceptNextQn] = useState(false);
@@ -153,14 +153,14 @@ export default function () {
 			/* FINAL SUBMISSION */
 			axios
 				.post(process.env.REACT_APP_API + "/elric/setSectionStars", {
-					matric: "U1720526F",
+					matric: user.matric,
 					sectionID: wID + "-" + sID,
 					stars: masteryLvl,
 				})
 				.then((res) => {
 					alert(
-						`Matric: ${student.matric} Name: ${
-							student.name
+						`Matric: ${user.matric} Name: ${
+							user.name
 						}\nMastery Level: ${masteryLvl} - ${levels[masteryLvl - 1]}`
 					);
 				})

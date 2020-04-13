@@ -46,7 +46,7 @@ export default function () {
 
 	/* State Declaration */
 	const [sectionButtons, setSectionButtons] = React.useState([]);
-	const { student } = useContext(UserContext);
+	const { user } = useContext(UserContext);
 
 	/* Called only once whenever component is mounted */
 	useEffect(() => {
@@ -57,11 +57,13 @@ export default function () {
 		// var parallaxInstance = new Parallax(scene);
 		new Parallax(scene);
 
+		if (!user.matric) return;
+
 		axios
 			.get(process.env.REACT_APP_API + "/elric/getCurrentWorldStatus/", {
 				params: {
 					worldID: "World-" + wID,
-					matric: student.matric,
+					matric: user.matric,
 				},
 			})
 			.then(function (response) {
@@ -93,7 +95,7 @@ export default function () {
 			.then(function () {
 				// always executed
 			});
-	}, [pathname, wID, student.matric]);
+	}, [pathname, wID, user.matric]);
 
 	return (
 		<>

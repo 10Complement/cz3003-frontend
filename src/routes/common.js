@@ -7,10 +7,9 @@ import { OverviewContainer } from "../components/Overview";
 import { WorldContainer } from "../components/World";
 import { LeaderboardContainer } from "../components/Leaderboard";
 import { LoginContainer } from "../components/Login";
-import { ArenaContainer } from "../components/Arena";
-import { ArenaQuestionContainer } from "../components/Arena";
-import { NewArenaQuestionContainer } from "../components/Arena";
 import { ProfileContainer } from "../components/Profile";
+import { ArenaContainer, ArenaQuestionContainer, NewArenaQuestionContainer, NewAssignmentContainer, 
+	AssignmentContainer } from "../components/Arena";
 
 export default () => {
 	return (
@@ -18,12 +17,13 @@ export default () => {
 			<Route exact path="/login" component={LoginContainer} />
 			<ProtectedRoute
 				exact
-				key="section"
 				path="/world/:wID/section/:sID"
 				component={SectionContainer}
 			/>
 			<ProtectedRoute exact path="/world/:wID" component={WorldContainer} />
 			<ProtectedRoute exact path="/leader" component={LeaderboardContainer} />
+			<ProtectedRoute exact path="/arena/assignment/new" component={NewAssignmentContainer} />
+			<ProtectedRoute exact path="/arena/assignment/:aID" component={AssignmentContainer} />
 			<ProtectedRoute
 				exact
 				path="/arena/question/new"
@@ -42,8 +42,8 @@ export default () => {
 };
 
 const ProtectedRoute = ({ component: Component, ...rest }) => {
-	const { student } = useContext(UserContext);
-	const isAuthenticated = student.matric ? true : false;
+	const { user } = useContext(UserContext);
+	const isAuthenticated = user.isAuthenticated();
 
 	return (
 		<Route
