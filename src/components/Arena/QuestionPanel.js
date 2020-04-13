@@ -49,7 +49,7 @@ export default function() {
 
     const history = useHistory();
     const student = useContext(UserContext);
-    const matric = student.student.matric;
+    const matric = student.user.matric;
 
     //Arena questions table data
     const [questions, setQuestions] = useState([]);

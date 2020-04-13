@@ -59,7 +59,7 @@ export default function() {
                 options.push(opt.value);
             }
         }
-        const creator = student.student.matric;
+        const creator = student.user.matric;
         
         const newQ = {
             questions: question,
