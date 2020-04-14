@@ -1,6 +1,6 @@
 import React, { useState, createContext } from "react";
 
-const defaultUser = {
+const blankUser = {
 	matric: undefined,
 	name: undefined,
 	class: undefined,
@@ -13,22 +13,16 @@ const defaultUser = {
 export const UserContext = createContext();
 
 export const UserProvider = (props) => {
-	const [currentUser, setCurrentUser] = useState(defaultUser);
+	const browser = localStorage.getItem("currentUser");
+	const [currentUser, setCurrentUser] = useState(
+		browser ? JSON.parse(browser) : blankUser
+	);
 
 	const user = {
 		...currentUser,
 		isAuthenticated: () => {
-			/* 1. Check current state */
 			if (currentUser.matric) return true;
-
-			/* 2. Check browser storage */
-			if (localStorage.getItem("currentUser")) {
-				setCurrentUser(JSON.parse(localStorage.getItem("currentUser")));
-				return true;
-			}
-
-			/* 3. Confirm not authenticated */
-			return false;
+			else return false;
 		},
 		login: (newUser) => {
 			/* 1. Set current state */
@@ -39,7 +33,7 @@ export const UserProvider = (props) => {
 		},
 		logout: () => {
 			/* 1. Reset current state */
-			setCurrentUser(defaultUser);
+			setCurrentUser(blankUser);
 
 			/* 2. Reset browser storage */
 			localStorage.removeItem("currentUser");
