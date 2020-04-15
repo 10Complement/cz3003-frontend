@@ -40,6 +40,7 @@ const styles = {
 		height: "100%",
 		right: "5%",
 		position: "fixed",
+		top: 0,
 		zIndex: "-10",
 	},
 	parallaxparent: {
@@ -48,7 +49,7 @@ const styles = {
 	},
 	parallaximg: {
 		width: "110%",
-		height: "100%",
+		height: "110%",
 		objectFit: "cover",
 	},
 };
