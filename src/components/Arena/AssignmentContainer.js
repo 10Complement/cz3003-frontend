@@ -37,27 +37,28 @@ export default function () {
 		teacher: "",
 		players: [],
 		question: [],
-	});
-	var nextIndex = 0;
-	var score = 0;
+    });
+    const [nextIndex, setNextIndex] = useState(0);
+	//var nextIndex = 0;
 
 	useEffect(() => {
 		axios
-			.get(process.env.REACT_APP_API + "" + aID) //Missing url
+			.get(process.env.REACT_APP_API + "/wy/getSelectAssignmentQuestion/?assignID=" + aID) //Missing url
 			.then(res => {
                 const data = res.data;
                 setAssignment(data);
                 setTitle(data.title);
                 setSubtitle("By teacher " + data.teacher);
-                nextQuestion();
+                nextQuestion(data);
             })
             .catch( err => console.log(err) );
         // Future note: nextQuestion() is a missing dependency
 		// eslint-disable-next-line
     }, [aID]);
     
-    const nextQuestion = () => {
-        const qList = assignment.question;
+    const nextQuestion = (d) => {
+        const qList = d.question;
+        console.log(qList);
         if (nextIndex < qList.length) {
             const q = qList[nextIndex];
             setQuestion({
@@ -66,21 +67,19 @@ export default function () {
                 question: q.question,
                 options: q.options
             })
-            nextIndex = nextIndex + 1;
+            setNextIndex(old => old + 1);
+            console.log(nextIndex);
         } else {
             alert("You finished assignment " + aID);
-            //API post with info
+            //API post add user to list of players who attended the assignment
             history.push("/arena");
         }
     };
 
-	const firstResponseCallback = (id, isAns) => {
-		const s = isAns ? 1 : 0;
-		score = score + s;
-	};
+	const firstResponseCallback = (id, isAns) => {};
 
 	const correctResponseCallback = (id) => {
-		nextQuestion();
+		nextQuestion(assignment);
 	};
 
 	return (

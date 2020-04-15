@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import { useHistory } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContext";
 import axios from "axios";
 
@@ -9,6 +10,7 @@ import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 export default function () {
 
     const student = useContext(UserContext);
+    const history = useHistory();
     const matric = student.user.matric;
     const group = student.user.class;
     const [assignments, setAssignments] = useState([]);
@@ -23,7 +25,7 @@ export default function () {
                     .map(id => {
                         const assignment = a[id];
                         const p = assignment.players;
-                        const status = (p && Object.keys(p).includes(matric)) ? "Submitted" : "Not attempted";
+                        const status = (p && p.includes(matric)) ? "Submitted" : "Not attempted";
                         return (
                             {
                                 id: id,
@@ -47,7 +49,13 @@ export default function () {
 		{
 			icon: ArrowForwardIcon,
 			tooltip: "Start assignment",
-			onClick: (event, rowData) => {}, //Function to load assignment (iff not already submitted!)
+			onClick: (event, rowData) => {
+                if (rowData.status !== "Submitted") {
+                    history.push("/arena/assignment/" + rowData.id);
+                } else {
+                    alert("You already submitted this assignment!")
+                }
+            },
 		},
 	];
 	const options = {
