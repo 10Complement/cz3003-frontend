@@ -1,30 +1,29 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import axios from "axios";
 import { QuestionAnswer } from "../Section";
-import { UserContext } from "../../contexts/UserContext";
+// import { UserContext } from "../../contexts/UserContext";
 import bgImg from "../Overview/images/game_background_1.png";
 
 const styles = {
-    root: {
+	root: {
 		height: "100%",
 		width: "100%",
 		backgroundImage: `url(${bgImg})`,
 		backgroundSize: "cover",
-		backgroundAttachment: "fixed"
+		backgroundAttachment: "fixed",
 	},
 	container: {
 		paddingTop: "20px",
-		paddingBottom: "20px"
-	}
+		paddingBottom: "20px",
+	},
 };
 
-export default function() {
-
+export default function () {
 	const { aID } = useParams();
 	const history = useHistory();
-	const student = useContext(UserContext);
+	// const student = useContext(UserContext);
 	const [questionSet, setQuestion] = useState({
 		id: "",
 		answer: 0,
@@ -32,17 +31,17 @@ export default function() {
 		options: [],
 	});
 	const [title, setTitle] = useState("Loading...");
-    const [subtitle, setSubtitle] = useState("");
-    const [assignment, setAssignment] = useState({
-        title: "Loading...",
-        teacher: "",
-        players: [],
-        question: []
-    });
-    var nextIndex = 0;
-    var score = 0;
+	const [subtitle, setSubtitle] = useState("");
+	const [assignment, setAssignment] = useState({
+		title: "Loading...",
+		teacher: "",
+		players: [],
+		question: [],
+	});
+	var nextIndex = 0;
+	var score = 0;
 
-    useEffect(() => {
+	useEffect(() => {
 		axios
 			.get(process.env.REACT_APP_API + "" + aID) //Missing url
 			.then(res => {
@@ -53,11 +52,12 @@ export default function() {
                 nextQuestion();
             })
             .catch( err => console.log(err) );
+        // Future note: nextQuestion() is a missing dependency
+		// eslint-disable-next-line
     }, [aID]);
     
     const nextQuestion = () => {
         const qList = assignment.question;
-        console.log(qList);
         if (nextIndex < qList.length) {
             const q = qList[nextIndex];
             setQuestion({
@@ -74,20 +74,26 @@ export default function() {
         }
     };
 
-    const firstResponseCallback = (id, isAns) => {
-        const s = isAns ? 1 : 0;
-        score = score + s;
-    };
+	const firstResponseCallback = (id, isAns) => {
+		const s = isAns ? 1 : 0;
+		score = score + s;
+	};
 
-    const correctResponseCallback = (id) => {
-        nextQuestion();
-    };
+	const correctResponseCallback = (id) => {
+		nextQuestion();
+	};
 
-    return (
-        <div style={styles.root}>
-            <Container style={styles.container}>
-                <QuestionAnswer qnSet={questionSet} title={title} subtitle={subtitle} onFirstResponse={firstResponseCallback} onCorrectResponse={correctResponseCallback}/>
-            </Container>
-        </div>
-    );
+	return (
+		<div style={styles.root}>
+			<Container style={styles.container}>
+				<QuestionAnswer
+					qnSet={questionSet}
+					title={title}
+					subtitle={subtitle}
+					onFirstResponse={firstResponseCallback}
+					onCorrectResponse={correctResponseCallback}
+				/>
+			</Container>
+		</div>
+	);
 }

@@ -57,6 +57,8 @@ export default function () {
 		// var parallaxInstance = new Parallax(scene);
 		new Parallax(scene);
 
+		if (!user.matric) return;
+
 		axios
 			.get(process.env.REACT_APP_API + "/elric/getCurrentWorldStatus/", {
 				params: {
