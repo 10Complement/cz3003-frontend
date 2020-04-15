@@ -91,7 +91,46 @@ export default function() {
         if (!form.checkValidity()) { //Break if form is not valid
             return
         }
+
+        const idArr = QIdList;
+        if (idArr.length < 1) {
+            alert("Please add at least one question!");
+            return
+        }
+
+        const title = document.getElementById(assignmentId).value;
+        const t = teacher.user.matric;
+        const players = [];
+        const questionsList = idArr.map(e => {
+            const question = document.getElementById(e).value;
+            const a = document.getElementById(e + "Ans").value.slice(7);
+            const answer = parseInt(a) - 1;
+            var options = [];
+            for (var i in [...Array(maxOpt - minOpt + 1).keys()]) {
+                const opt = document.getElementById(e + i);
+                if (opt) {
+                    options.push(opt.value);
+                }
+            }
+            return {
+                question: question,
+                answer: answer,
+                options: options,
+            };
+        })
         
+        const payload = {
+            title: title,
+            creator: t,
+            players: players,
+            question: questionsList
+        }
+        axios.post(process.env.REACT_APP_API + '/wy/addAssignmentQuestion', payload)
+            .then( res => console.log(res) )
+            .catch( err => console.error(err) );
+
+        alert("New assignment created!");
+        history.push("/arena");
     };
 
     return (
