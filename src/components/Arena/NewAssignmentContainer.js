@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-// import { useHistory } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { useHistory } from "react-router-dom";
 import { Container, Card, Form, Button } from "react-bootstrap";
-// import axios from "axios";
+import axios from "axios";
 import NewQuestionCard from "./NewQuestionCard";
-// import { UserContext } from "../../contexts/UserContext";
+import { UserContext } from "../../contexts/UserContext";
 import bgImg from "../Overview/images/game_background_1.png";
 import AddBoxIcon from "@material-ui/icons/AddBox";
 import IndeterminateCheckBoxIcon from "@material-ui/icons/IndeterminateCheckBox";
@@ -43,8 +43,8 @@ const styles = {
 };
 
 export default function () {
-	// const history = useHistory();
-	// const teacher = useContext(UserContext); //Only accessible by teachers, need teacherID and className here
+	const history = useHistory();
+	const teacher = useContext(UserContext);
 	const assignmentId = "assignment";
 	const minOpt = 2;
 	const maxOpt = 8;
@@ -100,11 +100,51 @@ export default function () {
 
 		setValidated(true);
 
-		if (!form.checkValidity()) {
-			//Break if form is not valid
-			return;
-		}
-	};
+        if (!form.checkValidity()) { //Break if form is not valid
+            return
+        }
+
+        const idArr = QIdList;
+        if (idArr.length < 1) {
+            alert("Please add at least one question!");
+            return
+        }
+
+        const title = document.getElementById(assignmentId).value;
+        const creator = teacher.user.matric;
+        const group = teacher.user.class;
+        const players = [];
+        const questionsList = idArr.map(e => {
+            const question = document.getElementById(e).value;
+            const a = document.getElementById(e + "Ans").value.slice(7);
+            const answer = parseInt(a) - 1;
+            var options = [];
+            for (var i in [...Array(maxOpt - minOpt + 1).keys()]) {
+                const opt = document.getElementById(e + i);
+                if (opt) {
+                    options.push(opt.value);
+                }
+            }
+            return {
+                question: question,
+                answer: answer,
+                options: options,
+            };
+        })
+        
+        const payload = {
+            title: title,
+            creator: creator,
+            players: players,
+            question: questionsList,
+            group: group
+        }
+        axios.post(process.env.REACT_APP_API + '/wy/addAssignmentQuestion', payload)
+            .catch( err => console.error(err) );
+
+        alert("New assignment created!");
+        history.push("/arena");
+    };
 
 	return (
 		<div style={styles.root}>
