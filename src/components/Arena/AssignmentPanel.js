@@ -35,7 +35,7 @@ export default function() {
                     });
                 setAssignments(l);
             })
-    }, [])
+    }, [group, matric])
 
     const title = "Assignments"
     const columns = [
