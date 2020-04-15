@@ -67,11 +67,11 @@ export default function() {
                 options: q.options
             })
             nextIndex = nextIndex + 1;
-        }/*  else {
+        } else {
             alert("You finished assignment " + aID);
             //API post with info
             history.push("/arena");
-        } */
+        }
     };
 
     const firstResponseCallback = (id, isAns) => {

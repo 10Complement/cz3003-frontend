@@ -43,11 +43,6 @@ export default function() {
         {title: 'Status', field: 'status'}, //Submitted or not attempted
         {title: 'Teacher', field: 'teacher'} //Teacher who gave out the assignment and is responsible for it
     ]
-    /* const data = [ //Replace with fetched data
-        {title: "Multiplication", status: "Submitted", teacher: "Algebra teacher"},
-        {title: "Algebra", status: "Not attempted", teacher: "Algebra teacher"},
-        {title: "Geometry", status: "Submitted", teacher: "Geometry teacher"}
-    ] */
     const actions = [
         {
             icon: ArrowForwardIcon,
