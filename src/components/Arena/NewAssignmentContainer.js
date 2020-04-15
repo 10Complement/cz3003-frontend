@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-// import { useHistory } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { useHistory } from "react-router-dom";
 import { Container, Card, Form, Button } from "react-bootstrap";
-// import axios from "axios";
+import axios from "axios";
 import NewQuestionCard from "./NewQuestionCard";
-// import { UserContext } from "../../contexts/UserContext";
+import { UserContext } from "../../contexts/UserContext";
 import bgImg from "../Overview/images/game_background_1.png";
 import AddBoxIcon from "@material-ui/icons/AddBox";
 import IndeterminateCheckBoxIcon from "@material-ui/icons/IndeterminateCheckBox";
@@ -43,8 +43,8 @@ const styles = {
 };
 
 export default function () {
-	// const history = useHistory();
-	// const teacher = useContext(UserContext); //Only accessible by teachers, need teacherID and className here
+	const history = useHistory();
+	const teacher = useContext(UserContext);
 	const assignmentId = "assignment";
 	const minOpt = 2;
 	const maxOpt = 8;
