@@ -1,5 +1,17 @@
 import React, { useEffect, useState, useContext } from "react";
+import Parallax from "parallax-js";
+import "../Common/Animation.css";
 import { Avatar } from "../Common";
+
+import sky from "../Common/bg2/sky.png";
+import rocks1 from "../Common/bg2/rocks_1.png";
+import rocks2 from "../Common/bg2/rocks_2.png";
+import rocks3 from "../Common/bg2/rocks_3.png";
+import pines from "../Common/bg2/pines.png";
+import clouds1 from "../Common/bg2/clouds_1.png";
+import clouds2 from "../Common/bg2/clouds_2.png";
+import clouds3 from "../Common/bg2/clouds_3.png";
+import birds from "../Common/bg2/birds.png";
 
 import { Card } from "react-bootstrap";
 import { Badges } from "../Common";
@@ -7,7 +19,6 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import axios from "axios";
-import bgImg from "../Overview/images/game_background_1.png";
 import { UserContext } from "../../contexts/UserContext";
 import { TableStructure } from "../Common";
 
@@ -15,12 +26,26 @@ const styles = {
 	root: {
 		height: "100%",
 		width: "100%",
-		backgroundImage: `url(${bgImg})`,
-		backgroundSize: "cover",
-		backgroundAttachment: "fixed",
 	},
 	card: {
 		// maxWidth: "1000px",
+	},
+	parallax: {
+		width: "100%",
+		height: "100%",
+		right: "5%",
+		position: "fixed",
+		top: 0,
+		zIndex: "-10",
+	},
+	parallaxparent: {
+		width: "100%",
+		height: "100%",
+	},
+	parallaximg: {
+		width: "110%",
+		height: "110%",
+		objectFit: "cover",
 	},
 	sectionStarContainer: {
 		width: "530px",
@@ -44,6 +69,10 @@ export default function (props) {
 	const [dataSet, setData] = useState([]);
 
 	useEffect(() => {
+		var scene = document.getElementById("scene");
+		// var parallaxInstance = new Parallax(scene);
+		new Parallax(scene);
+
 		if (!matric) return;
 
 		axios
@@ -65,6 +94,84 @@ export default function (props) {
 
 	return (
 		<div style={styles.root} className="d-flex align-items-center">
+			<div id="scene" style={styles.parallax}>
+				<div data-depth="0.0" style={styles.parallaxparent}>
+					<img
+						src={sky}
+						alt="sky"
+						draggable={false}
+						style={styles.parallaximg}
+					/>
+				</div>
+				<div data-depth="0.1" style={styles.parallaxparent}>
+					<img
+						src={rocks1}
+						alt="rocks1"
+						draggable={false}
+						style={styles.parallaximg}
+					/>
+				</div>
+				<div data-depth="0.2" style={styles.parallaxparent}>
+					<img
+						src={rocks2}
+						alt="rocks2"
+						draggable={false}
+						style={styles.parallaximg}
+					/>
+				</div>
+				<div data-depth="0.3" style={styles.parallaxparent}>
+					<img
+						src={rocks3}
+						alt="rocks3"
+						draggable={false}
+						style={styles.parallaximg}
+					/>
+				</div>
+				<div data-depth="0.4" style={styles.parallaxparent}>
+					<img
+						src={pines}
+						alt="pines"
+						draggable={false}
+						style={styles.parallaximg}
+					/>
+				</div>
+				<div data-depth="0.5" style={styles.parallaxparent}>
+					<img
+						src={clouds1}
+						alt="clouds1"
+						draggable={false}
+						className="parallaxchild"
+						style={styles.parallaximg}
+					/>
+				</div>
+				<div className="layer" data-depth="0.5" style={styles.parallaxparent}>
+					<img
+						src={clouds2}
+						alt="clouds2"
+						draggable={false}
+						className="parallaxchild2"
+						style={styles.parallaximg}
+					/>
+				</div>
+				<div data-depth="0.5" style={styles.parallaxparent}>
+					<img
+						src={clouds3}
+						alt="clouds3"
+						draggable={false}
+						className="parallaxchild"
+						style={styles.parallaximg}
+					/>
+				</div>
+				<div data-depth="0.5" style={styles.parallaxparent}>
+					<img
+						src={birds}
+						alt="birds"
+						draggable={false}
+						className="parallaxchild2"
+						style={styles.parallaximg}
+					/>
+				</div>
+			</div>
 			<Container>
 				<Card
 					bg="dark"
