@@ -1,20 +1,45 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import Parallax from "parallax-js";
+import "../Common/Animation.css";
 import { useHistory } from "react-router-dom";
 import { Container, Card, Form, Button } from "react-bootstrap";
 import axios from "axios";
 import NewQuestionCard from "./NewQuestionCard";
 import { UserContext } from "../../contexts/UserContext";
-import bgImg from "../Overview/images/game_background_1.png";
+// import bgImg from "../Overview/images/game_background_1.png";
 import AddBoxIcon from "@material-ui/icons/AddBox";
 import IndeterminateCheckBoxIcon from "@material-ui/icons/IndeterminateCheckBox";
+
+import sky from "../Common/bg3/sky.png";
+import rocks from "../Common/bg3/rocks.png";
+import ground from "../Common/bg3/ground.png";
+import clouds1 from "../Common/bg3/clouds_1.png";
+import clouds2 from "../Common/bg3/clouds_2.png";
 
 const styles = {
 	root: {
 		height: "100%",
 		width: "100%",
-		backgroundImage: `url(${bgImg})`,
-		backgroundSize: "cover",
-		backgroundAttachment: "fixed",
+		// backgroundImage: `url(${bgImg})`,
+		// backgroundSize: "cover",
+		// backgroundAttachment: "fixed",
+	},
+	parallax: {
+		width: "100%",
+		height: "100%",
+		right: "5%",
+		position: "fixed",
+		top: 0,
+		zIndex: "-10",
+	},
+	parallaxparent: {
+		width: "100%",
+		height: "100%",
+	},
+	parallaximg: {
+		width: "110%",
+		height: "110%",
+		objectFit: "cover",
 	},
 	container: {
 		paddingTop: "20px",
@@ -43,6 +68,12 @@ const styles = {
 };
 
 export default function () {
+	useEffect(() => {
+		var scene = document.getElementById("scene");
+		// var parallaxInstance = new Parallax(scene);
+		new Parallax(scene);
+	}, []);
+
 	const history = useHistory();
 	const teacher = useContext(UserContext);
 	const assignmentId = "assignment";
@@ -100,54 +131,100 @@ export default function () {
 
 		setValidated(true);
 
-        if (!form.checkValidity()) { //Break if form is not valid
-            return
-        }
+		if (!form.checkValidity()) {
+			//Break if form is not valid
+			return;
+		}
 
-        const idArr = QIdList;
-        if (idArr.length < 1) {
-            alert("Please add at least one question!");
-            return
-        }
+		const idArr = QIdList;
+		if (idArr.length < 1) {
+			alert("Please add at least one question!");
+			return;
+		}
 
-        const title = document.getElementById(assignmentId).value;
-        const creator = teacher.user.matric;
-        const group = teacher.user.class;
-        const players = [];
-        const questionsList = idArr.map(e => {
-            const question = document.getElementById(e).value;
-            const a = document.getElementById(e + "Ans").value.slice(7);
-            const answer = parseInt(a) - 1;
-            var options = [];
-            for (var i in [...Array(maxOpt - minOpt + 1).keys()]) {
-                const opt = document.getElementById(e + i);
-                if (opt) {
-                    options.push(opt.value);
-                }
-            }
-            return {
-                question: question,
-                answer: answer,
-                options: options,
-            };
-        })
-        
-        const payload = {
-            title: title,
-            creator: creator,
-            players: players,
-            question: questionsList,
-            group: group
-        }
-        axios.post(process.env.REACT_APP_API + '/wy/addAssignmentQuestion', payload)
-            .catch( err => console.error(err) );
+		const title = document.getElementById(assignmentId).value;
+		const creator = teacher.user.matric;
+		const group = teacher.user.class;
+		const players = [];
+		const questionsList = idArr.map((e) => {
+			const question = document.getElementById(e).value;
+			const a = document.getElementById(e + "Ans").value.slice(7);
+			const answer = parseInt(a) - 1;
+			var options = [];
+			for (var i in [...Array(maxOpt - minOpt + 1).keys()]) {
+				const opt = document.getElementById(e + i);
+				if (opt) {
+					options.push(opt.value);
+				}
+			}
+			return {
+				question: question,
+				answer: answer,
+				options: options,
+			};
+		});
 
-        alert("New assignment created!");
-        history.push("/arena");
-    };
+		const payload = {
+			title: title,
+			creator: creator,
+			players: players,
+			question: questionsList,
+			group: group,
+		};
+		axios
+			.post(process.env.REACT_APP_API + "/wy/addAssignmentQuestion", payload)
+			.catch((err) => console.error(err));
+
+		alert("New assignment created!");
+		history.push("/arena");
+	};
 
 	return (
 		<div style={styles.root}>
+			<div id="scene" style={styles.parallax}>
+				<div data-depth="0.0" style={styles.parallaxparent}>
+					<img
+						src={sky}
+						alt="sky"
+						draggable={false}
+						style={styles.parallaximg}
+					/>
+				</div>
+				<div data-depth="0.1" style={styles.parallaxparent}>
+					<img
+						src={rocks}
+						alt="rocks"
+						draggable={false}
+						style={styles.parallaximg}
+					/>
+				</div>
+				<div data-depth="0.2" style={styles.parallaxparent}>
+					<img
+						src={ground}
+						alt="ground"
+						draggable={false}
+						style={styles.parallaximg}
+					/>
+				</div>
+				<div data-depth="0.3" style={styles.parallaxparent}>
+					<img
+						src={clouds1}
+						alt="clouds1"
+						draggable={false}
+						className="parallaxchild"
+						style={styles.parallaximg}
+					/>
+				</div>
+				<div data-depth="0.4" style={styles.parallaxparent}>
+					<img
+						src={clouds2}
+						alt="clouds2"
+						draggable={false}
+						className="parallaxchild2"
+						style={styles.parallaximg}
+					/>
+				</div>
+			</div>
 			<Container style={styles.container}>
 				<Card style={styles.card} bg="dark" text="white">
 					<Card.Body>
