@@ -99,7 +99,8 @@ export default function() {
         }
 
         const title = document.getElementById(assignmentId).value;
-        const t = teacher.user.matric;
+        const creator = teacher.user.matric;
+        const group = teacher.user.class;
         const players = [];
         const questionsList = idArr.map(e => {
             const question = document.getElementById(e).value;
@@ -121,12 +122,12 @@ export default function() {
         
         const payload = {
             title: title,
-            creator: t,
+            creator: creator,
             players: players,
-            question: questionsList
+            question: questionsList,
+            group: group
         }
         axios.post(process.env.REACT_APP_API + '/wy/addAssignmentQuestion', payload)
-            .then( res => console.log(res) )
             .catch( err => console.error(err) );
 
         alert("New assignment created!");

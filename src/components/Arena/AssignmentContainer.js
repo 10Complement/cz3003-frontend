@@ -46,17 +46,19 @@ export default function() {
 		axios
 			.get(process.env.REACT_APP_API + "" + aID) //Missing url
 			.then(res => {
-				const data = res.data;
+                const data = res.data;
                 setAssignment(data);
                 setTitle(data.title);
                 setSubtitle("By teacher " + data.teacher);
                 nextQuestion();
-			});
+            })
+            .catch( err => console.log(err) );
     }, [aID]);
     
     const nextQuestion = () => {
         const qList = assignment.question;
-        if (nextIndex < qList.length()) {
+        console.log(qList);
+        if (nextIndex < qList.length) {
             const q = qList[nextIndex];
             setQuestion({
                 id: "question" + nextIndex,
@@ -65,11 +67,11 @@ export default function() {
                 options: q.options
             })
             nextIndex = nextIndex + 1;
-        } else {
+        }/*  else {
             alert("You finished assignment " + aID);
             //API post with info
-            history.goBack();
-        }
+            history.push("/arena");
+        } */
     };
 
     const firstResponseCallback = (id, isAns) => {
