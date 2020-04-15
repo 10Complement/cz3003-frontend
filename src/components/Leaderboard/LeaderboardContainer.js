@@ -4,15 +4,15 @@ import "../Common/Animation.css";
 import Container from "react-bootstrap/Container";
 import axios from "axios";
 
-import sky from "./images/sky.png";
-import rocks1 from "./images/rocks_1.png";
-import rocks2 from "./images/rocks_2.png";
-import rocks3 from "./images/rocks_3.png";
-import pines from "./images/pines.png";
-import clouds1 from "./images/clouds_1.png";
-import clouds2 from "./images/clouds_2.png";
-import clouds3 from "./images/clouds_3.png";
-import birds from "./images/birds.png";
+import sky from "../Common/bg2/sky.png";
+import rocks1 from "../Common/bg2/rocks_1.png";
+import rocks2 from "../Common/bg2/rocks_2.png";
+import rocks3 from "../Common/bg2/rocks_3.png";
+import pines from "../Common/bg2/pines.png";
+import clouds1 from "../Common/bg2/clouds_1.png";
+import clouds2 from "../Common/bg2/clouds_2.png";
+import clouds3 from "../Common/bg2/clouds_3.png";
+import birds from "../Common/bg2/birds.png";
 
 import { TableStructure } from "../Common";
 

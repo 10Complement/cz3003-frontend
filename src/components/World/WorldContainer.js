@@ -5,11 +5,11 @@ import { Link, useParams, useLocation } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 
 // import bgImg from "./images/game_background_4.png";
-import sky from "./images/sky.png";
-import rocks from "./images/rocks.png";
-import ground from "./images/ground.png";
-import clouds1 from "./images/clouds_1.png";
-import clouds2 from "./images/clouds_2.png";
+import sky from "../Common/bg3/sky.png";
+import rocks from "../Common/bg3/rocks.png";
+import ground from "../Common/bg3/ground.png";
+import clouds1 from "../Common/bg3/clouds_1.png";
+import clouds2 from "../Common/bg3/clouds_2.png";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 
 import { IconButton } from "../Common";

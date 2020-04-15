@@ -13,14 +13,14 @@ import Rating from "material-ui-rating";
 import axios from "axios";
 
 // import bgImg from "./images/game_background_3.png";
-import sky from "./images/sky.png";
-import rocks from "./images/rocks.png";
-import plant from "./images/plant.png";
-import ground1 from "./images/ground_1.png";
-import ground2 from "./images/ground_2.png";
-import ground3 from "./images/ground_3.png";
-import clouds1 from "./images/clouds_1.png";
-import clouds2 from "./images/clouds_2.png";
+import sky from "../Common/bg4/sky.png";
+import rocks from "../Common/bg4/rocks.png";
+import plant from "../Common/bg4/plant.png";
+import ground1 from "../Common/bg4/ground_1.png";
+import ground2 from "../Common/bg4/ground_2.png";
+import ground3 from "../Common/bg4/ground_3.png";
+import clouds1 from "../Common/bg4/clouds_1.png";
+import clouds2 from "../Common/bg4/clouds_2.png";
 
 import QuestionAnswer from "./QuestionAnswer";
 import Learning from "./Learning";

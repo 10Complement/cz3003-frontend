@@ -6,13 +6,13 @@ import PublicIcon from "@material-ui/icons/Public";
 
 import { Container, Row, Col, Spinner } from "react-bootstrap";
 // import bgImg from "./images/game_background_1.png";
-import sky from "./images/sky.png";
-import rocks1 from "./images/rocks_1.png";
-import rocks2 from "./images/rocks_2.png";
-import clouds1 from "./images/clouds_1.png";
-import clouds2 from "./images/clouds_2.png";
-import clouds3 from "./images/clouds_3.png";
-import clouds4 from "./images/clouds_4.png";
+import sky from "../Common/bg1/sky.png";
+import rocks1 from "../Common/bg1/rocks_1.png";
+import rocks2 from "../Common/bg1/rocks_2.png";
+import clouds1 from "../Common/bg1/clouds_1.png";
+import clouds2 from "../Common/bg1/clouds_2.png";
+import clouds3 from "../Common/bg1/clouds_3.png";
+import clouds4 from "../Common/bg1/clouds_4.png";
 import { IconButton } from "../Common";
 // Downloaded from https://craftpix.net/freebies/free-horizontal-2d-game-backgrounds/
 import { ArenaButton } from "../Arena";
