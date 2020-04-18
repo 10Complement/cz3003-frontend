@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Parallax from "parallax-js";
 import "../Common/Animation.css";
 import { useParams, useHistory } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import axios from "axios";
 import { QuestionAnswer } from "../Section";
-// import { UserContext } from "../../contexts/UserContext";
+import { UserContext } from "../../contexts/UserContext";
 // import bgImg from "../Overview/images/game_background_1.png";
 
 import sky from "../Common/bg3/sky.png";
@@ -54,7 +54,7 @@ export default function () {
 
 	const { aID } = useParams();
 	const history = useHistory();
-	// const student = useContext(UserContext);
+	const student = useContext(UserContext);
 	const [questionSet, setQuestion] = useState({
 		id: "",
 		answer: 0,
@@ -93,7 +93,6 @@ export default function () {
 
 	const nextQuestion = (d) => {
 		const qList = d.question;
-		console.log(qList);
 		if (nextIndex < qList.length) {
 			const q = qList[nextIndex];
 			setQuestion({
@@ -103,10 +102,13 @@ export default function () {
 				options: q.options,
 			});
 			setNextIndex((old) => old + 1);
-			console.log(nextIndex);
 		} else {
 			alert("You finished assignment " + aID);
-			//API post add user to list of players who attended the assignment
+			const req = {
+				assignID: aID,
+				matric: student.user.matric
+			};
+			axios.post(process.env.REACT_APP_API + "/wy/setAssignmentPlayer", req);
 			history.push("/arena");
 		}
 	};
