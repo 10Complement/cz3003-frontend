@@ -165,6 +165,7 @@ export default function () {
 			</div>
 			<Container style={styles.container}>
 				<QuestionAnswer
+					key={nextIndex}
 					qnSet={questionSet}
 					title={title}
 					subtitle={subtitle}
