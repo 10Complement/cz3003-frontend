@@ -1,11 +1,20 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useHistory } from "react-router-dom";
+import { Row, Col } from "react-bootstrap";
+import { useHistory, Link } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContext";
 import axios from "axios";
-
+import ArenaButton from "./ArenaButton";
 import { TableStructure } from "../Common";
-
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
+
+const styles = {
+    root: {
+        alignContent: "center"
+    },
+    row: {
+        paddingBottom: "20px"
+    }
+}
 
 export default function () {
 
@@ -65,12 +74,17 @@ export default function () {
 	};
 
     return (
-		<TableStructure
-			title={title}
-			columns={columns}
-			data={assignments}
-			actions={actions}
-			options={options}
-		/>
+        <div style={styles.root}>
+            <Row style={styles.row}>
+                <Col><Link to="/arena/assignment/new"><ArenaButton message="New assignment"/></Link></Col>
+            </Row>
+            <TableStructure
+                title={title}
+                columns={columns}
+                data={assignments}
+                actions={actions}
+                options={options}
+            />
+        </div>
 	);
 }
