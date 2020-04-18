@@ -18,6 +18,8 @@ const styles = {
 	},
 };
 
+const noBackButton = ["/", "/login"];
+
 export default function () {
 	const history = useHistory();
 	const location = useLocation();
@@ -35,7 +37,7 @@ export default function () {
 		<Navbar expand="lg" variant="dark" bg="dark" fixed="top">
 			<Container>
 				<div className="d-flex align-items-center">
-					{location.pathname !== "/" && (
+					{!noBackButton.includes(location.pathname) && (
 						<IoMdArrowRoundBack
 							style={styles.backButton}
 							onClick={() => history.goBack()}
