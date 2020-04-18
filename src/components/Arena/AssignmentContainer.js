@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import Parallax from "parallax-js";
 import "../Common/Animation.css";
 import { useParams, useHistory } from "react-router-dom";
