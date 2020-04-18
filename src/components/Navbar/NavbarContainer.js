@@ -1,17 +1,30 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 // import Logout from "./images/logout.svg";
 // import Login from "./images/login.svg";
 import "./Navbar.css";
 import { Music, Badges } from "../Common";
 import { UserContext } from "../../contexts/UserContext";
+import { IoMdArrowRoundBack } from "react-icons/io";
+
+const styles = {
+	backButton: {
+		color: "white",
+		fontSize: "25px",
+		marginRight: "1rem",
+		cursor: "pointer",
+	},
+};
 
 export default function () {
 	const history = useHistory();
+	const location = useLocation();
+
 	const { user } = useContext(UserContext);
 	const { matric, name, medals, stars } = user;
+
 	const clearSess = () => {
 		user.logout();
 		alert("You've been succefully logged out!");
@@ -21,10 +34,20 @@ export default function () {
 	return (
 		<Navbar expand="lg" variant="dark" bg="dark" fixed="top">
 			<Container>
-				<Navbar.Brand as={Link} to="/">
-					SDLC Quest
-				</Navbar.Brand>
+				<div className="d-flex align-items-center">
+					{location.pathname !== "/" && (
+						<IoMdArrowRoundBack
+							style={styles.backButton}
+							onClick={() => history.goBack()}
+						/>
+					)}
+					<Navbar.Brand as={Link} to="/">
+						SDLC Quest
+					</Navbar.Brand>
+				</div>
+
 				<Music />
+
 				<Navbar.Toggle aria-controls="navbar" />
 				<Navbar.Collapse>
 					<Nav className="ml-auto">
