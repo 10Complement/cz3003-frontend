@@ -44,7 +44,7 @@ export default function () {
 						/>
 					)}
 					<Navbar.Brand as={Link} to="/">
-						SDLC Quest
+						Educatorinos
 					</Navbar.Brand>
 				</div>
 
