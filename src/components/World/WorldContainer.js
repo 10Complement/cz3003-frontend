@@ -145,12 +145,12 @@ export default function () {
 				</div>
 			</div>
 			<Container>
-				<h1>This is WorldContainer</h1>
+				{/* <h1>This is WorldContainer</h1>
 				<p>
 					You are in World ID: {wID}
 					<br />
 					Change the browser URL parameter and see the ID change
-				</p>
+				</p> */}
 				<Row>{sectionButtons}</Row>
 			</Container>
 		</>
